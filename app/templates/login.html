@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+    <body>
+        <form action="" method="post">
+            
+            {{ form.csrf_token }}
+
+            {{ form.email.label() }}
+            {{ form.email( placeholder="Digite seu e-mail" ) }}
+            
+
+            {{ form.senha.label() }}
+            {{ form.senha( placeholder="Digite sua senha" ) }}
+
+            {{ form.btnSubmit() }}
+        </form>        
+    </body>
+</html>
