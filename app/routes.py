@@ -2,7 +2,7 @@
 from app import app, db
 from flask import Response, render_template, send_file, url_for, request, redirect, abort, session
 from app.models import User, TipoUsuario
-from app.forms import UserForm, LoginForm
+from app.forms import AlunoForm, ProfessorForm, UserForm, LoginForm
 
 from sqlalchemy import desc
 
@@ -18,9 +18,9 @@ import csv
 
 
 
-@app.route('/register_user/', methods=['GET', 'POST'])
+@app.route('/registrar_user/', methods=['GET', 'POST'])
 # @login_required
-def register():
+def registrar_user():
     form = UserForm()
 
 
@@ -28,7 +28,7 @@ def register():
         form.save()
         return redirect(url_for('login'))
     
-    return render_template('register/register_user.html', form=form)
+    return render_template('register/registrar_user.html', form=form)
 
 
 
@@ -46,8 +46,37 @@ def login():
 
 
 @app.route('/home/', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def home():
  
     
     return render_template('home.html')
+
+
+
+
+@app.route('/registrar_aluno/', methods=['GET', 'POST'])
+# @login_required
+def registrar_aluno():
+    form = AlunoForm()
+
+
+    if form.validate_on_submit():
+        form.save()
+        return redirect(url_for('login'))
+    
+    return render_template('register/registrar_aluno.html', form=form)
+
+
+
+@app.route('/registrar_professor', methods=['GET', 'POST'])
+# @login_required
+def registrar_professor():
+    form = ProfessorForm()
+
+
+    if form.validate_on_submit():
+        form.save()
+        return redirect(url_for('login'))
+    
+    return render_template('register/registrar_professor.html', form=form)

@@ -1,0 +1,27 @@
+{% extends 'global/base.html' %}
+
+
+{% block content %} 
+
+    <a href=" {{ url_for('registrar_user') }} ">
+        <button>
+            Registrar Usuário
+        </button>
+    </a>
+
+    <a href=" {{ url_for('registrar_aluno') }} ">
+        <button>
+            Registrar Aluno
+        </button>
+    </a>
+
+
+    <a href=" {{ url_for('registrar_professor') }} ">
+        <button>
+            Registrar Professor
+        </button>
+    </a>
+
+
+
+{% endblock %}
