@@ -1,0 +1,35 @@
+
+
+<form action="" method="post">
+    {{ form.csrf_token }}
+
+    {{ form.nome.label() }}
+    {{ form.nome() }}
+
+    {{ form.sobrenome.label() }}
+    {{ form.sobrenome() }}
+
+    {{ form.email.label() }}
+    {{ form.email() }}
+    {% for error in form.email.errors %}
+        <span style="color:red">{{ error }}</span>
+    {% endfor %}
+
+    <br>
+    <br>
+
+    {{ form.senha.label() }}
+    {{ form.senha() }}
+
+    {{ form.confirmacao_senha.label() }}
+    {{ form.confirmacao_senha() }}
+
+    <br>
+    <br>
+
+    {{ form.tipo_usuario.label }}
+    {{ form.tipo_usuario() }}
+
+    {{ form.btnSubmit() }}
+</form> 
+    

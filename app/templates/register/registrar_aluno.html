@@ -1,0 +1,25 @@
+<form action="" method="post">
+    {{ form.csrf_token }}
+
+    {{ form.nome.label() }}
+    {{ form.nome() }}
+
+    {{ form.sobrenome.label() }}
+    {{ form.sobrenome() }}
+
+    {{ form.cpf.label() }}
+    {{ form.cpf() }}
+
+    {{ form.endereco.label() }}
+    {{ form.endereco() }}
+
+    {{ form.nascimento.label() }}
+    {{ form.nascimento() }}
+
+
+    {{ form.status.label() }}
+    {{ form.status() }}
+
+    {{ form.btnSubmit() }}
+</form>
+
