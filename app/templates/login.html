@@ -13,10 +13,21 @@
 
             {{ form.email.label() }}
             {{ form.email( placeholder="Digite seu e-mail" ) }}
+            <ul class="errors">
+                {% for error in form.email.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
             
 
             {{ form.senha.label() }}
             {{ form.senha( placeholder="Digite sua senha" ) }}
+            <ul class="errors">
+
+                {% for error in form.senha.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
 
             {{ form.btnSubmit() }}
         </form>        

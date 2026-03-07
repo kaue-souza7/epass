@@ -1,1 +1,6 @@
 <p>navbar</p>
+{% if current_user.tipo_usuario.name %}
+    <h3>hi {{ current_user.tipo_usuario.name }}</h3>
+{% else %}
+    <h3> hi </h3>
+{% endif %}
