@@ -1,0 +1,68 @@
+<h2>Cadastrar um Responsavel</h2>
+
+<form action="" method="post">
+    <input type="text" name="cpf" value="{{cpf or '' }}" placeholder="Digite o CPF do filho">
+    <button type="submit">Procurar</button>
+
+</form>
+
+
+
+{% if cpf %}
+    {% if msg %}
+        <p style="color: red;"> {{ msg }} </p>
+    {% else %}
+
+        <form action="" method="post">
+            {{ FormRespUser.csrf_token }}
+
+            <input type="hidden" name="cpf" value="{{ cpf }}">
+
+            {{ FormRespUser.nome.label() }}
+            {{ FormRespUser.nome() }}
+
+            {{ FormRespUser.sobrenome.label() }}
+            {{ FormRespUser.sobrenome() }}
+
+            {{ FormRespUser.email.label() }}
+            {{ FormRespUser.email() }}
+            {% for error in FormRespUser.email.errors %}
+                <span style="color:red">{{ error }}</span>
+            {% endfor %}
+
+            <br>
+            <br>
+
+            {{ FormRespUser.senha.label() }}
+            {{ FormRespUser.senha() }}
+
+            {{ FormRespUser.confirmacao_senha.label() }}
+            {{ FormRespUser.confirmacao_senha() }}
+
+            <br>
+            <br>
+
+            {{ FormRespUser.tipo_usuario.label }}
+            {{ FormRespUser.tipo_usuario() }}
+
+
+
+
+            
+            {{ FormRespUser.telefone.label }}
+            {{ FormRespUser.telefone() }}
+
+            {{ FormRespUser.endereco.label }}
+            {{ FormRespUser.endereco() }}
+
+            {{ FormRespUser.nascimento.label }}
+            {{ FormRespUser.nascimento(type="date") }}
+
+            <br>
+        
+
+            {{ FormRespUser.btnSubmit() }}
+
+        </form> 
+    {% endif %}
+{% endif %}

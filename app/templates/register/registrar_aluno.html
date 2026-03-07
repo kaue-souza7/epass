@@ -1,25 +1,50 @@
-<form action="" method="post">
-    {{ form.csrf_token }}
+<h2>Cadastrar Aluno</h2>
 
-    {{ form.nome.label() }}
-    {{ form.nome() }}
-
-    {{ form.sobrenome.label() }}
-    {{ form.sobrenome() }}
-
-    {{ form.cpf.label() }}
-    {{ form.cpf() }}
-
-    {{ form.endereco.label() }}
-    {{ form.endereco() }}
-
-    {{ form.nascimento.label() }}
-    {{ form.nascimento() }}
-
-
-    {{ form.status.label() }}
-    {{ form.status() }}
-
-    {{ form.btnSubmit() }}
+<form method="get">
+    
+    <input type="text" name="cpf" value="{{ request.args.get('cpf','') }}" placeholder="Digite o CPF do aluno">
+    <button type="submit">Cadastrar</button>
 </form>
 
+{% if cpf %}
+    {% if msg %}
+        <p style="color: red;"> {{ msg }} </p>
+    {% else %}
+
+        <h3>CPF: {{ request.args.get('cpf')  }}</h3>
+
+        <form style="display: flex; flex-direction: column;" action="" method="post">
+            {{ formAluno.csrf_token }}
+
+            {{ formAluno.nome.label() }}
+            {{ formAluno.nome() }}
+            
+
+            {{ formAluno.sobrenome.label() }}
+            {{ formAluno.sobrenome() }}
+
+            {{ formAluno.cpf.label() }}
+            {{ formAluno.cpf(value=request.args.get('cpf', '')) }}
+
+            {{ formAluno.endereco.label() }}
+            {{ formAluno.endereco() }}
+
+            {{ formAluno.nascimento.label() }}
+            {{ formAluno.nascimento() }}
+
+
+            {{ formAluno.status.label() }}
+            {{ formAluno.status() }}
+
+
+
+            {{ formAluno.btnSubmit() }}
+        </form>
+
+        
+
+
+    {% endif %}
+
+
+{% endif %}
