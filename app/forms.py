@@ -69,10 +69,10 @@ class LoginForm(FlaskForm):
             if bcrypt.check_password_hash(user.senha, self.senha.data.encode('utf-8')):
                 # Retorna o Usuário
                 return user
-            else: raise Exception('Senha ou E-mail incorreto(s).')
+            else: raise ValidationError('Usuário ou senha incorretos.')
 
 
-        else: raise Exception('Usuário não encontrado.')
+        else: raise ValidationError('Usuário ou senha incorretos.')
 
 
 

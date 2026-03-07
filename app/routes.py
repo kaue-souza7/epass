@@ -1,4 +1,5 @@
 
+from wtforms import ValidationError
 from app import app, db
 from flask import Response, render_template, send_file, url_for, request, redirect, abort, session
 from app.models import Responsavel, User, TipoUsuario, Aluno
@@ -21,10 +22,18 @@ import csv
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        user = form.login()
-        login_user(user, remember=True)
-        session.permanent = True
-        return redirect(url_for('home'))
+
+        try:
+            user = form.login()
+            login_user(user, remember=True)
+            session.permanent = True
+
+            return redirect(url_for("home"))
+
+        except ValidationError as erro:
+            form.senha.errors.append(str(erro))
+
+     
     
     return render_template('login.html', form=form)
 
