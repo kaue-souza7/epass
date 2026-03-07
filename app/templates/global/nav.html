@@ -1,6 +1,34 @@
-<p>navbar</p>
-{% if current_user.tipo_usuario.name %}
-    <h3>hi {{ current_user.tipo_usuario.name }}</h3>
-{% else %}
-    <h3> hi </h3>
-{% endif %}
+
+<body>
+    <aside>
+        <div class="grid grid-1x">
+            <img src="../assets/media/diplomado.png" style="width: 120px; height: auto;">
+            <div class="grid grid-1x-10px">
+                <a href="../professor/relatorios.php" target="frame"
+                    class="button secondary-button button-left-aligned">
+                    <span class="material">dashboard</span>Documentos e Relátorios
+                </a>
+
+                <a href="gestaoAcademica.php" target="frame" class="button secondary-button button-left-aligned">
+                    <span class="material">school</span>Gestão Acadêmica
+                </a>
+
+                <a href="gestaoAdministrativa.html" target="frame"
+                    class="button secondary-button button-left-aligned">
+                    <span class="material">assignment</span>Gestão Administrativa
+                </a>
+
+                <a href="alertas.html" target="frame" class="button secondary-button button-left-aligned">
+                    <span class="material">chat_bubble</span>Alertas e Notificações
+                </a>
+
+                <a href="calendario.html" target="frame" class="button secondary-button button-left-aligned">
+                    <span class="material">note_stack</span>Calendário Escolar
+                </a>
+            </div>
+        </div>
+        <a href="../general/configuracoes.html" target="frame" class="button">
+            <span class="material">settings</span>Configurações
+        </a>
+    </aside>
+</body>

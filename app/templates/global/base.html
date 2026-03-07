@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
 </head>
 <body>
 
@@ -18,15 +18,11 @@
    
 
     <section>
-        {% block content %} {% endblock %}
+        <div class="grid grid-1x">
+            {% block content %} {% endblock %}
+        </div>
     </section>
 
-
-    <div class="footer-container">
-        {% block footer %}
-            {% include "global/footer.html" %}
-        {% endblock %}
-    </div>
     
 </body>
 </html>
