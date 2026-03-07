@@ -1,0 +1,17 @@
+@import url(../global.css);
+
+body {
+    padding: 3vw;
+    height: 100vh;
+}
+
+canvas {
+    width: 100% !important;
+    height: 275px !important;
+}
+
+label{
+    font-size: 18px;
+}
+
+
