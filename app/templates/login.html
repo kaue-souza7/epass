@@ -4,32 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/overrides/login.css') }}">
 </head>
     <body>
         <form action="" method="post">
             
             {{ form.csrf_token }}
-
-            {{ form.email.label() }}
-            {{ form.email( placeholder="Digite seu e-mail" ) }}
-            <ul class="errors">
-                {% for error in form.email.errors %}
-                    <li>{{ error }}</li>
-                {% endfor %}
-            </ul>
+            <div class="grid grid-1x-10px login-section">
+                <div class="grid polar-grid">
+                    <div class="grid grid-1x-10px">
+                        <h1 class="text">Bem-vindo</h1>
+                        <h4 class="text">Faça login com sua conta</h4>
+                    </div>
+                    <div>
+                        <select onchange="changeTheme()" id="theme">
+                            <option value="auto">Automático</option>
+                            <option value="light">Claro</option>
+                            <option value="dark">Escuro</option>
+                        </select>
+                    </div>
+                </div>
             
 
-            {{ form.senha.label() }}
-            {{ form.senha( placeholder="Digite sua senha" ) }}
-            <ul class="errors">
+                <div class="card">
+                    <div class="grid grid-1x">
 
-                {% for error in form.senha.errors %}
-                    <li>{{ error }}</li>
-                {% endfor %}
-            </ul>
+                        {{ form.email.label() }}
+                        {{ form.email( placeholder="Digite seu e-mail" ) }}
+                        <ul class="errors">
+                            {% for error in form.email.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    
 
-            {{ form.btnSubmit() }}
-        </form>        
+                        {{ form.senha.label() }}
+                        {{ form.senha( placeholder="Digite sua senha" ) }}
+                        <ul class="errors">
+
+                            {% for error in form.senha.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                        <div class="button-grid">
+                            <a href="">Esqueceu sua senha?</a>
+                        </div>
+
+                        {{ form.btnSubmit(class="material") }}
+                    </div>
+                </div>
+            </div>
+        </form> 
+        <div class="image-card">
+            <img src="{{url_for('static', filename='image/login_img.webp') }}">
+        </div> 
+        <script src="{{url_for('static', filename='js/config.js') }}"></script>
     </body>
 </html>

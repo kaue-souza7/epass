@@ -58,7 +58,7 @@ class UserForm(FlaskForm):
 class LoginForm(FlaskForm):
     email = StringField('E-mail', validators=[DataRequired(), Email()])
     senha = PasswordField('Senha', validators=[DataRequired()])
-    btnSubmit = SubmitField('Sign-in')
+    btnSubmit = SubmitField('Login')
 
     def login(self):
         # Recuperar usuario do e-mail

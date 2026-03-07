@@ -1,0 +1,78 @@
+button, .button {
+    border-radius: 100px;
+    padding: 10px;
+    outline: 0;
+    background-color: var(--button);
+    border-color: transparent;
+    color: var(--button-text);
+    width: 100%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 42px;
+}
+
+.button-left-aligned {
+    justify-content: left;
+}
+
+button:hover, .button:hover {
+    background-color: var(--common-hover);
+}
+
+button:focus, .button:focus {
+    background-color: var(--common-press);
+}
+
+button:focus > span, .button:focus > span {
+    animation: fill 0.25s;
+    font-variation-settings: 'FILL' 1;
+}
+
+.secondary-button {
+    background-color: var(--card-background);
+    color: var(--input-focused);
+}
+
+.secondary-button:hover {
+    background-color: var(--background);
+}
+
+.secondary-button:focus {
+    background-color: var(--subcard-hover);
+}
+
+select {
+    border-radius: 100px;
+    padding: 10px;
+    border-right: 10px solid var(--card-background);
+    outline: 0;
+    background-color: var(--card-background);
+    border-color: transparent;
+    color: var(--input-focused);
+    cursor: pointer;
+    height: 100%;
+}
+
+option {
+    color: var(--input-focused);
+}
+
+select:hover:not(select:focus) {
+    background-color: var(--subcard-hover);
+}
+
+a {
+    color: var(--link);
+    text-decoration: none;
+    font-size: smaller;
+}
+
+a:hover:not(.button) {
+    color: var(--common-hover);
+}
+
+a:focus:not(.button) {
+    color: var(--common-press);
+}
