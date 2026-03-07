@@ -17,25 +17,6 @@ from datetime import datetime, timezone
 import csv
 
 
-
-@app.route('/registrar_user/', methods=['GET', 'POST'])
-# @login_required
-def registrar_user():
-    form = UserForm()
-    print(form.tipo_usuario.data)
-    if form.tipo_usuario.data == 'RESPONSAVEL':
-
-        if form.validate_on_submit():
-            # form.save()
-            return redirect(url_for('registrar_user'))
-    if form.tipo_usuario.data == 'RESPONSAVEL':
-        ...
-    
-    
-    return render_template('register/registrar_user.html', form=form)
-
-
-
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -58,6 +39,33 @@ def home():
 
 
 
+
+
+
+# /////////////// USER ///////////////
+
+@app.route('/registrar_user/', methods=['GET', 'POST'])
+# @login_required
+def registrar_user():
+    form = UserForm()
+    print(form.tipo_usuario.data)
+    if form.tipo_usuario.data == 'RESPONSAVEL':
+
+        if form.validate_on_submit():
+            # form.save()
+            return redirect(url_for('registrar_user'))
+    if form.tipo_usuario.data == 'RESPONSAVEL':
+        ...
+    
+    
+    return render_template('register/registrar_user.html', form=form)
+
+
+
+
+
+
+# /////////////// ALUNO ///////////////
 
 @app.route('/registrar_aluno/', methods=['GET', 'POST'])
 # @login_required
@@ -89,33 +97,10 @@ def registrar_aluno():
 
 
 
-@app.route('/registrar_professor/', methods=['GET', 'POST'])
-# @login_required
-def registrar_professor():
-    form = ProfessorForm()
 
 
 
-    if form.validate_on_submit():
-        form.save()
-        return redirect(url_for('registrar_professor'))
-    
-    return render_template('register/registrar_professor.html', form=form)
-
-
-@app.route('/registrar_secretaria/', methods=['GET', 'POST'])
-# @login_required
-def registrar_secretaria():
-    form = SecretariaForm()
-
-
-
-    if form.validate_on_submit():
-        form.save()
-        return redirect(url_for('registrar_secretaria'))
-    
-    return render_template('register/registrar_secretaria.html', form=form)
-
+# /////////////// RESPONSAVEL ///////////////
 
 
 @app.route('/registrar_responsavel/', methods=['GET', 'POST'])
@@ -139,6 +124,48 @@ def registrar_responsavel():
         return redirect(url_for('registrar_responsavel'))
     
     return render_template('register/registrar_responsavel.html', FormRespUser=FormRespUser, cpf=cpf)
+
+
+
+
+
+
+# /////////////// PROFESSOR ///////////////
+
+@app.route('/registrar_professor/', methods=['GET', 'POST'])
+# @login_required
+def registrar_professor():
+    form = ProfessorForm()
+
+
+
+    if form.validate_on_submit():
+        form.save()
+        return redirect(url_for('registrar_professor'))
+    
+    return render_template('register/registrar_professor.html', form=form)
+
+
+
+
+
+# /////////////// SECRETARIA ///////////////
+
+@app.route('/registrar_secretaria/', methods=['GET', 'POST'])
+# @login_required
+def registrar_secretaria():
+    form = SecretariaForm()
+
+
+
+    if form.validate_on_submit():
+        form.save()
+        return redirect(url_for('registrar_secretaria'))
+    
+    return render_template('register/registrar_secretaria.html', form=form)
+
+
+
 
 
 
