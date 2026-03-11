@@ -1,6 +1,8 @@
 <h2>Cadastrar um Responsavel</h2>
 
-<form action="" method="post">
+<form hx-post="/registrar_responsavel/" 
+      hx-target="#container-registro"
+      hx-swap="innerHTML">
     <input type="text" name="cpf" value="{{cpf or '' }}" placeholder="Digite o CPF do filho">
     <button type="submit">Procurar</button>
 
@@ -13,8 +15,12 @@
         <p style="color: red;"> {{ msg }} </p>
     {% else %}
 
-        <form action="" method="post">
+        <form hx-post="/registrar_responsavel/" 
+                hx-target="#container-registro"
+                hx-swap="innerHTML">
             {{ FormRespUser.csrf_token }}
+
+            
 
             <input type="hidden" name="cpf" value="{{ cpf }}">
 

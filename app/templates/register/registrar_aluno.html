@@ -1,6 +1,8 @@
 <h2>Cadastrar Aluno</h2>
 
-<form method="get">
+<form method="GET" hx-get="/registrar_aluno/" 
+      hx-target="#container-registro" 
+      hx-swap="innerHTML">
     
     <input type="text" name="cpf" value="{{ request.args.get('cpf','') }}" placeholder="Digite o CPF do aluno">
     <button type="submit">Cadastrar</button>
@@ -13,7 +15,9 @@
 
         <h3>CPF: {{ request.args.get('cpf')  }}</h3>
 
-        <form style="display: flex; flex-direction: column;" action="" method="post">
+        <form hx-post="/registrar_aluno/" 
+              hx-target="#container-registro" 
+              hx-swap="innerHTML">
             {{ formAluno.csrf_token }}
 
             {{ formAluno.nome.label() }}
@@ -24,7 +28,7 @@
             {{ formAluno.sobrenome() }}
 
             {{ formAluno.cpf.label() }}
-            {{ formAluno.cpf(value=request.args.get('cpf', '')) }}
+            {{ formAluno.cpf(value=cpf or '')}}
 
             {{ formAluno.endereco.label() }}
             {{ formAluno.endereco() }}

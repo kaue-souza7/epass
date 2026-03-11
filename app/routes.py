@@ -1,7 +1,7 @@
 
 from wtforms import ValidationError
 from app import app, db
-from flask import Response, render_template, send_file, url_for, request, redirect, abort, session
+from flask import Response, make_response, render_template, send_file, url_for, request, redirect, abort, session
 from app.models import Responsavel, User, TipoUsuario, Aluno
 from app.forms import AlunoForm, ProfessorForm, RespUserForm, ResponsavelForm, SecretariaForm, UserForm, LoginForm
 
@@ -40,11 +40,11 @@ def login():
 
 
 @app.route('/home/', methods=['GET', 'POST'])
-# @login_required
 def home():
- 
-    
+    # Dicionário que mapeia o nome da aba para o caminho do arquivo html
+
     return render_template('home.html')
+    
 
 
 
@@ -77,31 +77,45 @@ def registrar_user():
 # /////////////// ALUNO ///////////////
 
 @app.route('/registrar_aluno/', methods=['GET', 'POST'])
-# @login_required
 def registrar_aluno():
-    # form.alunos.query = Aluno.query.all()
 
-    cpf = request.args.get('cpf') or None
-    print(cpf)
+    cpf = request.args.get('cpf') or request.form.get('cpf')
     formAluno = AlunoForm()
 
+    if cpf:
 
-
-    if cpf is not None:
         exists = Aluno.query.filter_by(cpf=cpf).first()
-        print(exists)
+
         if exists:
-            msg = 'Aluno ja cadastrado!'
-            return render_template('register/registrar_aluno.html', cpf=cpf, msg=msg)
-        else:
+            msg = 'Aluno já cadastrado!'
+            return render_template(
+                'register/registrar_aluno.html',
+                cpf=cpf,
+                msg=msg
+            )
+
+        if request.method == "POST":
+            print('entou no post')
             if formAluno.validate_on_submit():
+                print('form valido')
+
                 formAluno.save()
-                return redirect(url_for('registrar_responsavel', cpf=cpf))
-                # print(form.alunos.data)
-                # print(form.alunos.data)
-        
-        return render_template('register/registrar_aluno.html', cpf=cpf, formAluno=formAluno, origem='aluno')
-    
+
+                response = make_response("")
+                response.headers["HX-Redirect"] = url_for(
+                    "registrar_responsavel",
+                    cpf=cpf
+                )
+
+                return response
+
+        return render_template(
+            'register/registrar_aluno.html',
+            cpf=cpf,
+            formAluno=formAluno,
+            origem='aluno'
+        )
+
     return render_template('register/registrar_aluno.html')
 
 
@@ -113,27 +127,38 @@ def registrar_aluno():
 
 
 @app.route('/registrar_responsavel/', methods=['GET', 'POST'])
-# @login_required
 def registrar_responsavel():
-    FormRespUser = RespUserForm()
-    cpf = request.args.get('cpf') or request.form.get('cpf')
-    origem = request.args.get('origem') or None 
 
-    aluno = Aluno.query.filter_by(cpf=cpf).first()
+    FormRespUser = RespUserForm()
+
+    cpf = request.form.get('cpf') or request.args.get('cpf')
+    msg = None
+
     if cpf:
+        aluno = Aluno.query.filter_by(cpf=cpf).first()
+
         if not aluno:
-            msg = 'Aluno não encontrado!'
-            return render_template('register/registrar_responsavel.html', cpf=cpf, msg=msg)
-        
-    elif FormRespUser.validate_on_submit():
+            msg = "Aluno não encontrado!"
+    else:
+        msg = "Aluno não encontrado!"
+
+
+    if FormRespUser.validate_on_submit():
         responsavel = FormRespUser.save()
+
         aluno = Aluno.query.filter_by(cpf=cpf).first()
         responsavel.alunos.append(aluno)
-        db.session.commit()
-        return redirect(url_for('registrar_responsavel'))
-    
-    return render_template('register/registrar_responsavel.html', FormRespUser=FormRespUser, cpf=cpf)
 
+        db.session.commit()
+
+        return redirect(url_for('registrar_responsavel'))
+
+    return render_template(
+        'register/registrar_responsavel.html',
+        FormRespUser=FormRespUser,
+        cpf=cpf,
+        msg=msg
+    )
 
 
 

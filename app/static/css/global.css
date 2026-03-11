@@ -71,8 +71,15 @@ h5, h6 {
     }
 }
 
-iframe {
+.container-registro {
     width: 100%;
-    height: 100vh;
+    height: 100%;
+    padding: 0.8rem;
     border: none;
+}
+
+
+form {
+    display: flex;
+    flex-direction: column;
 }
