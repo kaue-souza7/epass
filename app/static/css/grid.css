@@ -4,6 +4,7 @@
     justify-items: center;
     align-items: start;
     border-radius: none;
+    padding: 0.8rem;
 }
 
 .grid > * {
@@ -30,8 +31,13 @@
     align-items: center;
 }
 
+.button-grid a {
+    max-width: 16.2rem;
+    height: 11rem;
+}
+
 .button-grid {
-    justify-content: left;
+    justify-content: flex-start;
     column-gap: 20px;
 }
 

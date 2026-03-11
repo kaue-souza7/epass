@@ -3,43 +3,70 @@
 
 {% block content %} 
 
+    <div class="grid button-grid">
+
+<!-- 
+        <a class="card grid grid-1x" href=" {{ url_for('registrar_user') }} " >
+            <div class=""><span class="material">person</span></div>
+            <h2>
+                Registrar Usuário
+            </h2>
+            <p>Gerenciar cadastro e informações dos usuarios</p>
+        </a> -->
+
+ 
+
+        <a class="card grid grid-1x"  hx-get="{{ url_for('registrar_aluno') }}" hx-target="#container-registro" hx-swap="innerHTML">
+            <div class=""><span class="material">person</span></div>
+            
+            <h2>
+                Registrar Aluno
+            </h2>
+            <p>Gerenciar cadastro e informações dos alunos</p>
+
+        </a>
 
 
-    <a href=" {{ url_for('registrar_user') }} ">
-        
-        <button class="card grid grid-1x">
-            Registrar Usuário
-        </button>
-    </a>
+        <a class="card grid grid-1x load-frame"  hx-get="{{url_for('registrar_professor')}}" hx-target="#container-registro" hx-swap="innerHTML">
+            <div class=""><span class="material">person</span></div>
+
+            <h2>
+                Registrar Professor
+            </h2>
+            <p>Gerenciar cadastro e informações dos professores</p>
+
+        </a>
+
+        <a class="card grid grid-1x"  hx-get="{{url_for('registrar_secretaria')}}" hx-target="#container-registro" hx-swap="innerHTML">
+            <div class=""><span class="material">person</span></div>
+
+            <h2>
+                Registrar Secretaria
+            </h2>
+            <p>Gerenciar cadastro e informações da secretaria</p>
+
+        </a>
 
 
 
+        <a class="card grid grid-1x " hx-get="{{url_for('registrar_responsavel')}}" hx-target="#container-registro" hx-swap="innerHTML">
+            <div class=""><span class="material">person</span></div>
 
-    <a href=" {{ url_for('registrar_aluno') }} ">
-        <button>
-            Registrar Aluno
-        </button>
-    </a>
+            <h2>
+                Registrar Responsável
+            </h2>
+            <p>Gerenciar cadastro e informações dos responsaveis</p>
 
+        </a>
 
-    <a href=" {{ url_for('registrar_professor') }} ">
-        <button>
-            Registrar Professor
-        </button>
-    </a>
+    </div>
 
-    <a href=" {{ url_for('registrar_secretaria') }} ">
-        <button>
-            Registrar Secretaria
-        </button>
-    </a>
+    
 
-    <a href=" {{ url_for('registrar_responsavel') }} ">
-        <button>
-            Registrar Responsável
-        </button>
-    </a>
+    <div id="container-registro">
 
+    </div>
 
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
 
 {% endblock %}
