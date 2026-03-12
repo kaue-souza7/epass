@@ -15,7 +15,8 @@
 
         <h3>CPF: {{ request.args.get('cpf')  }}</h3>
 
-        <form hx-post="/registrar_aluno/" 
+        <form method="POST"
+              hx-post="/registrar_aluno/" 
               hx-target="#container-registro" 
               hx-swap="innerHTML">
             {{ formAluno.csrf_token }}
@@ -29,6 +30,9 @@
 
             {{ formAluno.cpf.label() }}
             {{ formAluno.cpf(value=cpf or '')}}
+            {% for error in formAluno.cpf.errors %}
+                <span style="color:red;">{{ error }}</span>
+            {% endfor %}
 
             {{ formAluno.endereco.label() }}
             {{ formAluno.endereco() }}

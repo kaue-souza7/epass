@@ -100,14 +100,14 @@ def registrar_aluno():
                 print('form valido')
 
                 formAluno.save()
+                FormRespUser = RespUserForm()
 
-                response = make_response("")
-                response.headers["HX-Redirect"] = url_for(
-                    "registrar_responsavel",
-                    cpf=cpf
+                return render_template(
+                    'register/registrar_responsavel.html',
+                    cpf=cpf,
+                    FormRespUser=FormRespUser
                 )
 
-                return response
 
         return render_template(
             'register/registrar_aluno.html',
@@ -201,5 +201,38 @@ def registrar_secretaria():
 
 
 
+
+@app.route('/documentos/', methods=['GET', 'POST'])
+def documentos():
+    if request.method == 'GET':
+        return render_template('documentos.html')
+
+
+
+@app.route('/gestao_academica/', methods=['GET', 'POST'])
+def gestao_academica():
+    if request.method == 'GET':
+        return render_template('gestao_academica.html')
+
+
+
+@app.route('/gestao_administrativa/', methods=['GET', 'POST'])
+def gestao_administrativa():
+    if request.method == 'GET':
+        return render_template('gestao_administrativa.html')
+
+
+
+@app.route('/alertas/', methods=['GET', 'POST'])
+def alertas():
+    if request.method == 'GET':
+        return render_template('alertas.html')
+
+
+
+@app.route('/calendario/', methods=['GET', 'POST'])
+def calendario():
+    if request.method == 'GET':
+        return render_template('calendario.html')
 
 
