@@ -1,8 +1,9 @@
 @import url(../global.css);
 
-body {
+/* body {
     padding: 3vw;
     height: 100vh;
+    background-color: brown;
 }
 
 canvas {
@@ -12,6 +13,25 @@ canvas {
 
 label{
     font-size: 18px;
+} */
+section {
+    border: 1px solid black;
+    width: 100%;
+    
+}
+section .card {
+    background-color: rgb(255, 0, 179);
+
+}
+section .grid{
+    width: 100%;
+    display: grid;
+    justify-content: space-evenly;
+    align-items: center;
+    border-radius: none;
+}
+section .grid-1x, .grid-1x-10px {
+    justify-content: space-evenly;
 }
 
 
