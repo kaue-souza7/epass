@@ -4,25 +4,31 @@
         <div class="grid grid-1x">
             <img src="../static/media/diplomado.png" style="width: 120px; height: auto;">
             <div class="grid grid-1x-10px">
-                <a href="../professor/relatorios.php" target="frame"
+
+                <a href="{{url_for('home')}}" target="frame"
+                    class="button secondary-button button-left-aligned">
+                    <span class="material">home</span>Home
+                </a>
+
+                <a href="{{url_for('documentos')}}" target="frame"
                     class="button secondary-button button-left-aligned">
                     <span class="material">dashboard</span>Documentos e Relátorios
                 </a>
 
-                <a href="gestaoAcademica.php" target="frame" class="button secondary-button button-left-aligned">
+                <a href="{{url_for('gestao_academica')}}" target="frame" class="button secondary-button button-left-aligned">
                     <span class="material">school</span>Gestão Acadêmica
                 </a>
 
-                <a href="gestaoAdministrativa.html" target="frame"
+                <a href="{{url_for('gestao_administrativa')}}" target="frame"
                     class="button secondary-button button-left-aligned">
                     <span class="material">assignment</span>Gestão Administrativa
                 </a>
 
-                <a href="alertas.html" target="frame" class="button secondary-button button-left-aligned">
+                <a href="{{url_for('alertas')}}" target="frame" class="button secondary-button button-left-aligned">
                     <span class="material">chat_bubble</span>Alertas e Notificações
                 </a>
 
-                <a href="calendario.html" target="frame" class="button secondary-button button-left-aligned">
+                <a href="{{url_for('calendario')}}" target="frame" class="button secondary-button button-left-aligned">
                     <span class="material">note_stack</span>Calendário Escolar
                 </a>
             </div>
