@@ -3,9 +3,11 @@
 <form method="GET" hx-get="/registrar_aluno/" 
       hx-target="#container-registro" 
       hx-swap="innerHTML">
+    <div class="form">
+        <input type="text" name="cpf" value="{{ request.args.get('cpf','') }}" placeholder="Digite o CPF do aluno">
+        <button type="submit">Cadastrar</button>
+    </div>
     
-    <input type="text" name="cpf" value="{{ request.args.get('cpf','') }}" placeholder="Digite o CPF do aluno">
-    <button type="submit">Cadastrar</button>
 </form>
 
 {% if cpf %}

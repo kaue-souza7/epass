@@ -1,17 +1,19 @@
 aside {
     padding: 3vh;
     background-color: var(--card-background);
-    width: 100%;
+    width: 40vh;
     height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    /* background-color: brown; */
 }
 
 .sidebar {
     overflow: hidden;
     height: 100vh;
+    
 }
 
 .top-menu {
