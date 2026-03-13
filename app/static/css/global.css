@@ -9,9 +9,11 @@
 :root {
     color-scheme: light dark;
 
-    --background: light-dark(#e8e8f1, #1c232b);
-    --card-background: light-dark(white, #28343a);
-    --image-card-background: light-dark(white, #77b689);
+    --background: light-dark(#f2f2f7, #1c232b);
+    --card-background: light-dark(white, #2e2e2e);
+    --card-accent-text: light-dark(white, white);
+    --card-accent: radial-gradient(ellipse 211.02% 154.45% at 0.00% 100.00%, #FF5B8F 0%, #FF9A4E 100%);
+    --image-card-background: light-dark(white, #FF5B8F);
 
     --common-hover: light-dark(#435b72, #55a06a);
     --common-press: light-dark(#1a3c63, #21833d);
@@ -43,6 +45,8 @@
 
 .dark {
     color-scheme: dark;
+    --card-background: light-dark(white, #2e2e2e);
+    --card-accent: radial-gradient(ellipse 211.02% 154.45% at 0.00% 100.00%, #FF5B8F 0%, #FF9A4E 100%) ;
 }
 
 * {
@@ -56,9 +60,12 @@ body {
     display: flex;
     background-color: var(--background);
 }
-/* section{
-    width:100%;
-} */
+section{
+    background: var(--background);
+}
+.text-accent{
+    color: var(--card-accent-text);
+}
 
 h1, h2, h3, h4, p {
     color: var(--input-focused);

@@ -8,6 +8,8 @@
 
 {% block content %} 
 
+<div class="grid grid-1x">
+
     <div class="grid button-grid">
 
 <!-- 
@@ -21,7 +23,7 @@
 
  
 
-        <a class="card grid grid-1x "  hx-get="{{ url_for('registrar_aluno') }}" hx-target="#container-registro" hx-swap="innerHTML">
+        <a class="card-accent grid grid-1x "  hx-get="{{ url_for('registrar_aluno') }}" hx-target="#container-registro" hx-swap="innerHTML">
             <div class=""><span class="material">person</span></div>
             
             <h2>
@@ -32,7 +34,7 @@
         </a>
 
 
-        <a class="card grid grid-1x"  hx-get="{{url_for('registrar_professor')}}" hx-target="#container-registro" hx-swap="innerHTML">
+        <a class="card-accent grid grid-1x"  hx-get="{{url_for('registrar_professor')}}" hx-target="#container-registro" hx-swap="innerHTML">
             <div class=""><span class="material">person</span></div>
 
             <h2>
@@ -42,7 +44,7 @@
 
         </a>
 
-        <a class="card grid grid-1x"  hx-get="{{url_for('registrar_secretaria')}}" hx-target="#container-registro" hx-swap="innerHTML">
+        <a class="card-accent grid grid-1x"  hx-get="{{url_for('registrar_secretaria')}}" hx-target="#container-registro" hx-swap="innerHTML">
             <div class=""><span class="material">person</span></div>
 
             <h2>
@@ -54,7 +56,7 @@
 
 
 
-        <a class="card grid grid-1x " hx-get="{{url_for('registrar_responsavel')}}" hx-target="#container-registro" hx-swap="innerHTML">
+        <a class="card-accent grid grid-1x " hx-get="{{url_for('registrar_responsavel')}}" hx-target="#container-registro" hx-swap="innerHTML">
             <div class=""><span class="material">person</span></div>
 
             <h2>
@@ -68,10 +70,11 @@
 
     
 
-    <div class="card grid grid-1x" id="container-registro">
+    <div class="card table-section grid grid-1x" id="container-registro">
 
     </div>
+</div>
 
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
-
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 {% endblock %}

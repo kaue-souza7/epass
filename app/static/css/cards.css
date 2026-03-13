@@ -1,5 +1,5 @@
 .card {
-    background-color: var(--card-background);
+    background: var(--card-background);
     padding: 25px;
     border-radius: 25px;
     color: var(--input-focused);
@@ -9,16 +9,23 @@
                 var(--shadow2) 0px 6px 6px -3px,
                 var(--shadow1) 0px 12px 12px -6px,
                 var(--shadow1) 0px 24px 24px -12px;
+              
+}
+.card-accent :is(h1, h2, h3, h4, p) {
+    color: white;
+}
 
-
-
-
-
-
-
-
-
-                
+.card-accent {
+    background: var(--card-accent);
+    padding: 25px;
+    border-radius: 25px;
+    color: var(--card-accent-text);
+    box-shadow: var(--shadow1) 0px 0px 0px 1px,
+                var(--shadow2) 0px 1px 1px -0.5px,
+                var(--shadow2) 0px 3px 3px -1.5px,
+                var(--shadow2) 0px 6px 6px -3px,
+                var(--shadow1) 0px 12px 12px -6px,
+                var(--shadow1) 0px 24px 24px -12px                
 }
 
 .image-card {
