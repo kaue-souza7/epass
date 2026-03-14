@@ -1,31 +1,40 @@
 @import url(../global.css);
 
 section {
-
     width: 100%;
     
 }
 
 section .button-grid a {
     max-width: 16.2rem;
-    height: 11rem;
+    height: 9rem;
 }
 
 section .grid{
-    width: 40vh;
+    /* width: 40vh; */
     display: grid;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
     border-radius: none;
 }
 section .grid-1x, .grid-1x-10px {
-    justify-content: space-evenly;
+    justify-content: space-between;
 }
 #container-registro{
     display: none;
 }
 a:focus + #container-registro{
     display: block;
+}
+.card-form{
+    background-color: #f8847975;
+}
+input:hover {
+    background-color: #f884791c;
+}
+input:focus {
+    background-color: transparent;
+    border: 3px solid var(--input-unfocused);
 }
 
 

@@ -1,19 +1,27 @@
-<h2>Cadastrar Aluno</h2>
+<div class="card-form table-section grid grid-1x">
+    <form method="GET" hx-get="/registrar_aluno/" 
+    hx-target="#container-registro" 
+    hx-swap="innerHTML">
+        <div class="grid polar-grid">
+            <h2>Cadastrar Aluno</h2>
+            <div class="grid button-grid">
+                <input type="text" name="cpf" value="{{ request.args.get('cpf','') }}" placeholder="Digite o CPF do aluno">
+                <button type="submit">Cadastrar</button>
+            </div>
+            
+        </div>
+    </form>
+</div>
 
-<form method="GET" hx-get="/registrar_aluno/" 
-      hx-target="#container-registro" 
-      hx-swap="innerHTML">
-    <div class="form">
-        <input type="text" name="cpf" value="{{ request.args.get('cpf','') }}" placeholder="Digite o CPF do aluno">
-        <button type="submit">Cadastrar</button>
-    </div>
-    
-</form>
+
+
 
 {% if cpf %}
     {% if msg %}
         <p style="color: red;"> {{ msg }} </p>
     {% else %}
+
+    
 
         <h3>CPF: {{ request.args.get('cpf')  }}</h3>
 
