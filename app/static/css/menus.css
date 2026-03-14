@@ -1,13 +1,15 @@
 aside {
     padding: 3vh;
-    background-color: var(--card-background);
+    background-color: var(--background);
     width: 40vh;
     height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    /* background-color: brown; */
+    border-right: 4px solid var(--shadow1);
+              
+    
 }
 
 .sidebar {
