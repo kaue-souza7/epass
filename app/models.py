@@ -60,6 +60,8 @@ class Aluno(db.Model):
         secondary=responsavel_aluno,
         back_populates="alunos"
     )
+    turma_id = db.Column(db.Integer, db.ForeignKey('turmas.id', name='fk_aluno_turma'), nullable=True)
+
 
     def __str__(self):
         return self.nome
@@ -131,4 +133,17 @@ class Responsavel(db.Model):
         return self.user.nome
 
 
+
+
+class Turmas(db.Model):
+
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(100), nullable=False)
+    descricao = db.Column(db.Text)
+    ano = db.Column(db.Integer, nullable=False)
+    dataInicio = db.Column(db.Date, nullable=False)
+    dataFinal = db.Column(db.Date)
+    periodo = db.Column(db.String(50))
+
+    alunos = db.relationship('Aluno', backref='turma', lazy=True)
 

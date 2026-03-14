@@ -1,0 +1,64 @@
+    
+{% if msg %} 
+
+        <p style="color: green;"> {{ msg }} </p>
+
+
+{% else %}
+
+
+
+
+    
+    
+    <form hx-post="/turma/criar" 
+                hx-target="#container-registro"
+                hx-swap="innerHTML">
+        {{ turmaForm.csrf_token }}
+
+        {{ turmaForm.nome.label() }}
+        {{ turmaForm.nome() }}
+                {% for error in turmaForm.nome.errors %}
+            <span style="color:red">{{ error }}</span>
+        {% endfor %}
+
+        {{ turmaForm.descricao.label() }}
+        {{ turmaForm.descricao() }}
+                {% for error in turmaForm.descricao.errors %}
+            <span style="color:red">{{ error }}</span>
+        {% endfor %}
+
+        {{ turmaForm.ano.label() }}
+        {{ turmaForm.ano() }}
+        {% for error in turmaForm.ano.errors %}
+            <span style="color:red">{{ error }}</span>
+        {% endfor %}
+
+        <br>
+        <br>
+
+        {{ turmaForm.dataInicio.label() }}
+        {{ turmaForm.dataInicio() }}
+                {% for error in turmaForm.dataInicio.errors %}
+            <span style="color:red">{{ error }}</span>
+        {% endfor %}
+
+        {{ turmaForm.dataFinal.label() }}
+        {{ turmaForm.dataFinal() }}
+                {% for error in turmaForm.dataFinal.errors %}
+            <span style="color:red">{{ error }}</span>
+        {% endfor %}
+
+        <br>
+        <br>
+
+        {{ turmaForm.periodo.label }}
+        {{ turmaForm.periodo() }}
+                {% for error in turmaForm.periodo.errors %}
+            <span style="color:red">{{ error }}</span>
+        {% endfor %}
+
+        {{ turmaForm.btnSubmit() }}
+    </form> 
+
+{% endif %}

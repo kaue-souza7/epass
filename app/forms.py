@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import BooleanField, SelectMultipleField, StringField, SubmitField, PasswordField, SelectField, DateField
+from wtforms import BooleanField, IntegerField, SelectMultipleField, StringField, SubmitField, PasswordField, SelectField, DateField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError, Length, Optional
 from wtforms_sqlalchemy.fields import QuerySelectMultipleField
 import wtforms
@@ -7,7 +7,7 @@ import os
 from werkzeug.utils import secure_filename
 
 from app import db, bcrypt, app
-from app.models import Aluno, Professor, Responsavel, Secretaria, User, TipoUsuario
+from app.models import Aluno, Professor, Responsavel, Secretaria, Turmas, User, TipoUsuario
 
 
 class QuerySelectMultipleFieldwithCheckboxes(QuerySelectMultipleField):
@@ -87,9 +87,25 @@ class AlunoForm(FlaskForm):
     nascimento = DateField( "Data de Nascimento", format='%Y-%m-%d', validators=[DataRequired()])
     status = BooleanField("Ativo")
 
+
+    turma_id = SelectField("Turma", coerce=int)
+
     btnSubmit = SubmitField("Salvar")
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        turmas = Turmas.query.all()
+
+        self.turma_id.choices = [(0, "Sem turma")] + [
+            (turma.id, turma.nome) for turma in turmas
+        ]
+
+
+
     def save(self):
+
+        turma_id = self.turma_id.data if self.turma_id.data != 0 else None
 
         aluno = Aluno(
             nome= self.nome.data,
@@ -98,7 +114,7 @@ class AlunoForm(FlaskForm):
             endereco=self.endereco.data,
             nascimento=self.nascimento.data,
             status=self.status.data,
-
+            turma_id=turma_id
         )
 
         db.session.add(aluno)
@@ -369,3 +385,33 @@ class RespUserForm(FlaskForm):
         db.session.add(responsavel)
         db.session.commit()
         return responsavel
+
+
+
+
+
+class TurmaForm(FlaskForm):
+
+    nome = StringField("Nome", validators=[DataRequired(), Length(max=100)])
+    descricao = StringField("Descrição", validators=[Length(max=255)])
+    ano = IntegerField("Ano", validators=[DataRequired()])
+    dataInicio = DateField("Data de Início", format='%Y-%m-%d', validators=[DataRequired()])
+    dataFinal = DateField("Data Final", format='%Y-%m-%d')
+    periodo = StringField("Período", validators=[DataRequired(), Length(max=50)])
+
+    btnSubmit = SubmitField("Salvar")
+
+    def save(self):
+
+        turma = Turmas(
+            nome=self.nome.data,
+            descricao=self.descricao.data,
+            ano=self.ano.data,
+            dataInicio=self.dataInicio.data,
+            dataFinal=self.dataFinal.data,
+            periodo=self.periodo.data
+        )
+
+        db.session.add(turma)
+        db.session.commit()
+        return turma

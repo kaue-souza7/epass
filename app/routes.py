@@ -3,7 +3,7 @@ from wtforms import ValidationError
 from app import app, db
 from flask import Response, make_response, render_template, send_file, url_for, request, redirect, abort, session
 from app.models import Responsavel, User, TipoUsuario, Aluno
-from app.forms import AlunoForm, ProfessorForm, RespUserForm, ResponsavelForm, SecretariaForm, UserForm, LoginForm
+from app.forms import AlunoForm, ProfessorForm, RespUserForm, ResponsavelForm, SecretariaForm, UserForm, LoginForm, TurmaForm
 
 from sqlalchemy import desc
 
@@ -236,3 +236,24 @@ def calendario():
         return render_template('calendario.html')
 
 
+
+@app.route('/turma/criar/', methods=['GET', 'POST'])
+def criar_turma():
+    turmaForm  = TurmaForm()
+
+    if turmaForm.validate_on_submit():
+        
+        turma = turmaForm.save()
+        if turma:
+            msg='Turma cadastrada com sucesso!!'
+            return render_template(
+                'register/turmas.html',
+                msg=msg,
+            )
+
+        return render_template(
+            'register/turmas.html',
+            turmaForm=turmaForm
+        )
+
+    return render_template('register/turmas.html', turmaForm=turmaForm)
