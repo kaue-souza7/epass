@@ -1,7 +1,7 @@
 .card {
     background: var(--card-background);
     padding: 25px;
-    border-radius: 25px;
+    border-radius: 15px;
     color: var(--input-focused);
     box-shadow: var(--shadow1) 0px 0px 0px 1px,
                 var(--shadow2) 0px 1px 1px -0.5px,
@@ -18,14 +18,25 @@
 .card-accent {
     background: var(--card-accent);
     padding: 25px;
-    border-radius: 25px;
+    border-radius: 15px;
     color: var(--card-accent-text);
     box-shadow: var(--shadow1) 0px 0px 0px 1px,
                 var(--shadow2) 0px 1px 1px -0.5px,
                 var(--shadow2) 0px 3px 3px -1.5px,
                 var(--shadow2) 0px 6px 6px -3px,
                 var(--shadow1) 0px 12px 12px -6px,
-                var(--shadow1) 0px 24px 24px -12px                
+                var(--shadow1) 0px 24px 24px -12px ;               
+}
+.card-form{
+    background: var(--card-background); 
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: var(--shadow1) 0px 0px 0px 1px,
+                var(--shadow2) 0px 1px 1px -0.5px,
+                var(--shadow2) 0px 3px 3px -1.5px,
+                var(--shadow2) 0px 6px 6px -3px,
+                var(--shadow1) 0px 12px 12px -6px,
+                var(--shadow1) 0px 24px 24px -12px ;   
 }
 
 .image-card {
