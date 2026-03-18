@@ -125,31 +125,11 @@ class AlunoForm(FlaskForm):
 
 class ProfessorForm(FlaskForm):
 
-    cpf = StringField(
-        "CPF",
-        validators=[DataRequired(), Length(min=11, max=14)]
-    )
-
-    telefone = StringField(
-        "Telefone",
-        validators=[DataRequired(), Length(max=20)]
-    )
-
-    email = StringField(
-        "Email",
-        validators=[DataRequired(), Length(max=150)]
-    )
-
-    endereco = StringField(
-        "Endereço",
-        validators=[DataRequired(), Length(max=255)]
-    )
-
-    formacao = StringField(
-        "Formação",
-        validators=[DataRequired(), Length(max=150)]
-    )
-
+    cpf = StringField("CPF", validators=[DataRequired(), Length(min=11, max=14)])
+    telefone = StringField( "Telefone", validators=[DataRequired(), Length(max=20)])
+    email = StringField( "Email", validators=[DataRequired(), Length(max=150)])
+    endereco = StringField( "Endereço", validators=[DataRequired(), Length(max=255)])
+    formacao = StringField( "Formação", validators=[DataRequired(), Length(max=150)])
     turno = SelectField(
         "Turno",
         choices=[
@@ -160,11 +140,7 @@ class ProfessorForm(FlaskForm):
         validators=[DataRequired()]
     )
 
-    nascimento = DateField(
-        "Data de Nascimento",
-        format='%Y-%m-%d',
-        validators=[DataRequired()]
-    )
+    nascimento = DateField("Data de Nascimento", format='%Y-%m-%d', validators=[DataRequired()])
 
     user_id = SelectField(
         "Usuário Professor",

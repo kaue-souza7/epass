@@ -22,3 +22,11 @@ function signOut() {
         window.top.location.href = "../index.html";
     }, 1000);
 }
+
+// Auto fechar alerta
+setTimeout(() => {
+    document.querySelectorAll('.alert').forEach(el => {
+        el.style.opacity = '0';
+        setTimeout(() => el.remove(), 300);
+    });
+}, 3000);

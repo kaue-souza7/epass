@@ -1,34 +1,98 @@
-<form action="" method="post">
-    {{ form.csrf_token }}
 
-    {{ form.cpf.label() }}
-    {{ form.cpf() }}
+<!-- ALERTAS -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for categoria, mensagem in messages %}
+            <div class="alert {{categoria}}">{{mensagem}}</div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
 
-    {{ form.telefone.label() }}
-    {{ form.telefone() }}
+{% if formUser %}
 
-    {{ form.email.label() }}
-    {{ form.email() }}
+    <form method="POST"
+            hx-post="/registrar_professor/" 
+            hx-target="#container-registro" 
+            hx-swap="innerHTML">
+        {{ formUser.csrf_token }}
 
-    {{ form.endereco.label() }}
-    {{ form.endereco() }}
+        {{ formUser.nome.label() }}
+        {{ formUser.nome() }}
 
-    {{ form.formacao.label() }}
-    {{ form.formacao() }}
+        {{ formUser.sobrenome.label() }}
+        {{ formUser.sobrenome() }}
 
-    {{ form.turno.label() }}
-    {{ form.turno() }}
+        {{ formUser.email.label() }}
+        {{ formUser.email() }}
+        {% for error in formUser.email.errors %}
+            <span style="color:red">{{ error }}</span>
+        {% endfor %}
 
-    {{ form.nascimento.label() }}
-    {{ form.nascimento() }}
+        <br>
+        <br>
 
-    {{ form.user_id.label() }}
-    {{ form.user_id() }}
+        {{ formUser.senha.label() }}
+        {{ formUser.senha() }}
 
-    {{ form.status.label() }}
-    {{ form.status() }}
+        {{ formUser.confirmacao_senha.label() }}
+        {{ formUser.confirmacao_senha() }}
+
+        <br>
+        <br>
+
+        {{ formUser.tipo_usuario.label }}
+        {{ formUser.tipo_usuario() }}
+
+        {{ formUser.btnSubmit() }}
+    </form> 
+
+{% endif %}
+
+{% if formProfessor %}
+
+
+    <form 
+        method="POST"
+        hx-post="/registrar_professor/" 
+        hx-target="#container-registro" 
+        hx-swap="innerHTML">
+        {{ formProfessor.csrf_token }}
+
+        {{ formProfessor.cpf.label() }}
+        {{ formProfessor.cpf() }}
+
+        {{ formProfessor.telefone.label() }}
+        {{ formProfessor.telefone() }}
+
+        {{ formProfessor.email.label() }}
+        {{ formProfessor.email() }}
+
+        {{ formProfessor.endereco.label() }}
+        {{ formProfessor.endereco() }}
+
+        {{ formProfessor.formacao.label() }}
+        {{ formProfessor.formacao() }}
+
+        {{ formProfessor.turno.label() }}
+        {{ formProfessor.turno() }}
+
+        {{ formProfessor.nascimento.label() }}
+        {{ formProfessor.nascimento() }}
+
+        {{ formProfessor.user_id.label() }}
+        {{ formProfessor.user_id() }}
+
+        {{ formProfessor.status.label() }}
+        {{ formProfessor.status() }}
 
 
 
-    {{ form.btnSubmit() }}
-</form>
+        {{ formProfessor.btnSubmit() }}
+    </form>
+
+{% endif %}
+
+
+<script>
+
+</script>
