@@ -1,13 +1,16 @@
-<h2>Cadastrar um Responsavel</h2>
+<div class="card-form table-section grid grid-1x">
+    <form hx-post="/registrar_responsavel/" 
+        hx-target="#container-registro"
+        hx-swap="innerHTML">
+        <div class="grid polar-grid">
+            <h2>Cadastrar Responsável</h2>
+            <div class="grid button-grid">
+            <input type="text" name="cpf" value="{{cpf or '' }}" placeholder="Digite o CPF do filho">
+            <button type="submit">Procurar</button>
+        </div>
 
-<form hx-post="/registrar_responsavel/" 
-      hx-target="#container-registro"
-      hx-swap="innerHTML">
-    <input type="text" name="cpf" value="{{cpf or '' }}" placeholder="Digite o CPF do filho">
-    <button type="submit">Procurar</button>
-
-</form>
-
+    </form>
+</div>
 
 
 {% if cpf %}

@@ -27,15 +27,26 @@ a:focus + #container-registro{
     display: block;
 }
 .card-form{
-    background-color: #f8847975;
+    background:  #90ffa3be ;
 }
-input:hover {
-    background-color: #f884791c;
-}
+
 input:focus {
     background-color: transparent;
     border: 3px solid var(--input-unfocused);
 }
 
+.input-group select {
+  padding: 14px 12px;
+  border: 2px solid var(--input-unfocused); 
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+}
 
-
+.check{
+    width: 50px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: blue;
+}
