@@ -1,7 +1,7 @@
 input {
     background-color: transparent;
     padding: 10px;
-    border-radius: 8px;
+    border-radius: 20px;
     border: 2px solid var(--input-unfocused);
     color: var(--input-focused);
     outline: 0;
