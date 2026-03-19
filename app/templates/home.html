@@ -37,6 +37,16 @@
 
         </a>
 
+        <a class="card-accent grid grid-1x " hx-get="{{url_for('registrar_responsavel')}}" hx-target="#container-registro" hx-swap="innerHTML">
+            <div class=""><span class="material">person</span></div>
+
+            <h2>
+                Registrar Responsável
+            </h2>
+            <p>Gerenciar cadastro e informações dos responsaveis</p>
+
+        </a>
+
 
         <a class="card-accent grid grid-1x"  hx-get="{{url_for('registrar_professor')}}" hx-target="#container-registro" hx-swap="innerHTML">
             <div class=""><span class="material">person</span></div>
@@ -60,15 +70,7 @@
 
 
 
-        <a class="card-accent grid grid-1x " hx-get="{{url_for('registrar_responsavel')}}" hx-target="#container-registro" hx-swap="innerHTML">
-            <div class=""><span class="material">person</span></div>
-
-            <h2>
-                Registrar Responsável
-            </h2>
-            <p>Gerenciar cadastro e informações dos responsaveis</p>
-
-        </a>
+        
 
         <a class="card-accent grid grid-1x " hx-get="{{url_for('criar_turma')}}" hx-target="#container-registro" hx-swap="innerHTML">
             <div class=""><span class="material">password</span></div>

@@ -22,7 +22,7 @@
 
     --link: light-dark(#2e8447, #77b689);
 
-    --input-unfocused: light-dark(#FF5B8F, #7a8987);
+    --input-unfocused: light-dark(rgb(163, 163, 163), #7a8987);
     --input-focused: light-dark(#28343a, #e7f7ec);
 
     --button: light-dark(#28343a, #92e2a9);

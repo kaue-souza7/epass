@@ -1,7 +1,7 @@
 input {
     background-color: transparent;
     padding: 10px;
-    border-radius: 30px;
+    border-radius: 8px;
     border: 2px solid var(--input-unfocused);
     color: var(--input-focused);
     outline: 0;
@@ -13,9 +13,35 @@ input:hover {
 
 input:focus {
     background-color: transparent;
-    border: 3px solid var(--input-focused);
+    border: 3px solid var(--input-unfocused);
 }
 
 input::placeholder {
     color: var(--input-unfocused);
+}
+
+.input-group {
+  position: relative;
+  margin: 20px 0;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 14px 12px;
+  /* border: 3px solid var(--input-unfocused); */
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+}
+
+/* Label sempre na borda */
+.input-group label {
+  position: absolute;
+  top: 0;
+  left: 12px;
+  transform: translateY(-50%);
+  background: var(--card-background);
+  padding: 0 6px;
+  font-size: 13px;
+  color: var(--input-unfocused);
 }
