@@ -88,3 +88,23 @@
 
 
 {% endif %}
+
+
+<select 
+    name="turma_id"
+    hx-get="/alunos/lista/"
+    hx-target="#lista-alunos"
+    hx-trigger="change">
+
+    <option value="">Todas</option>
+
+    {% for t in turmas %}
+        <option value="{{ t.id }}">{{ t.nome }}</option>
+    {% endfor %}
+</select>
+
+<div 
+    id="lista-alunos"
+    hx-get="/alunos/lista"
+    hx-trigger="load">
+</div>
