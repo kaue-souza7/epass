@@ -4,7 +4,6 @@ document.body.addEventListener("htmx:afterSwap", function(evt) {
     }
 });
 
-<<<<<<< Updated upstream
 
 
 document.body.addEventListener("htmx:load", function () {
