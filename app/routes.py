@@ -57,14 +57,19 @@ def home():
 # @login_required
 def registrar_user():
     form = UserForm()
-    print(form.tipo_usuario.data)
-    if form.tipo_usuario.data == 'RESPONSAVEL':
+    if form.validate_on_submit():
+        form.save()
+        return redirect(url_for('home'))
 
-        if form.validate_on_submit():
-            # form.save()
-            return redirect(url_for('registrar_user'))
-    if form.tipo_usuario.data == 'RESPONSAVEL':
-        ...
+
+    # print(form.tipo_usuario.data)
+    # if form.tipo_usuario.data == 'RESPONSAVEL':
+
+    #     if form.validate_on_submit():
+    #         form.save()
+    #         return redirect(url_for('registrar_user'))
+    # if form.tipo_usuario.data == 'RESPONSAVEL':
+    #     ...
     
     
     return render_template('register/registrar_user.html', form=form)
@@ -101,7 +106,7 @@ def registrar_aluno():
                 print('form valido')
 
                 formAluno.save()
-                FormRespUser = RespUserForm()
+                FormRespUser = RespUserForm(formdata=None)
 
                 return render_template(
                     'register/registrar_responsavel.html',
@@ -147,6 +152,7 @@ def registrar_responsavel():
     if cpf:
         aluno = Aluno.query.filter_by(cpf=cpf).first()
 
+
         if not aluno:
             msg = "Aluno não encontrado!"
     else:
@@ -154,6 +160,7 @@ def registrar_responsavel():
 
 
     if FormRespUser.validate_on_submit():
+        print(FormRespUser.errors)
         responsavel = FormRespUser.save()
 
         aluno = Aluno.query.filter_by(cpf=cpf).first()
@@ -181,7 +188,9 @@ def registrar_responsavel():
 def registrar_professor():
     form = ProfessorForm()
 
-
+    print("VALID:", form.validate_on_submit())
+    print("ERROS:", form.errors)
+    print("FORM DATA:", request.form)
 
     if form.validate_on_submit():
         form.save()

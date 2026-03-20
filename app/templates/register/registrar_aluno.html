@@ -52,10 +52,6 @@
                         <span style="color:red;">{{ error }}</span>
                     {% endfor %}
     
-                    <div class="input-group">
-                        {{ formAluno.endereco.label() }}
-                        {{ formAluno.endereco() }}
-                    </div>
     
                     <div class="input-group">
                         {{ formAluno.nascimento.label() }}
@@ -64,12 +60,57 @@
                     <div class="input-group">
                         {{ formAluno.turma_id.label() }}
                         {{ formAluno.turma_id() }}
+    
+                    </div>
+                    <div class="input-group">
+    
+                        {{ formAluno.matricula.label() }}
+                        {{ formAluno.matricula() }}
+                    </div>
+
+                    <div class="input-group">
+    
+                        {{ formAluno.data_matricula.label() }}
+                        {{ formAluno.data_matricula() }}
+                    </div>
+                    <div class="input-group">
+    
+                        {{ formAluno.tipo_sanguineo.label() }}
+                        {{ formAluno.tipo_sanguineo() }}
+                    </div>
+                    <div class="input-group">
+                        {{ formAluno.cep.label() }}
+                        {{ formAluno.cep(id="cep") }}
+                    </div>
+
+                    <div class="input-group">
+                        {{ formAluno.rua.label() }}
+                        {{ formAluno.rua(id="rua") }}
+                    </div>
+
+                    <div class="input-group">
+                        {{ formAluno.numero.label() }}
+                        {{ formAluno.numero(id="numero") }}
+                    </div>
+
+                    <div class="input-group">
+                        {{ formAluno.bairro.label() }}
+                        {{ formAluno.bairro(id="bairro") }}
+                    </div>
+
+                    <div class="input-group">
+                        {{ formAluno.cidade.label() }}
+                        {{ formAluno.cidade(id="cidade") }}
+                    </div>
+
+                    <div class="input-group">
+                        {{ formAluno.estado.label() }}
+                        {{ formAluno.estado(id="estado") }}
                     </div>
                 </div>
 
                 <div class="check">
-                    {{ formAluno.status.label() }}
-                    {{ formAluno.status() }}
+
 
                 </div>
 
@@ -108,3 +149,8 @@
     hx-get="/alunos/lista"
     hx-trigger="load">
 </div>
+
+
+<script>
+
+</script>

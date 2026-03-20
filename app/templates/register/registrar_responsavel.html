@@ -51,23 +51,51 @@
             <br>
             <br>
 
-            {{ FormRespUser.tipo_usuario.label }}
+            {{ FormRespUser.tipo_usuario.label() }}
             {{ FormRespUser.tipo_usuario() }}
 
 
 
 
             
-            {{ FormRespUser.telefone.label }}
+            {{ FormRespUser.telefone.label() }}
             {{ FormRespUser.telefone() }}
 
-            {{ FormRespUser.endereco.label }}
-            {{ FormRespUser.endereco() }}
 
-            {{ FormRespUser.nascimento.label }}
+            {{ FormRespUser.nascimento.label() }}
             {{ FormRespUser.nascimento(type="date") }}
 
             <br>
+
+            <div class="input-group">
+                {{ FormRespUser.cep.label() }}
+                {{ FormRespUser.cep(id="cep") }}
+            </div>
+
+            <div class="input-group">
+                {{ FormRespUser.rua.label() }}
+                {{ FormRespUser.rua(id="rua") }}
+            </div>
+
+            <div class="input-group">
+                {{ FormRespUser.numero.label() }}
+                {{ FormRespUser.numero(id="numero") }}
+            </div>
+
+            <div class="input-group">
+                {{ FormRespUser.bairro.label() }}
+                {{ FormRespUser.bairro(id="bairro") }}
+            </div>
+
+            <div class="input-group">
+                {{ FormRespUser.cidade.label() }}
+                {{ FormRespUser.cidade(id="cidade") }}
+            </div>
+
+            <div class="input-group">
+                {{ FormRespUser.estado.label() }}
+                {{ FormRespUser.estado(id="estado") }}
+            </div>
         
 
             {{ FormRespUser.btnSubmit() }}
