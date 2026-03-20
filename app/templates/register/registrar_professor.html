@@ -1,8 +1,10 @@
+<<<<<<< Updated upstream
 <form method="POST"
         hx-post="/registrar_professor/" 
         hx-target="#container-registro" 
         hx-swap="innerHTML">
     {{ form.csrf_token }}
+=======
 
 <form action="" method="post">
     <div class="card-form table-section grid grid-1x">
@@ -10,6 +12,7 @@
             <h2>Cadastrar Professor</h2> 
         </div>
     </div>
+>>>>>>> Stashed changes
 
         <div class="grid grid-2x-1-3">
             {{ form.csrf_token }}
@@ -24,10 +27,13 @@
                 {{ form.telefone() }}
             </div>
 
+<<<<<<< Updated upstream
+=======
             <div class="input-group">
                 {{ form.email.label() }}
                 {{ form.email() }}
             </div>
+>>>>>>> Stashed changes
 
             <div class="input-group">
                 {{ form.endereco.label() }}

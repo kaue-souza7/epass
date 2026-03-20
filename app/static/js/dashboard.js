@@ -4,6 +4,7 @@ document.body.addEventListener("htmx:afterSwap", function(evt) {
     }
 });
 
+<<<<<<< Updated upstream
 
 
 document.body.addEventListener("htmx:load", function () {
@@ -34,6 +35,7 @@ document.body.addEventListener("htmx:load", function () {
             });
     });
 
+=======
 const select = document.getElementById("registroSelect");
 const cards = document.querySelectorAll(".registro-card");
 
@@ -49,4 +51,5 @@ select.addEventListener("change", function(){
         selecionado.style.display = "block";
     }
 
+>>>>>>> Stashed changes
 });
