@@ -22,3 +22,5 @@ function signOut() {
         window.top.location.href = "../index.html";
     }, 1000);
 }
+
+
