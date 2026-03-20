@@ -1,0 +1,24 @@
+<table border="1" cellspacing="0" cellpadding="5">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Sobrenome</th>
+            <th>CPF</th>
+            <th>Turma</th>
+            <th>Data de Nascimento</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for aluno in alunos %}
+            <tr>
+                <td>{{ aluno.nome }}</td>
+                <td>{{ aluno.sobrenome }}</td>
+                <td>{{ aluno.cpf }}</td>
+                <td>{{ aluno.turma.nome if aluno.turma else '-' }}</td>
+                <td>{{ aluno.nascimento.strftime('%d/%m/%Y') if aluno.nascimento else '-' }}</td>
+                <td>{{ 'Ativo' if aluno.status else 'Inativo' }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

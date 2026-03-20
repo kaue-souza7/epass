@@ -7,7 +7,7 @@ import os
 from werkzeug.utils import secure_filename
 
 from app import db, bcrypt, app
-from app.models import Aluno, Professor, Responsavel, Secretaria, Turmas, User, TipoUsuario
+from app.models import Aluno, Logradouro, Professor, Responsavel, Secretaria, TipoSanguineo, Turmas, User, TipoUsuario
 
 
 class QuerySelectMultipleFieldwithCheckboxes(QuerySelectMultipleField):
@@ -83,14 +83,28 @@ class AlunoForm(FlaskForm):
     nome = StringField( "Nome", validators=[DataRequired(), Length(max=100)])
     sobrenome = StringField( "Sobrenome", validators=[DataRequired(), Length(max=100)])
     cpf = StringField( "CPF", validators=[DataRequired(), Length(min=11, max=14)])
-    endereco = StringField( "Endereço", validators=[DataRequired(), Length(max=255)])
     nascimento = DateField( "Data de Nascimento", format='%Y-%m-%d', validators=[DataRequired()])
     status = BooleanField("Ativo")
+
+    matricula = StringField("Matrícula", validators=[Optional(), Length(max=20)])
+    data_matricula = DateField("Data da Matrícula", format='%Y-%m-%d', validators=[Optional()])
+    tipo_sanguineo = SelectField(
+        "Tipo Sanguíneo",
+        choices=[(ts.name, ts.value) for ts in TipoSanguineo],
+        validators=[Optional()]
+    )
 
 
     turma_id = SelectField("Turma", coerce=int)
 
     btnSubmit = SubmitField("Salvar")
+
+    cep = StringField("CEP", validators=[DataRequired(), Length(min=8, max=9)])
+    rua = StringField("Rua", validators=[DataRequired(), Length(max=150)])
+    numero = StringField("Número", validators=[DataRequired(), Length(max=10)])
+    bairro = StringField("Bairro", validators=[DataRequired(), Length(max=100)])
+    cidade = StringField("Cidade", validators=[DataRequired(), Length(max=100)])
+    estado = StringField("Estado", validators=[DataRequired(), Length(max=2)])
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -107,14 +121,29 @@ class AlunoForm(FlaskForm):
 
         turma_id = self.turma_id.data if self.turma_id.data != 0 else None
 
+        logradouro = Logradouro(
+            cep=self.cep.data,
+            rua=self.rua.data,
+            numero=self.numero.data,
+            bairro=self.bairro.data,
+            cidade=self.cidade.data,
+            estado=self.estado.data
+        )
+
+        db.session.add(logradouro)
+        db.session.flush()  
+
         aluno = Aluno(
             nome= self.nome.data,
             sobrenome= self.sobrenome.data,
             cpf=self.cpf.data,
-            endereco=self.endereco.data,
             nascimento=self.nascimento.data,
             status=self.status.data,
-            turma_id=turma_id
+            turma_id=turma_id,
+            matricula=self.matricula.data,
+            data_matricula=self.data_matricula.data,
+            tipo_sanguineo=TipoSanguineo[self.tipo_sanguineo.data] if self.tipo_sanguineo.data else None,
+            logradouro=logradouro,
         )
 
         db.session.add(aluno)
@@ -125,30 +154,10 @@ class AlunoForm(FlaskForm):
 
 class ProfessorForm(FlaskForm):
 
-    cpf = StringField(
-        "CPF",
-        validators=[DataRequired(), Length(min=11, max=14)]
-    )
-
-    telefone = StringField(
-        "Telefone",
-        validators=[DataRequired(), Length(max=20)]
-    )
-
-    email = StringField(
-        "Email",
-        validators=[DataRequired(), Length(max=150)]
-    )
-
-    endereco = StringField(
-        "Endereço",
-        validators=[DataRequired(), Length(max=255)]
-    )
-
-    formacao = StringField(
-        "Formação",
-        validators=[DataRequired(), Length(max=150)]
-    )
+    cpf = StringField("CPF",validators=[DataRequired(), Length(min=11, max=14)])
+    telefone = StringField("Telefone",validators=[DataRequired(), Length(max=20)])
+    email = StringField("Email",validators=[DataRequired(), Length(max=150)])
+    formacao = StringField("Formação",validators=[DataRequired(), Length(max=150)])
 
     turno = SelectField(
         "Turno",
@@ -160,18 +169,18 @@ class ProfessorForm(FlaskForm):
         validators=[DataRequired()]
     )
 
-    nascimento = DateField(
-        "Data de Nascimento",
-        format='%Y-%m-%d',
-        validators=[DataRequired()]
-    )
+    cep = StringField("CEP", validators=[DataRequired(), Length(min=8, max=9)])
+    rua = StringField("Rua", validators=[DataRequired(), Length(max=150)])
+    numero = StringField("Número", validators=[DataRequired(), Length(max=10)])
+    bairro = StringField("Bairro", validators=[DataRequired(), Length(max=100)])
+    cidade = StringField("Cidade", validators=[DataRequired(), Length(max=100)])
+    estado = StringField("Estado", validators=[DataRequired(), Length(max=2)])
 
-    user_id = SelectField(
-        "Usuário Professor",
-        coerce=int,
-        validators=[DataRequired()]
-    )
 
+
+
+    nascimento = DateField("Data de Nascimento",format='%Y-%m-%d',validators=[DataRequired()])
+    user_id = SelectField("Usuário Professor",coerce=int,validators=[DataRequired()])
     status = BooleanField("Ativo")
 
     btnSubmit = SubmitField("Salvar")
@@ -193,16 +202,28 @@ class ProfessorForm(FlaskForm):
 
     def save(self):
 
+        logradouro = Logradouro(
+            cep=self.cep.data,
+            rua=self.rua.data,
+            numero=self.numero.data,
+            bairro=self.bairro.data,
+            cidade=self.cidade.data,
+            estado=self.estado.data
+        )
+
+        db.session.add(logradouro)
+        db.session.flush()  
+
         professor = Professor(
             cpf=self.cpf.data,
             telefone=self.telefone.data,
             email=self.email.data,
-            endereco=self.endereco.data,
             formacao=self.formacao.data,
             turno=self.turno.data,
             nascimento=self.nascimento.data,
             status=self.status.data,
             user_id=self.user_id.data,
+            logradouro=logradouro
         )
 
         db.session.add(professor)
@@ -291,7 +312,13 @@ class ResponsavelForm(FlaskForm):
     btnSubmit = SubmitField("Salvar")
     user_id = SelectField("Usuário", coerce=int, validators=[DataRequired()])
 
-    # alunos = QuerySelectMultipleFieldwithCheckboxes('Alunos')
+
+    cep = StringField("CEP", validators=[DataRequired(), Length(min=8, max=9)])
+    rua = StringField("Rua", validators=[DataRequired(), Length(max=150)])
+    numero = StringField("Número", validators=[DataRequired(), Length(max=10)])
+    bairro = StringField("Bairro", validators=[DataRequired(), Length(max=100)])
+    cidade = StringField("Cidade", validators=[DataRequired(), Length(max=100)])
+    estado = StringField("Estado", validators=[DataRequired(), Length(max=2)])
 
 
     def __init__(self, *args, **kwargs):   
@@ -307,11 +334,25 @@ class ResponsavelForm(FlaskForm):
 
     def save(self):
 
+        logradouro = Logradouro(
+            cep=self.cep.data,
+            rua=self.rua.data,
+            numero=self.numero.data,
+            bairro=self.bairro.data,
+            cidade=self.cidade.data,
+            estado=self.estado.data
+        )
+
+        db.session.add(logradouro)
+        db.session.flush()  
+
         responsavel = Responsavel(
             telefone=self.telefone.data,
             endereco=self.endereco.data,
             nascimento=self.nascimento.data,
             user_id=self.user_id.data,
+            logradouro=logradouro,
+
         )
 
         
@@ -326,11 +367,16 @@ class ResponsavelForm(FlaskForm):
 
 class RespUserForm(FlaskForm):
     telefone = StringField("Telefone", validators=[DataRequired(), Length(max=20)])
-    endereco = StringField("Endereço", validators=[DataRequired(), Length(max=200)])
     nascimento = DateField("Data de Nascimento", format="%Y-%m-%d", validators=[DataRequired()])
 
 
     # alunos = QuerySelectMultipleFieldwithCheckboxes('Alunos')
+    cep = StringField("CEP", validators=[DataRequired(), Length(min=8, max=9)])
+    rua = StringField("Rua", validators=[DataRequired(), Length(max=150)])
+    numero = StringField("Número", validators=[DataRequired(), Length(max=10)])
+    bairro = StringField("Bairro", validators=[DataRequired(), Length(max=100)])
+    cidade = StringField("Cidade", validators=[DataRequired(), Length(max=100)])
+    estado = StringField("Estado", validators=[DataRequired(), Length(max=2)])
 
 
     def __init__(self, *args, **kwargs):   
@@ -359,6 +405,18 @@ class RespUserForm(FlaskForm):
             return ValidationError('Usuário ja cadastrado!')
 
     def save(self):
+
+        logradouro = Logradouro(
+            cep=self.cep.data,
+            rua=self.rua.data,
+            numero=self.numero.data,
+            bairro=self.bairro.data,
+            cidade=self.cidade.data,
+            estado=self.estado.data
+        )
+
+        db.session.add(logradouro)
+        db.session.flush()  
         
 
         senha = bcrypt.generate_password_hash(self.senha.data.encode('utf-8'))  
@@ -376,9 +434,10 @@ class RespUserForm(FlaskForm):
 
         responsavel = Responsavel(
             telefone=self.telefone.data,
-            endereco=self.endereco.data,
             nascimento=self.nascimento.data,
-            user_id=user.id
+            user_id=user.id,
+            logradouro=logradouro,
+
 
         )
 
