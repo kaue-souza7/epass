@@ -5,6 +5,11 @@ section {
     
 }
 
+section img{
+    width: 10rem;
+    height: 10rem;
+    z-index: 2;
+}
 section .button-grid a {
     max-width: 16.2rem;
     height: 9rem;
@@ -41,12 +46,64 @@ input:focus {
   border-radius: 8px;
   font-size: 16px;
   outline: none;
+  width: 100%;
 }
 
-.check{
-    width: 50px;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    background-color: rgb(174, 0, 255);
+input {
+    background-color: transparent;
+    padding: 10px;
+    border-radius: 8px;
+    border: 2px solid var(--input-unfocused);
+    color: var(--input-focused);
+    outline: 0;
+}
+
+input:hover {
+    background-color: transparent;
+}
+
+input:focus {
+    background-color: transparent;
+    border: 3px solid var(--input-unfocused);
+}
+
+input::placeholder {
+    color: var(--input-unfocused);
+}
+.card-accent{
+    width: 30vh;
+}
+/* mobile */
+
+/* select escondido no desktop */
+.registro-mobile{
+    display: none;
+    margin-bottom: 1rem;
+}
+
+/* cards */
+.registro-card{
+    display: block;
+}
+
+/* CELULAR */
+@media (max-width: 768px){
+
+    .registro-mobile{
+        display: block;
+    }
+
+    .registro-mobile select{
+        width: 100%;
+        padding: 12px;
+        border-radius: 8px;
+        border: 2px solid var(--input-unfocused);
+        font-size: 16px;
+    }
+
+    /* esconde todos os cards inicialmente */
+    .registro-card{
+        display: none;
+    }
+
 }

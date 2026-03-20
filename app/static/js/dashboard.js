@@ -34,4 +34,6 @@ document.body.addEventListener("htmx:load", function () {
             });
     });
 
+=======
+>>>>>>> Stashed changes
 });

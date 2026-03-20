@@ -10,9 +10,21 @@
 
 <div class="grid grid-1x">
 
-    <div class="card">
+    <div class="card grid polar-grid">
         <h2>Olá Admin</h2>
     </div>
+
+    <div class="registro-mobile">
+        <select id="registroSelect">
+            <option value="">Selecione o tipo de registro</option>
+            <option value="aluno">Registrar Aluno</option>
+            <option value="responsavel">Registrar Responsável</option>
+            <option value="professor">Registrar Professor</option>
+            <option value="secretaria">Registrar Secretaria</option>
+            <option value="turma">Registrar Turma</option>
+        </select>
+    </div>
+
 
     <div class="grid button-grid">
 
@@ -27,7 +39,7 @@
 
  
 
-        <a class="card-accent grid grid-1x "  hx-get="{{ url_for('registrar_aluno') }}" hx-target="#container-registro" hx-swap="innerHTML">
+        <a class="card-accent registro-mobile grid grid-1x "  hx-get="{{ url_for('registrar_aluno') }}" hx-target="#container-registro" hx-swap="innerHTML">
             <div class=""><span class="material">person</span></div>
             
             <h2>
@@ -37,28 +49,28 @@
 
         </a>
 
-        <a class="card-accent grid grid-1x " hx-get="{{url_for('registrar_responsavel')}}" hx-target="#container-registro" hx-swap="innerHTML">
+        <a class="card-accent registro-mobile grid grid-1x " hx-get="{{url_for('registrar_responsavel')}}" hx-target="#container-registro" hx-swap="innerHTML">
             <div class=""><span class="material">person</span></div>
 
             <h2>
                 Registrar Responsável
             </h2>
-            <p>Gerenciar cadastro e informações dos responsaveis</p>
+            <p>Gerenciar cadastro dos responsaveis</p>
 
         </a>
 
 
-        <a class="card-accent grid grid-1x"  hx-get="{{url_for('registrar_professor')}}" hx-target="#container-registro" hx-swap="innerHTML">
+        <a class="card-accent registro-mobile grid grid-1x"  hx-get="{{url_for('registrar_professor')}}" hx-target="#container-registro" hx-swap="innerHTML">
             <div class=""><span class="material">person</span></div>
 
             <h2>
                 Registrar Professor
             </h2>
-            <p>Gerenciar cadastro e informações dos professores</p>
+            <p>Gerenciar cadastro dos professores</p>
 
         </a>
 
-        <a class="card-accent grid grid-1x"  hx-get="{{url_for('registrar_secretaria')}}" hx-target="#container-registro" hx-swap="innerHTML">
+        <a class="card-accent registro-mobile grid grid-1x"  hx-get="{{url_for('registrar_secretaria')}}" hx-target="#container-registro" hx-swap="innerHTML">
             <div class=""><span class="material">person</span></div>
 
             <h2>
@@ -72,7 +84,7 @@
 
         
 
-        <a class="card-accent grid grid-1x " hx-get="{{url_for('criar_turma')}}" hx-target="#container-registro" hx-swap="innerHTML">
+        <a class="card-accent registro-mobile grid grid-1x " hx-get="{{url_for('criar_turma')}}" hx-target="#container-registro" hx-swap="innerHTML">
             <div class=""><span class="material">password</span></div>
 
             <h2>
