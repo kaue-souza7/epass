@@ -36,20 +36,5 @@ document.body.addEventListener("htmx:load", function () {
     });
 
 =======
-const select = document.getElementById("registroSelect");
-const cards = document.querySelectorAll(".registro-card");
-
-select.addEventListener("change", function(){
-
-    cards.forEach(card => {
-        card.style.display = "none";
-    });
-
-    const selecionado = document.getElementById(this.value);
-
-    if(selecionado){
-        selecionado.style.display = "block";
-    }
-
 >>>>>>> Stashed changes
 });
