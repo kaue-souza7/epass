@@ -7,6 +7,7 @@
             <div class="grid button-grid">
                 <input type="text" name="cpf" value="{{ request.args.get('cpf','') }}" placeholder="Digite o CPF do aluno">
                 <button type="submit">Cadastrar</button>
+                <button type="submit">Listar</button>
             </div>
             
         </div>
@@ -23,45 +24,103 @@
 
     
 
-        <h3>CPF: {{ request.args.get('cpf')  }}</h3>
+        <!-- <h3>CPF: {{ request.args.get('cpf')  }}</h3> -->
 
         <form method="POST"
               hx-post="/registrar_aluno/" 
               hx-target="#container-registro" 
               hx-swap="innerHTML">
-            {{ formAluno.csrf_token }}
+            <div class="grid grid-2x-1-3">
 
-            {{ formAluno.nome.label() }}
-            {{ formAluno.nome() }}
+                {{ formAluno.csrf_token }}
+                
+                    <div class="input-group">
+                        {{ formAluno.nome.label(required) }}
+                        {{ formAluno.nome() }}
+                    </div>
+    
+                    <div class="input-group">
+                        {{ formAluno.sobrenome.label() }}
+                        {{ formAluno.sobrenome() }}
+                    </div>
+
+                    <div class="input-group">
+                        {{ formAluno.cpf.label() }}
+                        {{ formAluno.cpf(value=cpf or '')}}
+                    </div>
+            
+                    {% for error in formAluno.cpf.errors %}
+                        <span style="color:red;">{{ error }}</span>
+                    {% endfor %}
+    
+    
+                    <div class="input-group">
+                        {{ formAluno.nascimento.label() }}
+                        {{ formAluno.nascimento() }}
+                    </div>
+                    <div class="input-group">
+                        {{ formAluno.turma_id.label() }}
+                        {{ formAluno.turma_id() }}
+    
+                    </div>
+                    <div class="input-group">
+    
+                        {{ formAluno.matricula.label() }}
+                        {{ formAluno.matricula() }}
+                    </div>
+
+                    <div class="input-group">
+    
+                        {{ formAluno.data_matricula.label() }}
+                        {{ formAluno.data_matricula() }}
+                    </div>
+                    <div class="input-group">
+    
+                        {{ formAluno.tipo_sanguineo.label() }}
+                        {{ formAluno.tipo_sanguineo() }}
+                    </div>
+                    <div class="input-group">
+                        {{ formAluno.cep.label() }}
+                        {{ formAluno.cep(id="cep") }}
+                    </div>
+
+                    <div class="input-group">
+                        {{ formAluno.rua.label() }}
+                        {{ formAluno.rua(id="rua") }}
+                    </div>
+
+                    <div class="input-group">
+                        {{ formAluno.numero.label() }}
+                        {{ formAluno.numero(id="numero") }}
+                    </div>
+
+                    <div class="input-group">
+                        {{ formAluno.bairro.label() }}
+                        {{ formAluno.bairro(id="bairro") }}
+                    </div>
+
+                    <div class="input-group">
+                        {{ formAluno.cidade.label() }}
+                        {{ formAluno.cidade(id="cidade") }}
+                    </div>
+
+                    <div class="input-group">
+                        {{ formAluno.estado.label() }}
+                        {{ formAluno.estado(id="estado") }}
+                    </div>
+                </div>
+
+                <div class="check">
+
+
+                </div>
+
             
 
-            {{ formAluno.sobrenome.label() }}
-            {{ formAluno.sobrenome() }}
 
-            {{ formAluno.cpf.label() }}
-            {{ formAluno.cpf(value=cpf or '')}}
-            {% for error in formAluno.cpf.errors %}
-                <span style="color:red;">{{ error }}</span>
-            {% endfor %}
+                    {{ formAluno.btnSubmit(class="button") }}
 
-            {{ formAluno.endereco.label() }}
-            {{ formAluno.endereco() }}
-
-            {{ formAluno.nascimento.label() }}
-            {{ formAluno.nascimento() }}
-
-            {{ formAluno.turma_id.label() }}
-            {{ formAluno.turma_id() }}
-
-
-            {{ formAluno.status.label() }}
-            {{ formAluno.status() }}
-
-
-
-
-
-            {{ formAluno.btnSubmit() }}
+            </div>
         </form>
 
         
@@ -71,3 +130,28 @@
 
 
 {% endif %}
+
+
+<select 
+    name="turma_id"
+    hx-get="/alunos/lista/"
+    hx-target="#lista-alunos"
+    hx-trigger="change">
+
+    <option value="">Todas</option>
+
+    {% for t in turmas %}
+        <option value="{{ t.id }}">{{ t.nome }}</option>
+    {% endfor %}
+</select>
+
+<div 
+    id="lista-alunos"
+    hx-get="/alunos/lista"
+    hx-trigger="load">
+</div>
+
+
+<script>
+
+</script>

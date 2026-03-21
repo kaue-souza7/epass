@@ -10,6 +10,28 @@ class TipoUsuario(enum.Enum):
     ADMIN = "admin"
     PROFESSOR = "professor"
 
+class TipoSanguineo(enum.Enum):
+    A_POSITIVO = "A+"
+    A_NEGATIVO = "A-"
+    B_POSITIVO = "B+"
+    B_NEGATIVO = "B-"
+    AB_POSITIVO = "AB+"
+    AB_NEGATIVO = "AB-"
+    O_POSITIVO = "O+"
+    O_NEGATIVO = "O-"
+
+class Logradouro(db.Model):
+    __tablename__ = 'logradouros'
+
+    id = db.Column(db.Integer, primary_key=True)
+    rua = db.Column(db.String(150))
+    numero = db.Column(db.String(10))
+    bairro = db.Column(db.String(100))
+    cidade = db.Column(db.String(100))
+    estado = db.Column(db.String(2))
+    cep = db.Column(db.String(10))
+
+
 
 responsavel_aluno = db.Table(
     "responsavel_aluno",
@@ -50,10 +72,13 @@ class Aluno(db.Model):
     nome = db.Column(db.String, nullable=True)
     sobrenome = db.Column(db.String, nullable=True)
     cpf = db.Column(db.String(14), unique=True, nullable=False)
-    endereco = db.Column(db.String(255), nullable=False)
     nascimento = db.Column(db.Date, nullable=False)
     status = db.Column(db.Boolean, default=True)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
+
+    matricula = db.Column(db.String(20), nullable=True)
+    data_matricula = db.Column(db.Date, nullable=True)
+    tipo_sanguineo = db.Column(db.Enum(TipoSanguineo), nullable=True)
 
     responsaveis = db.relationship(
         "Responsavel",
@@ -61,6 +86,13 @@ class Aluno(db.Model):
         back_populates="alunos"
     )
     turma_id = db.Column(db.Integer, db.ForeignKey('turmas.id', name='fk_aluno_turma'), nullable=True)
+
+    logradouro_id = db.Column(db.Integer, db.ForeignKey('logradouros.id', name='fk_aluno_logradouro'), nullable=True)
+    logradouro = db.relationship('Logradouro')
+
+    __table_args__ = (
+        db.UniqueConstraint('matricula', name='uq_aluno_matricula'),
+    )
 
 
     def __str__(self):
@@ -73,14 +105,14 @@ class Professor(db.Model):
     cpf = db.Column(db.String(14), unique=True, nullable=False)
     telefone = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(150), nullable=False)
-    endereco = db.Column(db.String(255), nullable=False)
     formacao = db.Column(db.String(150), nullable=False)
     turno = db.Column(db.String(20), nullable=False)  # manhã, tarde, noite
     nascimento = db.Column(db.Date, nullable=False)
     status = db.Column(db.Boolean, default=True)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
 
-
+    logradouro_id = db.Column(db.Integer, db.ForeignKey('logradouros.id', name='fk_professor_logradouro'), nullable=True)
+    logradouro = db.relationship('Logradouro')
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False, unique=True)
 
     __table_args__ = (
@@ -109,12 +141,12 @@ class Secretaria(db.Model):
 
 class Responsavel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-
     telefone = db.Column(db.String(20), nullable=False)
-    endereco = db.Column(db.String(200), nullable=False)
     nascimento = db.Column(db.Date, nullable=False)
 
 
+    logradouro_id = db.Column(db.Integer, db.ForeignKey('logradouros.id', name='fk_responsavel_logradouro'), nullable=True)
+    logradouro = db.relationship('Logradouro')
 
     user_id = db.Column(
         db.Integer,

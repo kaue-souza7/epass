@@ -1,13 +1,18 @@
-<h2>Cadastrar um Responsavel</h2>
+<div class="card-form table-section grid grid-1x">
+    <form hx-post="/registrar_responsavel/" 
+        hx-target="#container-registro"
+        hx-swap="innerHTML">
+        <div class="grid polar-grid">
+            <h2>Cadastrar Responsável</h2>
+                <div class="grid button-grid">
+                <input type="text" name="cpf" value="{{cpf or '' }}" placeholder="Digite o CPF do filho">
+                <button type="submit">Procurar</button>
+                
+            </div>
+        </div>
 
-<form hx-post="/registrar_responsavel/" 
-      hx-target="#container-registro"
-      hx-swap="innerHTML">
-    <input type="text" name="cpf" value="{{cpf or '' }}" placeholder="Digite o CPF do filho">
-    <button type="submit">Procurar</button>
-
-</form>
-
+    </form>
+</div>
 
 
 {% if cpf %}
@@ -19,55 +24,107 @@
                 hx-target="#container-registro"
                 hx-swap="innerHTML">
             {{ FormRespUser.csrf_token }}
+            <div class="grid grid-2x-1-3">
 
             
 
             <input type="hidden" name="cpf" value="{{ cpf }}">
+            <div class="input-group">
 
-            {{ FormRespUser.nome.label() }}
-            {{ FormRespUser.nome() }}
+                {{ FormRespUser.nome.label() }}
+                {{ FormRespUser.nome() }}
+            </div>
+            <div class="input-group">
 
             {{ FormRespUser.sobrenome.label() }}
             {{ FormRespUser.sobrenome() }}
+            </div>
+            <div class="input-group">
 
             {{ FormRespUser.email.label() }}
             {{ FormRespUser.email() }}
+            </div>
+
             {% for error in FormRespUser.email.errors %}
                 <span style="color:red">{{ error }}</span>
             {% endfor %}
 
-            <br>
-            <br>
-
+            
+            <div class="input-group">
             {{ FormRespUser.senha.label() }}
             {{ FormRespUser.senha() }}
+            </div>
+            <div class="input-group">
 
             {{ FormRespUser.confirmacao_senha.label() }}
             {{ FormRespUser.confirmacao_senha() }}
+            </div>
 
-            <br>
-            <br>
+            <div class="input-group">
+                {{ FormRespUser.tipo_usuario.label }}
+                {{ FormRespUser.tipo_usuario() }}
+            </div>
 
-            {{ FormRespUser.tipo_usuario.label }}
-            {{ FormRespUser.tipo_usuario() }}
+            <div class="input-group">
+                {{ FormRespUser.telefone.label }}
+                {{ FormRespUser.telefone() }}
+            </div>
 
-
-
-
+            <div class="input-group">
+                {{ FormRespUser.endereco.label }}
+                {{ FormRespUser.endereco() }}
+            </div>
             
-            {{ FormRespUser.telefone.label }}
+            <div class="input-group">
+                {{ FormRespUser.nascimento.label }}
+                {{ FormRespUser.nascimento(type="date") }}
+            </div>
+
+
+            {{ FormRespUser.telefone.label() }}
             {{ FormRespUser.telefone() }}
 
-            {{ FormRespUser.endereco.label }}
-            {{ FormRespUser.endereco() }}
 
-            {{ FormRespUser.nascimento.label }}
+            {{ FormRespUser.nascimento.label() }}
             {{ FormRespUser.nascimento(type="date") }}
 
             <br>
+
+            <div class="input-group">
+                {{ FormRespUser.cep.label() }}
+                {{ FormRespUser.cep(id="cep") }}
+            </div>
+
+            <div class="input-group">
+                {{ FormRespUser.rua.label() }}
+                {{ FormRespUser.rua(id="rua") }}
+            </div>
+
+            <div class="input-group">
+                {{ FormRespUser.numero.label() }}
+                {{ FormRespUser.numero(id="numero") }}
+            </div>
+
+            <div class="input-group">
+                {{ FormRespUser.bairro.label() }}
+                {{ FormRespUser.bairro(id="bairro") }}
+            </div>
+
+            <div class="input-group">
+                {{ FormRespUser.cidade.label() }}
+                {{ FormRespUser.cidade(id="cidade") }}
+            </div>
+
+            <div class="input-group">
+                {{ FormRespUser.estado.label() }}
+                {{ FormRespUser.estado(id="estado") }}
+            </div>
         
 
-            {{ FormRespUser.btnSubmit() }}
+    
+            </div>
+            {{ FormRespUser.btnSubmit(class="button") }}
+
 
         </form> 
     {% endif %}

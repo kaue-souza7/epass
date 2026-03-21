@@ -57,14 +57,19 @@ def home():
 # @login_required
 def registrar_user():
     form = UserForm()
-    print(form.tipo_usuario.data)
-    if form.tipo_usuario.data == 'RESPONSAVEL':
+    if form.validate_on_submit():
+        form.save()
+        return redirect(url_for('home'))
 
-        if form.validate_on_submit():
-            # form.save()
-            return redirect(url_for('registrar_user'))
-    if form.tipo_usuario.data == 'RESPONSAVEL':
-        ...
+
+    # print(form.tipo_usuario.data)
+    # if form.tipo_usuario.data == 'RESPONSAVEL':
+
+    #     if form.validate_on_submit():
+    #         form.save()
+    #         return redirect(url_for('registrar_user'))
+    # if form.tipo_usuario.data == 'RESPONSAVEL':
+    #     ...
     
     
     return render_template('register/registrar_user.html', form=form)
@@ -78,7 +83,7 @@ def registrar_user():
 
 @app.route('/registrar_aluno/', methods=['GET', 'POST'])
 def registrar_aluno():
-
+    turmas = Turmas.query.all()
     cpf = request.args.get('cpf') or request.form.get('cpf')
     formAluno = AlunoForm()
 
@@ -91,7 +96,8 @@ def registrar_aluno():
             return render_template(
                 'register/registrar_aluno.html',
                 cpf=cpf,
-                msg=msg
+                msg=msg,
+                turmas=turmas
             )
 
         if request.method == "POST":
@@ -100,7 +106,7 @@ def registrar_aluno():
                 print('form valido')
 
                 formAluno.save()
-                FormRespUser = RespUserForm()
+                FormRespUser = RespUserForm(formdata=None)
 
                 return render_template(
                     'register/registrar_responsavel.html',
@@ -113,14 +119,23 @@ def registrar_aluno():
             'register/registrar_aluno.html',
             cpf=cpf,
             formAluno=formAluno,
-            origem='aluno'
+            origem='aluno',
+            turmas=turmas
         )
 
-    return render_template('register/registrar_aluno.html')
+    return render_template('register/registrar_aluno.html', turmas=turmas)
 
 
+@app.route('/alunos/lista/')
+def lista_alunos():
+    turma_id = request.args.get('turma_id')
 
+    if turma_id:
+        alunos = Aluno.query.filter_by(turma_id=turma_id).all()
+    else:
+        alunos = Aluno.query.all()
 
+    return render_template('partials/aluno_lista.html', alunos=alunos)
 
 
 # /////////////// RESPONSAVEL ///////////////
@@ -137,6 +152,7 @@ def registrar_responsavel():
     if cpf:
         aluno = Aluno.query.filter_by(cpf=cpf).first()
 
+
         if not aluno:
             msg = "Aluno não encontrado!"
     else:
@@ -144,6 +160,7 @@ def registrar_responsavel():
 
 
     if FormRespUser.validate_on_submit():
+        print(FormRespUser.errors)
         responsavel = FormRespUser.save()
 
         aluno = Aluno.query.filter_by(cpf=cpf).first()
