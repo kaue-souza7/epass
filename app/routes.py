@@ -2,7 +2,11 @@
 from wtforms import ValidationError
 from app import app, db
 from flask import Response, flash, make_response, render_template, send_file, url_for, request, redirect, abort, session
+<<<<<<< Updated upstream
 from app.models import Responsavel, User, TipoUsuario, Aluno, Turmas
+=======
+from app.models import Responsavel, Turmas, User, TipoUsuario, Aluno
+>>>>>>> Stashed changes
 from app.forms import AlunoForm, ProfessorForm, RespUserForm, ResponsavelForm, SecretariaForm, UserForm, LoginForm, TurmaForm
 
 from sqlalchemy import desc
