@@ -2,7 +2,7 @@
 from wtforms import ValidationError
 from app import app, db
 from flask import Response, flash, make_response, render_template, send_file, url_for, request, redirect, abort, session
-from app.models import Responsavel, User, TipoUsuario, Aluno
+from app.models import Responsavel, User, TipoUsuario, Aluno, Turmas
 from app.forms import AlunoForm, ProfessorForm, RespUserForm, ResponsavelForm, SecretariaForm, UserForm, LoginForm, TurmaForm
 
 from sqlalchemy import desc
@@ -186,24 +186,17 @@ def registrar_responsavel():
 @app.route('/registrar_professor/', methods=['GET', 'POST'])
 # @login_required
 def registrar_professor():
-    formUser = UserForm()
+    form = ProfessorForm()
 
+    print("VALID:", form.validate_on_submit())
+    print("ERROS:", form.errors)
+    print("FORM DATA:", request.form)
 
-    if formUser.validate_on_submit():
-        formUser.save()
-        formProfessor = ProfessorForm()
-        return render_template('register/registrar_professor.html', formProfessor=formProfessor)
-    
-    formProfessor = ProfessorForm()
-
-    if formProfessor.validate_on_submit():
-        formProfessor.save()
-
-        flash(f"Professor cadastrado no sistema ✅", "sucesso")
+    if form.validate_on_submit():
+        form.save()
         return redirect(url_for('registrar_professor'))
     
-    return render_template('register/registrar_professor.html', formUser=formUser)
-
+    return render_template('register/registrar_professor.html', form=form)
 
 
 

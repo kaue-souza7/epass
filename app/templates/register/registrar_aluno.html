@@ -7,7 +7,11 @@
             <div class="grid button-grid">
                 <input type="text" name="cpf" value="{{ request.args.get('cpf','') }}" placeholder="Digite o CPF do aluno">
                 <button type="submit">Cadastrar</button>
-                <button type="submit">Listar</button>
+                <button type="button"
+                        hx-get="/alunos/lista/"
+                        hx-target="#lista-alunos"
+                        hx-swap="innerHTML" 
+                >Listar</button>
             </div>
             
         </div>
@@ -147,7 +151,7 @@
 
 <div 
     id="lista-alunos"
-    hx-get="/alunos/lista"
+    hx-get="/alunos/lista/"
     hx-trigger="load">
 </div>
 
