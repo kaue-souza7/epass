@@ -1,16 +1,39 @@
 table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
 }
 
 th, td {
     padding: 5px;
     text-align: left;
     border-bottom: 1px solid var(--subcard-hover);
+    border-right: 1px solid var(--subcard-hover);
+}
+
+th:first-child, td:first-child {
+    border-left: 1px solid var(--subcard-hover);
 }
 
 th {
     color: var(--link);
+    border-top: 1px solid var(--subcard-hover);
+}
+
+thead tr:first-child th:first-child {
+    border-radius: 12px 0 0 0;
+}
+
+thead tr:first-child th:last-child {
+    border-radius: 0 12px 0 0;
+}
+
+tbody tr:last-child td:first-child {
+    border-radius: 0 0 0 12px;
+}
+
+tbody tr:last-child td:last-child {
+    border-radius: 0 0 12px 0;
 }
 
 .inactive, .idle, .active {

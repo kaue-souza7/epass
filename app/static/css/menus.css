@@ -8,12 +8,13 @@ aside {
     justify-content: space-between;
     align-items: center;
     border-right: 4px solid var(--shadow1);
-              
+    position: sticky; 
+    top: 0;         
     
 }
 
 .sidebar {
-    overflow: hidden;
+    /* overflow: hidden; */
     height: 100vh;
     
 }

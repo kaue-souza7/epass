@@ -119,9 +119,6 @@
 
                 </div>
 
-            
-
-
                     {{ formAluno.btnSubmit(class="button") }}
 
             </div>
@@ -135,7 +132,7 @@
 
 {% endif %}
 
-
+<div class="input-group">
 <select 
     name="turma_id"
     hx-get="/alunos/lista/"
@@ -148,6 +145,7 @@
         <option value="{{ t.id }}">{{ t.nome }}</option>
     {% endfor %}
 </select>
+</div>
 
 <div 
     id="lista-alunos"

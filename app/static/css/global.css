@@ -69,8 +69,11 @@ body {
     background-color: var(--background);
 }
 section{
+    flex: 1;
+    min-height: 100vh;
     background: var(--background);
 }
+
 .text-accent{
     color: var(--card-accent-text);
 }
