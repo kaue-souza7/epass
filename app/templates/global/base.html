@@ -6,8 +6,8 @@
     <title>Document</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
     
- {% block override_home %}
-{%endblock%}
+    {% block override_home %}
+    {% endblock %}
 </head>
 <body>
 
@@ -26,6 +26,10 @@
         </div>
     </section>
 
-    <script src="{{ url_for('static', filename='js/dashboard.css') }}"></script>
+    <script src="{{ url_for('static', filename='js/config.js') }}">
+        
+    </script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}">
+    </script>
 </body>
 </html>
