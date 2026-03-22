@@ -6,7 +6,11 @@ section {
     scrollbar-gutter: stable;
     
 }
+.button-form{
+    width: 3rem;
+    height: 3rem;
 
+}
 section img{
     width: 10rem;
     height: 10rem;
@@ -22,7 +26,7 @@ section .button-grid a p {
 section .button-grid{
     grid-auto-flow: column;
     align-items: stretch;
-    grid-auto-columns: 1fr;
+    /* grid-auto-columns: 1fr; */
 }
 section .button-grid a {
     max-width: none;

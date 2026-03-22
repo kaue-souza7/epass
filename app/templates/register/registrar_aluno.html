@@ -6,12 +6,12 @@
             <h2>Cadastrar Aluno</h2>
             <div class="grid button-grid">
                 <input type="text" name="cpf" value="{{ request.args.get('cpf','') }}" placeholder="Digite o CPF do aluno">
-                <button type="submit">Cadastrar</button>
-                <button type="button"
+                <button type="submit" class="button-form material">person_add</button>
+                <button type="button" class="button-form material"
                         hx-get="/alunos/lista/"
                         hx-target="#lista-alunos"
                         hx-swap="innerHTML" 
-                >Listar</button>
+                > menu</button>
             </div>
             
         </div>
