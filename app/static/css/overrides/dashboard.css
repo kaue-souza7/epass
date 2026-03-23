@@ -1,22 +1,41 @@
 @import url(../global.css);
 
 section {
-    width: 100%;
+     height: 100vh;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
     
 }
+.button-form{
+    width: 3rem;
+    height: 3rem;
 
+}
 section img{
     width: 10rem;
     height: 10rem;
     z-index: 2;
 }
+section .button-grid a h2 {
+    font-size: 0.95rem;
+}
+
+section .button-grid a p {
+    font-size: 0.8rem;
+}
+section .button-grid{
+    grid-auto-flow: column;
+    align-items: stretch;
+    /* grid-auto-columns: 1fr; */
+}
 section .button-grid a {
-    max-width: 16.2rem;
-    height: 9rem;
+    max-width: none;
+    height: auto;
+    min-height: 9rem;
 }
 
 section .grid{
-    /* width: 40vh; */
+    width: 100%;
     display: grid;
     justify-content: space-between;
     align-items: center;
@@ -71,7 +90,7 @@ input::placeholder {
     color: var(--input-unfocused);
 }
 .card-accent{
-    width: 30vh;
+    width: 25vh;
 }
 /* mobile */
 

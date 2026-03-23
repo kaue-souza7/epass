@@ -6,26 +6,30 @@
     <title>Document</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
     
- {% block override_home %}
-{%endblock%}
+    {% block override_home %}
+    {% endblock %}
 </head>
 <body>
 
 
-
-    <div class="navbar-container">
-        {% block navbar %}
-            {% include "global/nav.html" %}
-        {% endblock %}
-    </div>
-   
-
-    <section>
-        <div class="grid grid-1x">
-            {% block content %} {% endblock %}
+        <div class="navbar-container">
+            {% block navbar %}
+                {% include "global/nav.html" %}
+            {% endblock %}
         </div>
-    </section>
+    
 
-    <script src="{{ url_for('static', filename='js/dashboard.css') }}"></script>
+        <section>
+            <div class="grid grid-1x">
+                {% block content %} {% endblock %}
+            </div>
+        </section>
+
+
+    <script src="{{ url_for('static', filename='js/config.js') }}">
+        
+    </script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}">
+    </script>
 </body>
 </html>

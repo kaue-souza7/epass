@@ -6,7 +6,7 @@
             <h2>Cadastrar Responsável</h2>
                 <div class="grid button-grid">
                 <input type="text" name="cpf" value="{{cpf or '' }}" placeholder="Digite o CPF do filho">
-                <button type="submit">Procurar</button>
+                <button type="submit" class="button-form material">search</button>
                 
             </div>
         </div>
@@ -70,10 +70,6 @@
                 {{ FormRespUser.telefone() }}
             </div>
 
-            <div class="input-group">
-                {{ FormRespUser.endereco.label }}
-                {{ FormRespUser.endereco() }}
-            </div>
             
             <div class="input-group">
                 {{ FormRespUser.nascimento.label }}

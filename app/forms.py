@@ -154,6 +154,7 @@ class AlunoForm(FlaskForm):
 
 class ProfessorForm(FlaskForm):
 
+
     cpf = StringField("CPF",validators=[DataRequired(), Length(min=11, max=14)])
     telefone = StringField("Telefone",validators=[DataRequired(), Length(max=20)])
     email = StringField("Email",validators=[DataRequired(), Length(max=150)])
@@ -168,6 +169,7 @@ class ProfessorForm(FlaskForm):
         ],
         validators=[DataRequired()]
     )
+
 
     cep = StringField("CEP", validators=[DataRequired(), Length(min=8, max=9)])
     rua = StringField("Rua", validators=[DataRequired(), Length(max=150)])
