@@ -130,11 +130,12 @@ def registrar_aluno():
 @app.route('/alunos/lista/')
 def lista_alunos():
     turma_id = request.args.get('turma_id')
+    page = request.args.get('page', 1, type=int)
 
     if turma_id:
-        alunos = Aluno.query.filter_by(turma_id=turma_id).all()
+        alunos = Aluno.query.filter_by(turma_id=turma_id).paginate(page=page, per_page=8, error_out=False)
     else:
-        alunos = Aluno.query.all()
+        alunos = Aluno.query.paginate(page=page, per_page=8, error_out=False)
 
     return render_template('partials/aluno_lista.html', alunos=alunos)
 
