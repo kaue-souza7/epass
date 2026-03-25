@@ -140,12 +140,25 @@ def lista_alunos():
     return render_template('partials/aluno_lista.html', alunos=alunos)
 
 
+@app.route('/toggle_status/<int:id>', methods=['GET', 'POST'])
+def toggle_status(id):
+    aluno = Aluno.query.get_or_404(id)
+    
+    aluno.status = not aluno.status  # inverte True/False
+    
+    db.session.commit()
+    
+    return redirect(url_for('registrar_aluno')) 
+
+
+
+
 # /////////////// RESPONSAVEL ///////////////
 
 
 @app.route('/registrar_responsavel/', methods=['GET', 'POST'])
 def registrar_responsavel():
-
+    turmas = Turmas.query.all()
     FormRespUser = RespUserForm()
 
     cpf = request.form.get('cpf') or request.args.get('cpf')
@@ -176,9 +189,26 @@ def registrar_responsavel():
         'register/registrar_responsavel.html',
         FormRespUser=FormRespUser,
         cpf=cpf,
-        msg=msg
+        msg=msg,
+        turmas=turmas
     )
 
+@app.route('/responsavel/lista/')
+def lista_responsavel():
+    turma_id = request.args.get('turma_id')
+    page = request.args.get('page', 1, type=int)
+
+    if turma_id:
+        responsaveis = (
+            Responsavel.query
+            .join(Responsavel.alunos)  # usa o relacionamento MANY-TO-MANY
+            .filter(Aluno.turma_id == int(turma_id))
+            .paginate(page=page, per_page=8, error_out=False)
+        )
+    else:
+        responsaveis = Responsavel.query.paginate(page=page, per_page=8, error_out=False)
+
+    return render_template('partials/responsavel_lista.html', responsaveis=responsaveis)
 
 
 
@@ -188,17 +218,27 @@ def registrar_responsavel():
 @app.route('/registrar_professor/', methods=['GET', 'POST'])
 # @login_required
 def registrar_professor():
+    formUser = UserForm(tipo_usuario='PROFESSOR')
+
+    if formUser.validate_on_submit():
+        formUser.save()
+        form = ProfessorForm()
+        return render_template('register/registrar_professor.html', form=form)
+
+    # print("VALID:", form.validate_on_submit())
+    # print("ERROS:", form.errors)
+    # print("FORM DATA:", request.form)
+
     form = ProfessorForm()
 
-    print("VALID:", form.validate_on_submit())
-    print("ERROS:", form.errors)
-    print("FORM DATA:", request.form)
 
     if form.validate_on_submit():
         form.save()
+        flash(f"Professor cadastrado no sistema! ✅", "sucesso")
+
         return redirect(url_for('registrar_professor'))
     
-    return render_template('register/registrar_professor.html', form=form)
+    return render_template('register/registrar_professor.html', formUser=formUser)
 
 
 
@@ -208,7 +248,7 @@ def registrar_professor():
 @app.route('/registrar_secretaria/', methods=['GET', 'POST'])
 # @login_required
 def registrar_secretaria():
-    formUser = UserForm()
+    formUser = UserForm(tipo_usuario='SECRETARIA')
 
 
     if formUser.validate_on_submit():
@@ -221,7 +261,7 @@ def registrar_secretaria():
     if formSec.validate_on_submit():
         formSec.save()
 
-        flash(f"Secretaria cadastrado no sistema ✅", "sucesso")
+        flash(f"Secretaria cadastrado no sistema! ✅", "sucesso")
         return redirect(url_for('registrar_secretaria'))
     
     return render_template('register/registrar_secretaria.html', formUser=formUser)

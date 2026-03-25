@@ -7,6 +7,8 @@
             <th>Turma</th>
             <th>Data de Nascimento</th>
             <th>Status</th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -18,6 +20,19 @@
                 <td>{{ aluno.turma.nome if aluno.turma else '-' }}</td>
                 <td>{{ aluno.nascimento.strftime('%d/%m/%Y') if aluno.nascimento else '-' }}</td>
                 <td>{{ 'Ativo' if aluno.status else 'Inativo' }}</td>
+                <td>
+                    <button 
+                        hx-post="{{ url_for('toggle_status', id=aluno.id) }}"
+                        hx-target="#container-registro"
+                        hx-swap="innerHTML">
+                        {{ 'Inativar' if aluno.status else 'Ativar' }}
+                    </button>
+                </td>
+                <td > 
+                    <button class="material">
+                        edit
+                    </button>
+                </td>
             </tr>
         {% endfor %}
     </tbody>
@@ -46,7 +61,7 @@
             hx-include="#filtro-turma"
             
         >
-            >
+            
             Próxima
         </a>
     {% endif %}
