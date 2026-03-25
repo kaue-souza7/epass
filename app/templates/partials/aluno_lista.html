@@ -7,6 +7,8 @@
             <th>Turma</th>
             <th>Data de Nascimento</th>
             <th>Status</th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -18,7 +20,53 @@
                 <td>{{ aluno.turma.nome if aluno.turma else '-' }}</td>
                 <td>{{ aluno.nascimento.strftime('%d/%m/%Y') if aluno.nascimento else '-' }}</td>
                 <td>{{ 'Ativo' if aluno.status else 'Inativo' }}</td>
+                <td>
+                    <button 
+                        hx-post="{{ url_for('toggle_status', id=aluno.id) }}"
+                        hx-target="#container-registro"
+                        hx-swap="innerHTML">
+                        {{ 'Inativar' if aluno.status else 'Ativar' }}
+                    </button>
+                </td>
+                <td > 
+                    <button class="material"
+                        hx-get="{{ url_for('update_aluno', id=aluno.id) }}"
+                        hx-target="#container-form"
+                        hx-swap="innerHTML">
+                        edit
+                    </button>
+                </td>
             </tr>
         {% endfor %}
     </tbody>
 </table>
+
+<div class="pagination" style="margin-top: 15px;">
+
+    {% if alunos.has_prev %}
+
+        <a hx-get="{{ url_for('lista_alunos', page=alunos.prev_num) }}"
+            hx-target="#lista-alunos"
+            hx-swap="innerHTML"
+            hx-include="#filtro-turma"
+
+        >
+            Anterior
+        </a>
+    {% endif %}
+
+    Página {{ alunos.page }} de {{ alunos.pages }}
+
+    {% if alunos.has_next %}
+        <a hx-get="{{ url_for('lista_alunos', page=alunos.next_num) }}"
+            hx-target="#lista-alunos"
+            hx-swap="innerHTML"
+            hx-include="#filtro-turma"
+            
+        >
+            
+            Próxima
+        </a>
+    {% endif %}
+
+</div>

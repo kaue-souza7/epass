@@ -1,0 +1,60 @@
+<table >
+    <thead>
+        <tr>
+            <!-- <th>Nome</th>
+            <th>E-mail</th>
+            <th>Telefone</th> -->
+            <th>ID</th>
+            <th>Nome</th>
+            <th>E-email</th>
+            <th>Telefone</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for resp in responsaveis %}
+            <tr>
+                <td>{{ resp.id }}</td>
+                <td>{{ resp.user.nome}} {{ resp.user.sobrenome }}</td>
+                <td>{{ resp.user.email }}</td>
+                <td>{{ resp.telefone }}</td>
+
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="pagination" style="margin-top: 15px;">
+
+    {% if responsaveis.has_prev %}
+
+        <a hx-get="{{ url_for('lista_responsavel', page=responsaveis.prev_num) }}"
+            hx-target="#lista-responsaveis"
+            hx-swap="innerHTML"
+            hx-include="#filtro-aluno"
+
+        ></a>
+            Anterior
+        </a>
+    {% endif %}
+
+    Página {{ responsaveis.page }} de {{ responsaveis.pages }}
+
+    {% if responsaveis.has_next %}
+        <a hx-get="{{ url_for('lista_responsavel', page=responsaveis.next_num) }}"
+            hx-target="#lista-responsaveis"
+            hx-swap="innerHTML"
+            hx-include="#filtro-aluno"
+            
+        >
+            
+            Próxima
+        </a>
+    {% endif %}
+
+</div>
+
+
+
+
+
+

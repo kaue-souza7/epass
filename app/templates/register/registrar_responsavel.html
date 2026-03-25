@@ -125,3 +125,28 @@
         </form> 
     {% endif %}
 {% endif %}
+
+
+
+
+
+<div class="input-group">
+    <select 
+        name="turma_id"
+        hx-get="/responsavel/lista/"
+        hx-target="#lista-responsaveis"
+        hx-trigger="change">
+
+        <option value="">Todas</option>
+
+        {% for t in turmas %}
+            <option value="{{ t.id }}">{{ t.nome }}</option>
+        {% endfor %}
+    </select>
+</div>
+
+<div 
+    id="lista-responsaveis"
+    hx-get="/responsavel/lista/"
+    hx-trigger="load">
+</div>

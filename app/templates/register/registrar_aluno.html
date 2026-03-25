@@ -132,28 +132,36 @@
 
 {% endif %}
 
+<!-- FORM DE EDIÇÃO (IMPORTANTE) -->
+<div id="container-form"></div>
+
+<!--  FLASH -->
+<div style="margin-top: 15px;"
+    id="update_aluno"  
+    hx-get="/alunos/update_flash/"
+    hx-trigger="mostrarFlash from:body"
+    hx-swap="innerHTML">
+</div>
+
 <div class="input-group">
-<select 
-    name="turma_id"
-    hx-get="/alunos/lista/"
-    hx-target="#lista-alunos"
-    hx-trigger="change">
+    <select 
+        name="turma_id"
+        hx-get="/alunos/lista/"
+        hx-target="#lista-alunos"
+        hx-trigger="change">
 
-    <option value="">Todas</option>
+        <option value="">Todas</option>
 
-    {% for t in turmas %}
-        <option value="{{ t.id }}">{{ t.nome }}</option>
-    {% endfor %}
-</select>
+        {% for t in turmas %}
+            <option value="{{ t.id }}">{{ t.nome }}</option>
+        {% endfor %}
+    </select>
 </div>
 
 <div 
     id="lista-alunos"
     hx-get="/alunos/lista/"
-    hx-trigger="load">
+    hx-trigger="load, alunoAtualizado from:body">
 </div>
 
 
-<script>
-
-</script>
