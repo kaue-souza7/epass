@@ -29,7 +29,10 @@
                     </button>
                 </td>
                 <td > 
-                    <button class="material">
+                    <button class="material"
+                        hx-get="{{ url_for('update_aluno', id=aluno.id) }}"
+                        hx-target="#container-form"
+                        hx-swap="innerHTML">
                         edit
                     </button>
                 </td>

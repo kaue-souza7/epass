@@ -2,7 +2,7 @@
 from wtforms import ValidationError
 from app import app, db
 from flask import Response, flash, make_response, render_template, send_file, url_for, request, redirect, abort, session
-from app.models import Responsavel, User, TipoUsuario, Aluno, Turmas
+from app.models import Logradouro, Responsavel, User, TipoUsuario, Aluno, Turmas
 
 from app.forms import AlunoForm, ProfessorForm, RespUserForm, ResponsavelForm, SecretariaForm, UserForm, LoginForm, TurmaForm
 
@@ -17,6 +17,11 @@ from flask_login import logout_user, login_user, current_user, login_required
 from datetime import datetime, timezone
 
 import csv
+
+
+@app.route('/alunos/update_flash/')
+def update_flash():
+    return render_template('partials/flash.html')
 
 
 @app.route('/login/', methods=['GET', 'POST'])
@@ -149,6 +154,48 @@ def toggle_status(id):
     db.session.commit()
     
     return redirect(url_for('registrar_aluno')) 
+
+
+@app.route('/alunos/update/<int:id>', methods=['GET', 'POST'])
+def update_aluno(id):
+    aluno = Aluno.query.get_or_404(id)
+    form = AlunoForm(obj=aluno)  # 🔥 aqui já popula o form automaticamente
+
+    # ✅ GET → popular form com logradouro
+    if request.method == 'GET':
+        if aluno.logradouro:
+            form.cep.data = aluno.logradouro.cep
+            form.rua.data = aluno.logradouro.rua
+            form.numero.data = aluno.logradouro.numero
+            form.bairro.data = aluno.logradouro.bairro
+            form.cidade.data = aluno.logradouro.cidade
+            form.estado.data = aluno.logradouro.estado
+
+    print("VALIDOU?", form.validate_on_submit())
+    print(form.errors)
+    # ✅ POST → salvar alterações
+    if form.validate_on_submit():
+        form.populate_obj(aluno)
+
+        if not aluno.logradouro:
+            aluno.logradouro = Logradouro()
+
+        aluno.logradouro.cep = form.cep.data
+        aluno.logradouro.rua = form.rua.data
+        aluno.logradouro.numero = form.numero.data
+        aluno.logradouro.bairro = form.bairro.data
+        aluno.logradouro.cidade = form.cidade.data
+        aluno.logradouro.estado = form.estado.data
+
+        db.session.commit()
+        flash(f'Aluno atualizado com sucesso! ✅', 'sucesso')
+        # o que eu posso fazer aqui jatestei tanto redirect quanto render template
+        response = make_response('')
+        response.headers['HX-Trigger'] = 'alunoAtualizado, mostrarFlash'
+        return response
+
+
+    return render_template('partials/aluno_update.html', form=form, aluno=aluno)
 
 
 
