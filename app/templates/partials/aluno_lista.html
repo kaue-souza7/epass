@@ -21,20 +21,20 @@
                 <td>{{ aluno.nascimento.strftime('%d/%m/%Y') if aluno.nascimento else '-' }}</td>
                 <td>{{ 'Ativo' if aluno.status else 'Inativo' }}</td>
                 <td>
-                    <button 
+                    <a 
                         hx-post="{{ url_for('toggle_status', id=aluno.id) }}"
                         hx-target="#container-registro"
                         hx-swap="innerHTML">
                         {{ 'Inativar' if aluno.status else 'Ativar' }}
-                    </button>
+                </a>
                 </td>
                 <td > 
-                    <button class="material"
+                    <a 
                         hx-get="{{ url_for('update_aluno', id=aluno.id) }}"
                         hx-target="#container-form"
                         hx-swap="innerHTML">
                         edit
-                    </button>
+                </a>
                 </td>
             </tr>
         {% endfor %}
