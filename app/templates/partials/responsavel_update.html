@@ -1,0 +1,59 @@
+
+<form
+    hx-post="/responsaveis/update/{{ responsavel.id }}"
+    hx-target="#container-form"
+    hx-swap="innerHTML">
+    <div class="grid grid-2x-1-3">
+        {{ form.csrf_token }}
+
+        <div class="input-group">
+            {{ form.telefone.label() }}
+            {{ form.telefone() }}
+        </div>
+
+
+        <div class="input-group">
+            {{ form.nascimento.label() }}
+            {{ form.nascimento() }}
+        </div>
+
+        <div class="input-group">
+            {{ form.cep.label() }}
+            {{ form.cep(id="cep") }}
+        </div>
+
+        <div class="input-group">
+            {{ form.rua.label() }}
+            {{ form.rua(id="rua") }}
+        </div>
+
+        <div class="input-group">
+            {{ form.numero.label() }}
+            {{ form.numero(id="numero") }}
+        </div>
+
+        <div class="input-group">
+            {{ form.bairro.label() }}
+            {{ form.bairro(id="bairro") }}
+        </div>
+
+        <div class="input-group">
+            {{ form.cidade.label() }}
+            {{ form.cidade(id="cidade") }}
+        </div>
+
+        <div class="input-group">
+            {{ form.estado.label() }}
+            {{ form.estado(id="estado") }}
+        </div>
+    </div>
+
+    <div class="check">
+
+
+    </div>
+
+        {{ form.btnSubmit(class="button") }}
+
+    </div>
+</form>

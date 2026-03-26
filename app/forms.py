@@ -275,11 +275,9 @@ class SecretariaForm(FlaskForm):
 class ResponsavelForm(FlaskForm):
 
     telefone = StringField("Telefone", validators=[DataRequired(), Length(max=20)])
-    endereco = StringField("Endereço", validators=[DataRequired(), Length(max=200)])
     nascimento = DateField("Data de Nascimento", format="%Y-%m-%d", validators=[DataRequired()])
 
     btnSubmit = SubmitField("Salvar")
-    user_id = SelectField("Usuário", coerce=int, validators=[DataRequired()])
 
 
     cep = StringField("CEP", validators=[DataRequired(), Length(min=8, max=9)])
@@ -293,12 +291,7 @@ class ResponsavelForm(FlaskForm):
     def __init__(self, *args, **kwargs):   
         super().__init__(*args, **kwargs)
 
-        # Apenas usuários do tipo responsavel que ainda não têm vínculo
-        self.user_id.choices = [
-            (u.id, u.nome)
-            for u in User.query.filter_by(tipo_usuario="RESPONSAVEL").all()
-            if not u.responsavel
-        ]
+
 
 
     def save(self):
@@ -317,9 +310,7 @@ class ResponsavelForm(FlaskForm):
 
         responsavel = Responsavel(
             telefone=self.telefone.data,
-            endereco=self.endereco.data,
             nascimento=self.nascimento.data,
-            user_id=self.user_id.data,
             logradouro=logradouro,
 
         )

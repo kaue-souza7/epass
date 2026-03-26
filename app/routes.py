@@ -2,7 +2,7 @@
 from wtforms import ValidationError
 from app import app, db
 from flask import Response, flash, make_response, render_template, send_file, url_for, request, redirect, abort, session
-from app.models import Logradouro, Responsavel, User, TipoUsuario, Aluno, Turmas
+from app.models import Logradouro, Professor, Responsavel, Secretaria, User, TipoUsuario, Aluno, Turmas
 
 from app.forms import AlunoForm, ProfessorForm, RespUserForm, ResponsavelForm, SecretariaForm, UserForm, LoginForm, TurmaForm
 
@@ -19,7 +19,7 @@ from datetime import datetime, timezone
 import csv
 
 
-@app.route('/alunos/update_flash/')
+@app.route('/update_flash/')
 def update_flash():
     return render_template('partials/flash.html')
 
@@ -138,9 +138,9 @@ def lista_alunos():
     page = request.args.get('page', 1, type=int)
 
     if turma_id:
-        alunos = Aluno.query.filter_by(turma_id=turma_id).paginate(page=page, per_page=8, error_out=False)
+        alunos = Aluno.query.filter_by(turma_id=turma_id).order_by(Aluno.id.desc()).paginate(page=page, per_page=8, error_out=False)
     else:
-        alunos = Aluno.query.paginate(page=page, per_page=8, error_out=False)
+        alunos = Aluno.query.order_by(Aluno.id.desc()).paginate(page=page, per_page=8, error_out=False)
 
     return render_template('partials/aluno_lista.html', alunos=alunos)
 
@@ -230,6 +230,8 @@ def registrar_responsavel():
 
         db.session.commit()
 
+        flash('Responsavel criado com sucesso!✅', 'sucesso')
+
         return redirect(url_for('registrar_responsavel'))
 
     return render_template(
@@ -257,6 +259,46 @@ def lista_responsavel():
 
     return render_template('partials/responsavel_lista.html', responsaveis=responsaveis)
 
+@app.route('/responsaveis/update/<int:id>', methods=['GET', 'POST'])
+def update_responsavel(id):
+    responsavel = Responsavel.query.get_or_404(id)
+    form = ResponsavelForm(obj=responsavel)  # 🔥 aqui já popula o form automaticamente
+
+    # ✅ GET → popular form com logradouro
+    if request.method == 'GET':
+        if responsavel.logradouro:
+            form.cep.data = responsavel.logradouro.cep
+            form.rua.data = responsavel.logradouro.rua
+            form.numero.data = responsavel.logradouro.numero
+            form.bairro.data = responsavel.logradouro.bairro
+            form.cidade.data = responsavel.logradouro.cidade
+            form.estado.data = responsavel.logradouro.estado
+
+    print("VALIDOU?", form.validate_on_submit())
+    print(form.errors)
+    # ✅ POST → salvar alterações
+    if form.validate_on_submit():
+        form.populate_obj(responsavel)
+
+        if not responsavel.logradouro:
+            responsavel.logradouro = Logradouro()
+
+        responsavel.logradouro.cep = form.cep.data
+        responsavel.logradouro.rua = form.rua.data
+        responsavel.logradouro.numero = form.numero.data
+        responsavel.logradouro.bairro = form.bairro.data
+        responsavel.logradouro.cidade = form.cidade.data
+        responsavel.logradouro.estado = form.estado.data
+
+        db.session.commit()
+        flash(f'Responsavel atualizado com sucesso! ✅', 'sucesso')
+        # o que eu posso fazer aqui jatestei tanto redirect quanto render template
+        response = make_response('')
+        response.headers['HX-Trigger'] = 'responsavelAtualizado, mostrarFlash'
+        return response
+
+
+    return render_template('partials/responsavel_update.html', form=form, responsavel=responsavel)
 
 
 
@@ -287,7 +329,14 @@ def registrar_professor():
     
     return render_template('register/registrar_professor.html', formUser=formUser)
 
+@app.route('/professor/lista/')
+def lista_professor():
+    page = request.args.get('page', 1, type=int)
 
+
+    professores = Professor.query.order_by(Professor.id.desc()).paginate(page=page, per_page=6, error_out=False)
+
+    return render_template('partials/professor_lista.html', professores=professores)
 
 
 # /////////////// SECRETARIA ///////////////
@@ -313,6 +362,46 @@ def registrar_secretaria():
     
     return render_template('register/registrar_secretaria.html', formUser=formUser)
 
+
+@app.route('/secretaria/lista/')
+def lista_secretaria():
+    page = request.args.get('page', 1, type=int)
+
+
+    secretaria_users = Secretaria.query.order_by(Secretaria.id.desc()).paginate(page=page, per_page=5, error_out=False)
+
+    return render_template('partials/secretaria_lista.html', secretaria_users=secretaria_users)
+
+
+
+# /////////////// TURMAS ///////////////
+
+
+@app.route('/turma/criar/', methods=['GET', 'POST'])
+def criar_turma():
+    turmaForm  = TurmaForm()
+
+    if turmaForm.validate_on_submit():
+        
+        turmaForm.save()
+        flash(f"Turma cadastrada no sistema! ✅", "sucesso")
+
+        return redirect(url_for('criar_turma'))
+
+    return render_template('register/registrar_turmas.html', turmaForm=turmaForm)
+
+
+
+
+
+@app.route('/turma/lista/')
+def lista_turma():
+    page = request.args.get('page', 1, type=int)
+
+
+    turmas = Turmas.query.order_by(Turmas.id.desc()).paginate(page=page, per_page=5, error_out=False)
+
+    return render_template('partials/turma_lista.html', turmas=turmas)
 
 
 
@@ -352,23 +441,3 @@ def calendario():
 
 
 
-@app.route('/turma/criar/', methods=['GET', 'POST'])
-def criar_turma():
-    turmaForm  = TurmaForm()
-
-    if turmaForm.validate_on_submit():
-        
-        turma = turmaForm.save()
-        if turma:
-            msg='Turma cadastrada com sucesso!!'
-            return render_template(
-                'register/turmas.html',
-                msg=msg,
-            )
-
-        return render_template(
-            'register/turmas.html',
-            turmaForm=turmaForm
-        )
-
-    return render_template('register/turmas.html', turmaForm=turmaForm)

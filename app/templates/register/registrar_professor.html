@@ -1,12 +1,6 @@
-
-<!-- ALERTAS -->
-{% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        {% for categoria, mensagem in messages %}
-            <div class="alert {{categoria}}">{{mensagem}}</div>
-        {% endfor %}
-    {% endif %}
-{% endwith %}
+<div id="flash-messages">
+    {% include 'partials/flash.html' %}
+</div>
 
 {% if formUser %}
 
@@ -152,35 +146,7 @@
             </div>
 
 
-            <div class="input-group">
-                {{ form.cep.label() }}
-                {{ form.cep(id="cep") }}
-            </div>
-
-            <div class="input-group">
-                {{ form.rua.label() }}
-                {{ form.rua(id="rua") }}
-            </div>
-
-            <div class="input-group">
-                {{ form.numero.label() }}
-                {{ form.numero(id="numero") }}
-            </div>
-
-            <div class="input-group">
-                {{ form.bairro.label() }}
-                {{ form.bairro(id="bairro") }}
-            </div>
-
-            <div class="input-group">
-                {{ form.cidade.label() }}
-                {{ form.cidade(id="cidade") }}
-            </div>
-
-            <div class="input-group">
-                {{ form.estado.label() }}
-                {{ form.estado(id="estado") }}
-            </div>
+       
 
 
 
@@ -198,3 +164,8 @@
 
 {% endif %}
 
+<div 
+    id="lista-professores"
+    hx-get="/professor/lista/"
+    hx-trigger="load">
+</div>
