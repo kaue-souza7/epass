@@ -2,7 +2,7 @@
 from wtforms import ValidationError
 from app import app, db
 from flask import Response, flash, make_response, render_template, send_file, url_for, request, redirect, abort, session
-from app.models import Responsavel, User, TipoUsuario, Aluno, Turmas
+from app.models import Logradouro, Responsavel, User, TipoUsuario, Aluno, Turmas
 
 from app.forms import AlunoForm, ProfessorForm, RespUserForm, ResponsavelForm, SecretariaForm, UserForm, LoginForm, TurmaForm
 
@@ -17,6 +17,11 @@ from flask_login import logout_user, login_user, current_user, login_required
 from datetime import datetime, timezone
 
 import csv
+
+
+@app.route('/alunos/update_flash/')
+def update_flash():
+    return render_template('partials/flash.html')
 
 
 @app.route('/login/', methods=['GET', 'POST'])
@@ -130,13 +135,69 @@ def registrar_aluno():
 @app.route('/alunos/lista/')
 def lista_alunos():
     turma_id = request.args.get('turma_id')
+    page = request.args.get('page', 1, type=int)
 
     if turma_id:
-        alunos = Aluno.query.filter_by(turma_id=turma_id).all()
+        alunos = Aluno.query.filter_by(turma_id=turma_id).paginate(page=page, per_page=8, error_out=False)
     else:
-        alunos = Aluno.query.all()
+        alunos = Aluno.query.paginate(page=page, per_page=8, error_out=False)
 
     return render_template('partials/aluno_lista.html', alunos=alunos)
+
+
+@app.route('/toggle_status/<int:id>', methods=['GET', 'POST'])
+def toggle_status(id):
+    aluno = Aluno.query.get_or_404(id)
+    
+    aluno.status = not aluno.status  # inverte True/False
+    
+    db.session.commit()
+    
+    return redirect(url_for('registrar_aluno')) 
+
+
+@app.route('/alunos/update/<int:id>', methods=['GET', 'POST'])
+def update_aluno(id):
+    aluno = Aluno.query.get_or_404(id)
+    form = AlunoForm(obj=aluno)  # 🔥 aqui já popula o form automaticamente
+
+    # ✅ GET → popular form com logradouro
+    if request.method == 'GET':
+        if aluno.logradouro:
+            form.cep.data = aluno.logradouro.cep
+            form.rua.data = aluno.logradouro.rua
+            form.numero.data = aluno.logradouro.numero
+            form.bairro.data = aluno.logradouro.bairro
+            form.cidade.data = aluno.logradouro.cidade
+            form.estado.data = aluno.logradouro.estado
+
+    print("VALIDOU?", form.validate_on_submit())
+    print(form.errors)
+    # ✅ POST → salvar alterações
+    if form.validate_on_submit():
+        form.populate_obj(aluno)
+
+        if not aluno.logradouro:
+            aluno.logradouro = Logradouro()
+
+        aluno.logradouro.cep = form.cep.data
+        aluno.logradouro.rua = form.rua.data
+        aluno.logradouro.numero = form.numero.data
+        aluno.logradouro.bairro = form.bairro.data
+        aluno.logradouro.cidade = form.cidade.data
+        aluno.logradouro.estado = form.estado.data
+
+        db.session.commit()
+        flash(f'Aluno atualizado com sucesso! ✅', 'sucesso')
+        # o que eu posso fazer aqui jatestei tanto redirect quanto render template
+        response = make_response('')
+        response.headers['HX-Trigger'] = 'alunoAtualizado, mostrarFlash'
+        return response
+
+
+    return render_template('partials/aluno_update.html', form=form, aluno=aluno)
+
+
 
 
 # /////////////// RESPONSAVEL ///////////////
@@ -144,7 +205,7 @@ def lista_alunos():
 
 @app.route('/registrar_responsavel/', methods=['GET', 'POST'])
 def registrar_responsavel():
-
+    turmas = Turmas.query.all()
     FormRespUser = RespUserForm()
 
     cpf = request.form.get('cpf') or request.args.get('cpf')
@@ -175,9 +236,26 @@ def registrar_responsavel():
         'register/registrar_responsavel.html',
         FormRespUser=FormRespUser,
         cpf=cpf,
-        msg=msg
+        msg=msg,
+        turmas=turmas
     )
 
+@app.route('/responsavel/lista/')
+def lista_responsavel():
+    turma_id = request.args.get('turma_id')
+    page = request.args.get('page', 1, type=int)
+
+    if turma_id:
+        responsaveis = (
+            Responsavel.query
+            .join(Responsavel.alunos)  # usa o relacionamento MANY-TO-MANY
+            .filter(Aluno.turma_id == int(turma_id))
+            .paginate(page=page, per_page=8, error_out=False)
+        )
+    else:
+        responsaveis = Responsavel.query.paginate(page=page, per_page=8, error_out=False)
+
+    return render_template('partials/responsavel_lista.html', responsaveis=responsaveis)
 
 
 
@@ -187,17 +265,27 @@ def registrar_responsavel():
 @app.route('/registrar_professor/', methods=['GET', 'POST'])
 # @login_required
 def registrar_professor():
+    formUser = UserForm(tipo_usuario='PROFESSOR')
+
+    if formUser.validate_on_submit():
+        formUser.save()
+        form = ProfessorForm()
+        return render_template('register/registrar_professor.html', form=form)
+
+    # print("VALID:", form.validate_on_submit())
+    # print("ERROS:", form.errors)
+    # print("FORM DATA:", request.form)
+
     form = ProfessorForm()
 
-    print("VALID:", form.validate_on_submit())
-    print("ERROS:", form.errors)
-    print("FORM DATA:", request.form)
 
     if form.validate_on_submit():
         form.save()
+        flash(f"Professor cadastrado no sistema! ✅", "sucesso")
+
         return redirect(url_for('registrar_professor'))
     
-    return render_template('register/registrar_professor.html', form=form)
+    return render_template('register/registrar_professor.html', formUser=formUser)
 
 
 
@@ -207,7 +295,7 @@ def registrar_professor():
 @app.route('/registrar_secretaria/', methods=['GET', 'POST'])
 # @login_required
 def registrar_secretaria():
-    formUser = UserForm()
+    formUser = UserForm(tipo_usuario='SECRETARIA')
 
 
     if formUser.validate_on_submit():
@@ -220,7 +308,7 @@ def registrar_secretaria():
     if formSec.validate_on_submit():
         formSec.save()
 
-        flash(f"Secretaria cadastrado no sistema ✅", "sucesso")
+        flash(f"Secretaria cadastrado no sistema! ✅", "sucesso")
         return redirect(url_for('registrar_secretaria'))
     
     return render_template('register/registrar_secretaria.html', formUser=formUser)

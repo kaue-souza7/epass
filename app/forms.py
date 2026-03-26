@@ -238,45 +238,12 @@ class ProfessorForm(FlaskForm):
 
 class SecretariaForm(FlaskForm):
 
-    telefone = StringField(
-        "Telefone",
-        validators=[
-            DataRequired(),
-            Length(max=20)
-        ]
-    )
-
-    email = StringField(
-        "Email",
-        validators=[
-            DataRequired(),
-            Email(),
-            Length(max=120)
-        ]
-    )
-
-    endereco = StringField(
-        "Endereço",
-        validators=[
-            DataRequired(),
-            Length(max=200)
-        ]
-    )
-
-    website = StringField(
-        "Website",
-        validators=[
-            DataRequired(),
-            Length(max=120)
-        ]
-    )
-
-    user_id = SelectField(
-        "Usuário",
-        coerce=int,
-        validators=[DataRequired()]
-    )
-
+    telefone = StringField("Telefone", validators=[DataRequired(), Length(max=20)])
+    email = StringField("Email",validators=[DataRequired(),Email(),Length(max=120)])
+    endereco = StringField("Endereço",validators=[DataRequired(),Length(max=200)])
+    website = StringField("Website",validators=[DataRequired(),Length(max=120)])
+    
+    user_id = SelectField("Usuário",coerce=int,validators=[DataRequired()])
     submit = SubmitField("Salvar")
 
     def __init__(self, *args, **kwargs):
