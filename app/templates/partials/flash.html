@@ -8,12 +8,12 @@
     {% endif %}
 {% endwith %}
 
-
 <script>
     setTimeout(() => {
-    document.querySelectorAll('.alert').forEach(el => {
-        el.style.opacity = '0';
-        setTimeout(() => el.remove(), 300);
-    });
-}, 3000);
+        document.querySelectorAll('.alert').forEach(el => {
+            el.style.opacity = '0';
+            setTimeout(() => el.remove(), 300);
+        });
+    }, 3000);
+
 </script>

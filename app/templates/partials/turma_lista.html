@@ -1,0 +1,54 @@
+<table >
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Ano</th>
+            <th>Periodo</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for turma in turmas %}
+            <tr>
+                <td>{{ turma.id }}</td>
+                <td>{{ turma.nome}}</td>
+                <td>{{ turma.ano }}</td>
+                <td>{{ turma.periodo }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="pagination" style="margin-top: 15px;">
+
+    {% if turmas.has_prev %}
+
+        <a hx-get="{{ url_for('lista_turma', page=turmas.prev_num) }}"
+            hx-target="#lista-turmas"
+            hx-swap="innerHTML"
+
+        >
+            Anterior
+        </a>
+    {% endif %}
+
+    Página {{ turmas.page }} de {{ turmas.pages }}
+
+    {% if turmas.has_next %}
+        <a hx-get="{{ url_for('lista_turma', page=turmas.next_num) }}"
+            hx-target="#lista-turmas"
+            hx-swap="innerHTML"
+            
+        >
+            
+            Próxima
+        </a>
+    {% endif %}
+
+</div>
+
+
+
+
+
+

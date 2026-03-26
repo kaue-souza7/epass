@@ -1,0 +1,55 @@
+<table >
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>E-email</th>
+            <th>Telefone</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for prof in professores %}
+            <tr>
+                <td>{{ prof.id }}</td>
+                <td>{{ prof.user.nome}} {{ prof.user.sobrenome }}</td>
+                <td>{{ prof.user.email }}</td>
+                <td>{{ prof.telefone }}</td>
+
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="pagination" style="margin-top: 15px;">
+
+    {% if professores.has_prev %}
+
+        <a hx-get="{{ url_for('lista_professor', page=professores.prev_num) }}"
+            hx-target="#lista-professores"
+            hx-swap="innerHTML"
+
+        >
+            Anterior
+        </a>
+    {% endif %}
+
+    Página {{ professores.page }} de {{ professores.pages }}
+
+    {% if professores.has_next %}
+        <a hx-get="{{ url_for('lista_professor', page=professores.next_num) }}"
+            hx-target="#lista-professores"
+            hx-swap="innerHTML"
+            
+        >
+            
+            Próxima
+        </a>
+    {% endif %}
+
+</div>
+
+
+
+
+
+
