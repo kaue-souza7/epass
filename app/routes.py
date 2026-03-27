@@ -19,6 +19,7 @@ from datetime import datetime, timezone
 import csv
 
 
+
 @app.route('/update_flash/')
 def update_flash():
     return render_template('partials/flash.html')
@@ -43,6 +44,10 @@ def login():
     
     return render_template('login.html', form=form)
 
+
+@app.route('/', methods=['GET'])
+def redirect_home():
+    return render_template('home.html')
 
 
 @app.route('/home/', methods=['GET', 'POST'])
@@ -80,7 +85,12 @@ def registrar_user():
     
     return render_template('register/registrar_user.html', form=form)
 
+@app.route('/form_user/', methods=['GET'])
+# @login_required
+def form_user():
+    formUser = UserForm(tipo_usuario='PROFESSOR')
 
+    return render_template('partials/forms/user_form.html', formUser=formUser)
 
 
 
@@ -216,9 +226,17 @@ def registrar_responsavel():
 
 
         if not aluno:
-            msg = "Aluno não encontrado!"
+            flash('Aluno não encontrado...', 'erro')
+            return render_template(
+                'register/registrar_responsavel.html',
+                cpf=cpf,
+                msg=msg,
+                turmas=turmas
+            ) 
+
     else:
-        msg = "Aluno não encontrado!"
+        flash('Aluno não encontrado...', 'erro')
+        
 
 
     if FormRespUser.validate_on_submit():
@@ -262,7 +280,8 @@ def lista_responsavel():
 @app.route('/responsaveis/update/<int:id>', methods=['GET', 'POST'])
 def update_responsavel(id):
     responsavel = Responsavel.query.get_or_404(id)
-    form = ResponsavelForm(obj=responsavel)  # 🔥 aqui já popula o form automaticamente
+    form = ResponsavelForm(obj=responsavel)  # aqui popula o form automaticamente
+    form.user_id = responsavel.user_id
 
     # ✅ GET → popular form com logradouro
     if request.method == 'GET':
@@ -292,7 +311,6 @@ def update_responsavel(id):
 
         db.session.commit()
         flash(f'Responsavel atualizado com sucesso! ✅', 'sucesso')
-        # o que eu posso fazer aqui jatestei tanto redirect quanto render template
         response = make_response('')
         response.headers['HX-Trigger'] = 'responsavelAtualizado, mostrarFlash'
         return response
@@ -339,6 +357,53 @@ def lista_professor():
     return render_template('partials/professor_lista.html', professores=professores)
 
 
+@app.route('/professores/update/<int:id>', methods=['GET', 'POST'])
+def update_professor(id):
+    professor = Professor.query.get_or_404(id)
+    form = ProfessorForm(obj=professor)
+    usuarios = User.query.all()
+    form.user_id.choices = [(u.id, u.nome) for u in usuarios]  # 🔥 aqui já popula o form automaticamente
+
+    # ✅ GET → popular form com logradouro
+    if request.method == 'GET':
+        if professor.logradouro:
+            form.cep.data = professor.logradouro.cep
+            form.rua.data = professor.logradouro.rua
+            form.numero.data = professor.logradouro.numero
+            form.bairro.data = professor.logradouro.bairro
+            form.cidade.data = professor.logradouro.cidade
+            form.estado.data = professor.logradouro.estado
+
+    print("VALIDOU?", form.validate_on_submit())
+    print(form.errors)
+    # ✅ POST → salvar alterações
+    if form.validate_on_submit():
+        form.populate_obj(professor)
+
+        if not professor.logradouro:
+            professor.logradouro = Logradouro()
+
+        professor.logradouro.cep = form.cep.data
+        professor.logradouro.rua = form.rua.data
+        professor.logradouro.numero = form.numero.data
+        professor.logradouro.bairro = form.bairro.data
+        professor.logradouro.cidade = form.cidade.data
+        professor.logradouro.estado = form.estado.data
+
+        db.session.commit()
+        flash(f'Professor atualizado com sucesso! ✅', 'sucesso')
+        # o que eu posso fazer aqui jatestei tanto redirect quanto render template
+        response = make_response('')
+        response.headers['HX-Trigger'] = 'professorAtualizado, mostrarFlash'
+        return response
+
+
+    return render_template('partials/professor_update.html', form=form, professor=professor)
+
+
+
+
+
 # /////////////// SECRETARIA ///////////////
 
 @app.route('/registrar_secretaria/', methods=['GET', 'POST'])
@@ -373,6 +438,32 @@ def lista_secretaria():
     return render_template('partials/secretaria_lista.html', secretaria_users=secretaria_users)
 
 
+@app.route('/secretaria/update/<int:id>', methods=['GET', 'POST'])
+def update_secretaria(id):
+    secretaria = Secretaria.query.get_or_404(id)
+    form = SecretariaForm(obj=secretaria)
+    usuarios = User.query.all()
+    form.user_id.choices = [(u.id, u.nome) for u in usuarios]  # 🔥 aqui já popula o form automaticamente
+
+
+
+    print("VALIDOU?", form.validate_on_submit())
+    print(form.errors)
+    # ✅ POST → salvar alterações
+    if form.validate_on_submit():
+        form.populate_obj(secretaria)
+
+
+        db.session.commit()
+        flash(f'Secretaria atualizado com sucesso! ✅', 'sucesso')
+        # o que eu posso fazer aqui jatestei tanto redirect quanto render template
+        response = make_response('')
+        response.headers['HX-Trigger'] = 'secretariaAtualizado, mostrarFlash'
+        return response
+
+    return render_template('partials/secretaria_update.html', form=form, secretaria=secretaria)
+
+
 
 # /////////////// TURMAS ///////////////
 
@@ -392,8 +483,6 @@ def criar_turma():
 
 
 
-
-
 @app.route('/turma/lista/')
 def lista_turma():
     page = request.args.get('page', 1, type=int)
@@ -402,6 +491,31 @@ def lista_turma():
     turmas = Turmas.query.order_by(Turmas.id.desc()).paginate(page=page, per_page=5, error_out=False)
 
     return render_template('partials/turma_lista.html', turmas=turmas)
+
+
+
+@app.route('/turma/update/<int:id>', methods=['GET', 'POST'])
+def update_turma(id):
+    turma = Turmas.query.get_or_404(id)
+    form = TurmaForm(obj=turma)
+
+
+
+    print("VALIDOU?", form.validate_on_submit())
+    print(form.errors)
+    # ✅ POST → salvar alterações
+    if form.validate_on_submit():
+        form.populate_obj(turma)
+
+
+        db.session.commit()
+        flash(f'Turma atualizado com sucesso! ✅', 'sucesso')
+        # o que eu posso fazer aqui jatestei tanto redirect quanto render template
+        response = make_response('')
+        response.headers['HX-Trigger'] = 'turmaAtualizado, mostrarFlash'
+        return response
+
+    return render_template('partials/turma_update.html', form=form, turma=turma)
 
 
 

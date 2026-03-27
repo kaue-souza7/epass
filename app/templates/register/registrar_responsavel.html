@@ -21,9 +21,8 @@
 
 
 {% if cpf %}
-    {% if msg %}
-        <p style="color: red;"> {{ msg }} </p>
-    {% else %}
+
+    {% if FormRespUser %}
 
         <form hx-post="/registrar_responsavel/" 
                 hx-target="#container-registro"
