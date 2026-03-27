@@ -5,6 +5,7 @@
             <th>Nome</th>
             <th>Ano</th>
             <th>Periodo</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -14,6 +15,14 @@
                 <td>{{ turma.nome}}</td>
                 <td>{{ turma.ano }}</td>
                 <td>{{ turma.periodo }}</td>
+                <td > 
+                    <a 
+                        hx-get="{{ url_for('update_turma', id=turma.id) }}"
+                        hx-target="#container-form"
+                        hx-swap="innerHTML">
+                        edit
+                    </a>
+                </td>
             </tr>
         {% endfor %}
     </tbody>

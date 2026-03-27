@@ -1,0 +1,52 @@
+
+<form
+    hx-post="/turma/update/{{ turma.id }}"
+    hx-target="#container-form"
+    hx-swap="innerHTML">
+    <div class="grid grid-2x-1-3">
+        {{ form.csrf_token }}
+
+        <div class="input-group">
+            {{ form.nome.label() }}
+            {{ form.nome() }}
+        </div>
+    
+        <div class="input-group">
+            {{ form.descricao.label() }}
+            {{ form.descricao() }}
+        </div>
+
+        <div class="input-group">
+            {{ form.ano.label() }}
+            {{ form.ano() }}
+        </div>
+
+
+        
+        <div class="input-group">
+            {{ form.dataInicio.label() }}
+            {{ form.dataInicio() }}
+        </div>
+
+
+        <div class="input-group">
+            {{ form.dataFinal.label() }}
+            {{ form.dataFinal() }}
+        </div>
+
+        <div class="input-group">
+            {{ form.periodo.label() }}
+            {{ form.periodo() }}
+        </div>
+
+    </div>
+
+    <div class="check">
+
+
+    </div>
+
+        {{ form.btnSubmit(class="button") }}
+
+    </div>
+</form>

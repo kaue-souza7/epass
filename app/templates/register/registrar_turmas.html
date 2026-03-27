@@ -3,7 +3,6 @@
 </div>  
 
 
-
 <form hx-post="/turma/criar" 
             hx-target="#container-registro"
             hx-swap="innerHTML">
@@ -70,11 +69,24 @@
 </form> 
 
 
+<!-- FORM DE EDIÇÃO (IMPORTANTE) -->
+<div id="container-form"></div>
+
+
+<!--  FLASH -->
+<div style="margin-top: 15px;"
+    id="update_turma"  
+    hx-get="/update_flash/"
+    hx-trigger="mostrarFlash from:body"
+    hx-swap="innerHTML">
+</div>
+
 
 
 <div 
     id="lista-turmas"
     hx-get="/turma/lista/"
-    hx-trigger="load">
+    hx-trigger="load, turmaAtualizado from:body">
+
 
 </div>
