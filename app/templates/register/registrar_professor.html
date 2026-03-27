@@ -2,61 +2,29 @@
     {% include 'partials/flash.html' %}
 </div>
 
+
 {% if formUser %}
 
-    <form method="POST"
-            hx-post="/registrar_professor/" 
-            hx-target="#container-registro" 
-            hx-swap="innerHTML">
-        <div class="card-form table-section grid grid-1x">
-            <div class="grid polar-grid">
-                <h2>Cadastrar Professor</h2> 
-            </div>
-        </div>
-        {{ formUser.csrf_token }}
+    <div class="card-form table-section grid grid-1x">
+        <div class="grid polar-grid">
+            <h2>Cadastrar Professor</h2> 
+        </div>    
+        <button 
+            hx-get="/form_user/" 
+            hx-target="#form" 
+            hx-swap="innerHTML toggle" >
+            Cadastrar Professor
+        </button>
+    </div>
 
-        <div class="grid grid-2x-1-3">
+    <form id="form"
+        method="POST"
+        hx-post="/registrar_professor/" 
+        hx-target="#container-registro" 
+        hx-swap="innerHTML">
+    </form>
 
-            <div class="input-group">
-                {{ formUser.nome.label() }}
-                {{ formUser.nome() }}
-            </div>
-
-             <div class="input-group">
-
-            {{ formUser.sobrenome.label() }}
-            {{ formUser.sobrenome() }}
-            </div>
-
-            <div class="input-group">
-            {{ formUser.email.label() }}
-            {{ formUser.email() }}
-            {% for error in formUser.email.errors %}
-                <span style="color:red">{{ error }}</span>
-            {% endfor %}
-            </div>
-
-            
-            <div class="input-group">
-                {{ formUser.senha.label() }}
-                {{ formUser.senha() }}
-            </div>
-
-            <div class="input-group">
-                {{ formUser.confirmacao_senha.label() }}
-                {{ formUser.confirmacao_senha() }}
-            </div>
-
-            
-            
-            <div class="input-group">
-                {{ formUser.tipo_usuario.label }}
-                {{ formUser.tipo_usuario() }}
-            </div>
-        </div>
-
-        {{ formUser.btnSubmit(class="button") }}
-    </form> 
+    
 
 {% endif %}
 
@@ -164,8 +132,24 @@
 
 {% endif %}
 
+
+<!-- FORM DE EDIÇÃO (IMPORTANTE) -->
+<div id="container-form"></div>
+
+
+<!--  FLASH -->
+<div style="margin-top: 15px;"
+    id="update_professor"  
+    hx-get="/update_flash/"
+    hx-trigger="mostrarFlash from:body"
+    hx-swap="innerHTML">
+</div>
+
+
+
 <div 
     id="lista-professores"
     hx-get="/professor/lista/"
-    hx-trigger="load">
+    hx-trigger="load, professorAtualizado from:body">
+
 </div>

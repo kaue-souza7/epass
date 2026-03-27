@@ -5,6 +5,7 @@
             <th>Nome</th>
             <th>E-email</th>
             <th>Telefone</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -14,7 +15,14 @@
                 <td>{{ prof.user.nome}} {{ prof.user.sobrenome }}</td>
                 <td>{{ prof.user.email }}</td>
                 <td>{{ prof.telefone }}</td>
-
+                <td > 
+                    <a 
+                        hx-get="{{ url_for('update_professor', id=prof.id) }}"
+                        hx-target="#container-form"
+                        hx-swap="innerHTML">
+                        edit
+                    </a>
+                </td>
             </tr>
         {% endfor %}
     </tbody>
