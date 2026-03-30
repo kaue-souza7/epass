@@ -90,6 +90,12 @@ class Aluno(db.Model):
     logradouro_id = db.Column(db.Integer, db.ForeignKey('logradouros.id', name='fk_aluno_logradouro'), nullable=True)
     logradouro = db.relationship('Logradouro')
 
+    carteira = db.relationship(
+        'Carteira',
+        uselist=False,
+        back_populates='aluno'
+    )
+
     __table_args__ = (
         db.UniqueConstraint('matricula', name='uq_aluno_matricula'),
     )
@@ -97,7 +103,39 @@ class Aluno(db.Model):
 
     def __str__(self):
         return self.nome
-        
+
+    
+
+class Carteira(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    saldo = db.Column(db.Float, default=0.0)
+    aluno_id = db.Column(
+        db.Integer,
+        db.ForeignKey('aluno.id'),
+        unique=True,
+        nullable=False
+    )
+
+    aluno = db.relationship(
+        'Aluno',
+        back_populates='carteira'
+    )
+
+
+class Transacao(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+
+    tipo = db.Column(db.String(20))  # 'entrada', 'saida'
+    valor = db.Column(db.Float)
+    descricao = db.Column(db.String(255))
+    data = db.Column(db.DateTime, default=db.func.current_timestamp())
+
+    carteira_id = db.Column(
+        db.Integer,
+        db.ForeignKey('carteira.id'),
+        nullable=False
+    )
+    carteira = db.relationship('Carteira', backref='transacoes')    
 
 class Professor(db.Model):
 

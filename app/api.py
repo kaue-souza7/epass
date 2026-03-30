@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import create_access_token, create_refresh_token
 from werkzeug.security import check_password_hash
-from app.models import Responsavel, User  # ajuste conforme seu model
+from app.models import Aluno, Carteira, Responsavel, User  # ajuste conforme seu model
 from app import db
 from app import bcrypt
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -91,3 +91,67 @@ def get_meus_alunos():
         })
 
     return jsonify(alunos_list), 200
+
+
+
+
+@api.route('/carteiras/create', methods=['POST'])
+def criar_carteira():
+    data = request.get_json()
+
+    aluno_id = data.get('aluno_id')
+
+    aluno = Aluno.query.get(aluno_id)
+
+    if not aluno:
+        return jsonify({'erro': 'Aluno não encontrado'}), 404
+
+    if aluno.carteira:
+        return jsonify({'erro': 'Aluno já possui carteira'}), 400
+
+    carteira = Carteira(aluno_id=aluno_id)
+
+    db.session.add(carteira)
+    db.session.commit()
+
+    return jsonify({
+        'id': carteira.id,
+        'aluno_id': carteira.aluno_id,
+        'saldo': carteira.saldo
+    }), 201
+
+
+@api.route('/carteiras/find/<int:id>', methods=['GET'])
+def buscar_carteira(id):
+    carteira = Carteira.query.get(id)
+
+    if not carteira:
+        return jsonify({'erro': 'Carteira não encontrada'}), 404
+
+    return jsonify({
+        'id': carteira.id,
+        'aluno_id': carteira.aluno_id,
+        'saldo': carteira.saldo
+    })
+
+
+
+
+@api.route('/carteiras/update/<int:id>', methods=['PUT'])
+def update_carteira(id):
+    carteira = Carteira.query.get(id)
+
+    if not carteira:
+        return jsonify({'erro': 'Carteira não encontrada'}), 404
+
+    data = request.get_json()
+    novo_saldo = data.get('saldo')
+
+    if novo_saldo is None:
+        return jsonify({'erro': 'Saldo é obrigatório'}), 400
+
+    carteira.saldo = novo_saldo
+
+    db.session.commit()
+
+    return jsonify({'mensagem': 'Carteira atualizada'})
