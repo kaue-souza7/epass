@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import BooleanField, IntegerField, SelectMultipleField, StringField, SubmitField, PasswordField, SelectField, DateField
+from wtforms import BooleanField, IntegerField, SelectMultipleField, StringField, SubmitField, PasswordField, SelectField, DateField, TextAreaField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError, Length, Optional
 from wtforms_sqlalchemy.fields import QuerySelectMultipleField
 import wtforms
@@ -7,7 +7,7 @@ import os
 from werkzeug.utils import secure_filename
 
 from app import db, bcrypt, app
-from app.models import Aluno, Logradouro, Professor, Responsavel, Secretaria, TipoSanguineo, Turmas, User, TipoUsuario
+from app.models import Aluno, Documento, Logradouro, Professor, Responsavel, Secretaria, StatusDocumento, TipoDocumento, TipoSanguineo, Turmas, User, TipoUsuario
 
 
 class QuerySelectMultipleFieldwithCheckboxes(QuerySelectMultipleField):
@@ -434,3 +434,65 @@ class TurmaForm(FlaskForm):
         db.session.add(turma)
         db.session.commit()
         return turma
+    
+
+
+
+
+
+
+
+
+class DocumentoForm(FlaskForm):
+    tipo_documento = SelectField(
+        "Tipo de Documento",
+        choices=[(tipo.name, tipo.value) for tipo in TipoDocumento],
+        validators=[DataRequired()]
+    )
+
+    observacao = TextAreaField("Observação", validators=[Optional()])
+
+    def __init__(self, usuario, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.usuario = usuario  # quem está logado
+
+    # 🔒 VALIDAÇÃO PRINCIPAL
+    def validate_tipo_documento(self, field):
+        tipo = TipoDocumento[field.data]
+
+        # Se for professor, só pode pedir Declaração de Transferência
+        if self.usuario.tipo == "professor":
+            if tipo != TipoDocumento.DCLR_TRANSF:
+                raise ValidationError(
+                    "Professor só pode solicitar Declaração de Transferência."
+                )
+
+    # 💾 MÉTODO SAVE
+    def save(self):
+        tipo = TipoDocumento[self.tipo_documento.data]
+
+        documento = Documento(
+            tipo_documento=tipo,
+            observacao=self.observacao.data,
+            status=StatusDocumento.PENDENTE
+        )
+
+        # 👇 REGRA: OU ALUNO OU PROFESSOR
+        if self.usuario.tipo == "aluno":
+            documento.aluno_id = self.usuario.id
+            documento.professor_id = None
+
+        elif self.usuario.tipo == "professor":
+            documento.professor_id = self.usuario.id
+            documento.aluno_id = None
+
+        else:
+            raise Exception("Tipo de usuário inválido")
+
+        # Outros campos automáticos
+        documento.data_pedido = db.func.current_timestamp()
+
+        db.session.add(documento)
+        db.session.commit()
+
+        return documento

@@ -10,6 +10,23 @@ class TipoUsuario(enum.Enum):
     ADMIN = "admin"
     PROFESSOR = "professor"
 
+class TipoDocumento(enum.Enum):
+    CARTEIRA_ESCOLAR = "2 Via Carteira Escolar"
+    ATESTADO_MATRICULA = "Atestado de Matricula"
+    BOLETIM = "Boletim"
+    DCLR_TRANSF = "Declaração de Transferência"
+    HIST_ESCOLAR = "Histórico Escoalar"
+    GRADE_ESCOLAR = "Grade Escolar"
+
+
+
+class StatusDocumento(enum.Enum):
+    PENDENTE = "pendente"
+    EM_ANALISE = "em_analise"
+    PRONTO = "pronto"
+    ENTREGUE = "entregue"
+
+
 class TipoSanguineo(enum.Enum):
     A_POSITIVO = "A+"
     A_NEGATIVO = "A-"
@@ -104,7 +121,35 @@ class Aluno(db.Model):
     def __str__(self):
         return self.nome
 
-    
+class Documento(db.Model):
+    __tablename__ = 'documentos'
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    tipo_documento = db.Column(db.Enum(TipoDocumento), nullable=False)
+
+    data_pedido = db.Column(db.DateTime, default=db.func.current_timestamp())
+    data_emissao = db.Column(db.DateTime, nullable=True)
+    observacao = db.Column(db.Text)
+    status = db.Column(db.Enum(StatusDocumento), default=StatusDocumento.PENDENTE)
+
+    # RELACIONAMENTOS
+    aluno_id = db.Column(db.Integer, db.ForeignKey('aluno.id'), nullable=False)
+    turma_id = db.Column(db.Integer, db.ForeignKey('turmas.id'), nullable=True)
+    professor_id = db.Column(db.Integer, db.ForeignKey('professor.id'), nullable=True)
+
+    # ARQUIVO
+    path = db.Column(db.String(255), nullable=True)
+
+    # RELATIONSHIPS
+    aluno = db.relationship('Aluno', backref='documentos')
+    turma = db.relationship('Turmas', backref='documentos')
+    professor = db.relationship('Professor', backref='documentos')
+
+
+
+
+
 
 class Carteira(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -216,4 +261,6 @@ class Turmas(db.Model):
     periodo = db.Column(db.String(50))
 
     alunos = db.relationship('Aluno', backref='turma', lazy=True)
+
+
 

@@ -2,7 +2,7 @@
 from wtforms import ValidationError
 from app import app, db
 from flask import Response, flash, make_response, render_template, send_file, url_for, request, redirect, abort, session
-from app.models import Logradouro, Professor, Responsavel, Secretaria, User, TipoUsuario, Aluno, Turmas
+from app.models import Documento, Logradouro, Professor, Responsavel, Secretaria, User, TipoUsuario, Aluno, Turmas
 
 from app.forms import AlunoForm, ProfessorForm, RespUserForm, ResponsavelForm, SecretariaForm, UserForm, LoginForm, TurmaForm
 
@@ -518,6 +518,16 @@ def update_turma(id):
     return render_template('partials/turma_update.html', form=form, turma=turma)
 
 
+@app.route('/documentos/lista/')
+def lista_documentos():
+    page = request.args.get('page', 1, type=int)
+    status = request.args.get('status')
+
+
+
+    documentos = Documento.query.filter(Documento.status==status).paginate(page=page, per_page=5, error_out=False)
+
+    return render_template('partials/documento_lista.html', documentos=documentos)
 
 
 @app.route('/documentos/', methods=['GET', 'POST'])

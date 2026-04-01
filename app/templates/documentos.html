@@ -1,8 +1,33 @@
 {% extends 'global/base.html' %}
-
-
 {% block content %} 
+    <div class="card grid polar-grid">
+        <h2>Documentos</h2>
+    </div>
 
-Documentos
+    <button onclick="toggleLista('lista-documentos-p', urlPendente)">
+        Documentos Pendentes
+    </button>
+    <div id="lista-documentos-p"></div>
+
+    <button onclick="toggleLista('lista-documentos-e', urlEntregue)">
+        Documentos Entregues
+    </button>
+    <div id="lista-documentos-e"></div>
+
+    <script>
+        const urlPendente = "{{ url_for('lista_documentos', status='PENDENTE') }}";
+        const urlEntregue = "{{ url_for('lista_documentos', status='ENTREGUE') }}";
+
+        async function toggleLista(targetId, url) {
+            const target = document.getElementById(targetId);
+            if (target.innerHTML.trim() !== '') {
+                target.innerHTML = '';
+                return;
+            }
+            const response = await fetch(url);
+            const html = await response.text();
+            target.innerHTML = html;
+        }
+    </script>
 
 {% endblock %}
