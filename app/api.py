@@ -96,7 +96,9 @@ def get_meus_alunos():
 
 
 @api.route('/carteiras/create', methods=['POST'])
+@jwt_required()
 def criar_carteira():
+    
     data = request.get_json()
 
     aluno_id = data.get('aluno_id')
@@ -122,6 +124,7 @@ def criar_carteira():
 
 
 @api.route('/carteiras/find/<int:id>', methods=['GET'])
+@jwt_required()
 def buscar_carteira(id):
     carteira = Carteira.query.get(id)
 
