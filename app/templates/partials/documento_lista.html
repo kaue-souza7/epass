@@ -1,0 +1,62 @@
+<table >
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tipo Documento</th>
+            <th>Data do Pedido</th>
+            <th>Status</th>
+            <th>Solicitante</th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for doc in documentos %}
+            <tr>
+                <td>{{ doc.id }}</td>
+                <td>{{ doc.tipo_documento.value}} </td>
+                <td>{{ doc.data_pedido }}</td>
+                <td>{{ doc.status.value }}</td>
+                <td>{{ doc.solicitante }}</td>
+                <td > 
+                    a
+         
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="pagination" style="margin-top: 15px;">
+
+    {% if documentos.has_prev %}
+
+        <a hx-get="{{ url_for('lista_documentos', page=documentos.prev_num) }}"
+            hx-target="#lista-documentos"
+            hx-swap="innerHTML"
+
+        >
+            Anterior
+        </a>
+    {% endif %}
+
+    Página {{ documentos.page }} de {{ documentos.pages }}
+
+    {% if documentos.has_next %}
+        <a hx-get="{{ url_for('lista_documentos', page=documentos.next_num) }}"
+            hx-target="#lista-documentos"
+            hx-swap="innerHTML"
+            
+        >
+            
+            Próxima
+        </a>    
+    {% endif %}
+
+</div>
+
+
+
+
+
+
