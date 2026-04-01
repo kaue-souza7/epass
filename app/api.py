@@ -123,10 +123,10 @@ def criar_carteira():
     }), 201
 
 
-@api.route('/carteiras/find/<int:id>', methods=['GET'])
+@api.route('/carteiras/find/<int:aluno_id>', methods=['GET'])
 @jwt_required()
-def buscar_carteira(id):
-    carteira = Carteira.query.get(id)
+def buscar_carteira(aluno_id):
+    carteira = Carteira.query.filter_by(aluno_id=aluno_id).first()
 
     if not carteira:
         return jsonify({'erro': 'Carteira não encontrada'}), 404
