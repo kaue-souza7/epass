@@ -1,3 +1,4 @@
+import uuid
 from app import db, login_manager
 from datetime import datetime
 from flask_login import UserMixin
@@ -181,6 +182,21 @@ class Transacao(db.Model):
         nullable=False
     )
     carteira = db.relationship('Carteira', backref='transacoes')    
+
+
+
+class PagamentoPendente(db.Model):
+    id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    responsavel_id = db.Column(db.Integer, db.ForeignKey('responsavel.id'), nullable=False)
+    aluno_id = db.Column(db.Integer, db.ForeignKey('aluno.id'), nullable=False)
+    valor = db.Column(db.Numeric(10, 2), nullable=False)
+    status = db.Column(db.String(20), default='pendente')  # pendente | confirmado
+    qr_code = db.Column(db.String(200))
+    copia_cola = db.Column(db.String(200))
+    criado_em = db.Column(db.DateTime, default=db.func.current_timestamp())
+
+
+
 
 class Professor(db.Model):
 
