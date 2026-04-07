@@ -214,6 +214,8 @@ class Professor(db.Model):
     logradouro = db.relationship('Logradouro')
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False, unique=True)
 
+    materias = db.relationship('Materia', backref='professor', lazy=True)
+
     __table_args__ = (
         db.UniqueConstraint("user_id", name="uq_professor_user_id"),
     )
@@ -277,6 +279,16 @@ class Turmas(db.Model):
     periodo = db.Column(db.String(50))
 
     alunos = db.relationship('Aluno', backref='turma', lazy=True)
+    materias = db.relationship('Materia', backref='turma', lazy=True)
 
 
 
+class Materia(db.Model):
+    __tablename__ = 'materias'
+
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(100), nullable=True)
+    descricao = db.Column(db.Text)
+
+    id_professor = db.Column(db.Integer, db.ForeignKey('professor.id'), nullable=True)
+    id_turma = db.Column(db.Integer, db.ForeignKey('turmas.id'), nullable=True)
