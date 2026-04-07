@@ -1,3 +1,4 @@
+import uuid
 from app import db, login_manager
 from datetime import datetime
 from flask_login import UserMixin
@@ -182,6 +183,21 @@ class Transacao(db.Model):
     )
     carteira = db.relationship('Carteira', backref='transacoes')    
 
+
+
+class PagamentoPendente(db.Model):
+    id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    responsavel_id = db.Column(db.Integer, db.ForeignKey('responsavel.id'), nullable=False)
+    aluno_id = db.Column(db.Integer, db.ForeignKey('aluno.id'), nullable=False)
+    valor = db.Column(db.Numeric(10, 2), nullable=False)
+    status = db.Column(db.String(20), default='pendente')  # pendente | confirmado
+    qr_code = db.Column(db.String(200))
+    copia_cola = db.Column(db.String(200))
+    criado_em = db.Column(db.DateTime, default=db.func.current_timestamp())
+
+
+
+
 class Professor(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
@@ -197,6 +213,8 @@ class Professor(db.Model):
     logradouro_id = db.Column(db.Integer, db.ForeignKey('logradouros.id', name='fk_professor_logradouro'), nullable=True)
     logradouro = db.relationship('Logradouro')
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False, unique=True)
+
+    materias = db.relationship('Materia', backref='professor', lazy=True)
 
     __table_args__ = (
         db.UniqueConstraint("user_id", name="uq_professor_user_id"),
@@ -261,6 +279,16 @@ class Turmas(db.Model):
     periodo = db.Column(db.String(50))
 
     alunos = db.relationship('Aluno', backref='turma', lazy=True)
+    materias = db.relationship('Materia', backref='turma', lazy=True)
 
 
 
+class Materia(db.Model):
+    __tablename__ = 'materias'
+
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(100), nullable=True)
+    descricao = db.Column(db.Text)
+
+    id_professor = db.Column(db.Integer, db.ForeignKey('professor.id'), nullable=True)
+    id_turma = db.Column(db.Integer, db.ForeignKey('turmas.id'), nullable=True)
