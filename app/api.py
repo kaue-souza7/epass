@@ -66,7 +66,7 @@ def refresh():
 def busca_responsavel():
     user_id = get_jwt_identity()
     responsavel = Responsavel.query.filter_by(user_id=user_id).first()
-
+    alunos = [a.nome for a in responsavel.alunos]
 
 
     if not responsavel:
@@ -85,6 +85,7 @@ def busca_responsavel():
         # dados do Responsavel
         'telefone': responsavel.telefone,
         'nascimento': responsavel.nascimento.strftime('%Y-%m-%d') if responsavel.nascimento else None,
+        'alunos': alunos,
 
         # dados do Logradouro
         'logradouro': {
@@ -328,18 +329,6 @@ def historico_transacoes(aluno_id):
         'saldo_atual': float(carteira.saldo),
         'historico': resultado
     }), 200
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
