@@ -1,62 +1,54 @@
-<table >
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Tipo Documento</th>
-            <th>Data do Pedido</th>
-            <th>Status</th>
-            <th>Solicitante</th>
-
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for doc in documentos %}
+<div id="documento-lista-container">
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tipo Documento</th>
+                <th>Data do Pedido</th>
+                <th>Solicitante</th>
+                <th>Upload</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for doc in documentos.items %}
             <tr>
                 <td>{{ doc.id }}</td>
-                <td>{{ doc.tipo_documento.value}} </td>
-                <td>{{ doc.data_pedido }}</td>
-                <td>{{ doc.status.value }}</td>
-                <td>{{ doc.solicitante }}</td>
-                <td > 
-                    a
-         
+                <td>{{ doc.tipo_documento.value }}</td>
+                <td>{{ doc.data_pedido.strftime('%d/%m/%Y %H:%M') }}</td>
+                <td>{{ doc.aluno.nome }}</td>
+                <td>
+                    <a >Enviar Documento</a>
                 </td>
+                <td>{{ doc.status.value }}</td>
             </tr>
-        {% endfor %}
-    </tbody>
-</table>
+            {% else %}
+            <tr>
+                <td colspan="6" class="text-center">Nenhum documento encontrado</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
-<div class="pagination" style="margin-top: 15px;">
-
-    {% if documentos.has_prev %}
-
-        <a hx-get="{{ url_for('lista_documentos', page=documentos.prev_num) }}"
-            hx-target="#lista-documentos"
+    <div class="pagination" style="margin-top: 15px;">
+        {% if documentos.has_prev %}
+        <a hx-get="{{ url_for('lista_documentos', page=documentos.prev_num, status=status) }}"
+            hx-target="#documento-lista-container"
             hx-swap="innerHTML"
-
-        >
+            class="btn btn-sm">
             Anterior
         </a>
-    {% endif %}
+        {% endif %}
 
-    Página {{ documentos.page }} de {{ documentos.pages }}
+        <span>Página {{ documentos.page }} de {{ documentos.pages }}</span>
 
-    {% if documentos.has_next %}
-        <a hx-get="{{ url_for('lista_documentos', page=documentos.next_num) }}"
-            hx-target="#lista-documentos"
+        {% if documentos.has_next %}
+        <a hx-get="{{ url_for('lista_documentos', page=documentos.next_num, status=status) }}"
+            hx-target="#documento-lista-container"
             hx-swap="innerHTML"
-            
-        >
-            
+            class="btn btn-sm">
             Próxima
-        </a>    
-    {% endif %}
-
+        </a>
+        {% endif %}
+    </div>
 </div>
-
-
-
-
-
-

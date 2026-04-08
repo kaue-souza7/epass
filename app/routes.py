@@ -2,7 +2,7 @@
 from wtforms import ValidationError
 from app import app, db
 from flask import Response, flash, make_response, render_template, send_file, url_for, request, redirect, abort, session
-from app.models import Documento, Logradouro, Professor, Responsavel, Secretaria, User, TipoUsuario, Aluno, Turmas
+from app.models import Documento, Logradouro, Professor, Responsavel, Secretaria, StatusDocumento, User, TipoUsuario, Aluno, Turmas
 
 from app.forms import AlunoForm, ProfessorForm, RespUserForm, ResponsavelForm, SecretariaForm, UserForm, LoginForm, TurmaForm
 
@@ -518,22 +518,30 @@ def update_turma(id):
     return render_template('partials/turma_update.html', form=form, turma=turma)
 
 
+# /////////////// TURMAS ///////////////
+
+
 @app.route('/documentos/lista/')
 def lista_documentos():
     page = request.args.get('page', 1, type=int)
     status = request.args.get('status')
 
+    status_enum = StatusDocumento[status] if status else None
 
+    documentos = Documento.query.filter(Documento.status==status_enum).paginate(page=page, per_page=5, error_out=False)
 
-    documentos = Documento.query.filter(Documento.status==status).paginate(page=page, per_page=5, error_out=False)
-
-    return render_template('partials/documento_lista.html', documentos=documentos)
+    return render_template('partials/documento_lista.html', documentos=documentos, status=status)
 
 
 @app.route('/documentos/', methods=['GET', 'POST'])
 def documentos():
     if request.method == 'GET':
         return render_template('documentos.html')
+
+
+@app.route('/documentos/upload', methods=['GET', 'POST'])
+def upload_documento():
+    return ''
 
 
 
