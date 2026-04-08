@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import BooleanField, IntegerField, SelectMultipleField, StringField, SubmitField, PasswordField, SelectField, DateField, TextAreaField
+from wtforms import BooleanField, IntegerField, SelectMultipleField, StringField, SubmitField, PasswordField, SelectField, DateField, TextAreaField, FileField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError, Length, Optional
 from wtforms_sqlalchemy.fields import QuerySelectMultipleField
 import wtforms
@@ -496,3 +496,12 @@ class DocumentoForm(FlaskForm):
         db.session.commit()
 
         return documento
+
+
+class DocumentoUploadForm(FlaskForm):
+    arquivo = FileField(
+        "Arquivo",
+        validators=[DataRequired(message="Selecione um arquivo")]
+    )
+    observacao = TextAreaField("Observação", validators=[Optional()])
+    submit = SubmitField("Enviar")

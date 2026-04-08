@@ -5,18 +5,18 @@
             <img src="../static/media/diplomado.png" style="width: 120px; height: auto;">
             <div class="grid grid-1x-10px">
 
-                <a href="{{url_for('home')}}" target="frame"
+                <a href="{{url_for('dashboard')}}" target="frame"
                     class="button secondary-button button-left-aligned">
-                    <span class="material">home</span>Home
+                    <span class="material">dashboard</span>Dashboard
                 </a>
 
-                <a href="{{url_for('documentos')}}" target="frame"
+                <a href="{{url_for('home')}}" target="frame"
                     class="button secondary-button button-left-aligned">
-                    <span class="material">dashboard</span>Documentos e Relátorios
+                    <span class="material">person_add</span>Cadastros
                 </a>
 
                 <a href="{{url_for('gestao_academica')}}" target="frame" class="button secondary-button button-left-aligned">
-                    <span class="material">school</span>Gestão Acadêmica
+                    <span class="material">school</span>Gestão Academica
                 </a>
 
                 <a href="{{url_for('gestao_administrativa')}}" target="frame"
@@ -24,8 +24,13 @@
                     <span class="material">assignment</span>Gestão Administrativa
                 </a>
 
+                <a href="{{url_for('documentos')}}" target="frame"
+                    class="button secondary-button button-left-aligned">
+                    <span class="material">assignment</span>Solicitações
+                </a>
+
                 <a href="{{url_for('alertas')}}" target="frame" class="button secondary-button button-left-aligned">
-                    <span class="material">chat_bubble</span>Alertas e Notificações
+                    <span class="material">chat_bubble</span>Alertas
                 </a>
 
                 <a href="{{url_for('calendario')}}" target="frame" class="button secondary-button button-left-aligned">
