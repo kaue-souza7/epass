@@ -1,0 +1,104 @@
+<div id="modal-overlay-{{ documento.id }}" class="modal-overlay">
+    <div class="modal-wrapper">
+        <div class="modal-header">
+            <h3>Enviar Documento</h3>
+            <button class="close-modal" onclick="document.getElementById('modal-overlay-{{ documento.id }}').remove()">&times;</button>
+        </div>
+        <form method="POST" action="{{ url_for('upload_documento', documento_id=documento.id) }}" 
+              hx-post="{{ url_for('upload_documento', documento_id=documento.id) }}" 
+              hx-target="#documento-lista-container"
+              hx-swap="innerHTML"
+              hx-on::after-submit="document.getElementById('modal-overlay-{{ documento.id }}').remove()"
+              enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            
+            <div class="form-group">
+                {{ form.arquivo.label }}
+                {{ form.arquivo(class="form-control") }}
+                {% if form.arquivo.errors %}
+                    <span class="error">{{ form.arquivo.errors[0] }}</span>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                {{ form.observacao.label }}
+                {{ form.observacao(class="form-control", rows=4) }}
+                {% if form.observacao.errors %}
+                    <span class="error">{{ form.observacao.errors[0] }}</span>
+                {% endif %}
+            </div>
+            
+            <div class="modal-actions">
+                {{ form.submit(class="btn btn-primary") }}
+                <button type="button" class="btn btn-secondary" onclick="document.getElementById('modal-overlay-{{ documento.id }}').remove()">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.modal-wrapper {
+    background: white;
+    border-radius: 8px;
+    width: 600px;
+    max-width: 90%;
+    padding: 30px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.modal-header h3 {
+    margin: 0;
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.error {
+    color: red;
+    font-size: 12px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+}
+</style>

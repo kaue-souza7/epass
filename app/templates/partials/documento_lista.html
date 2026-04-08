@@ -18,7 +18,12 @@
                 <td>{{ doc.data_pedido.strftime('%d/%m/%Y %H:%M') }}</td>
                 <td>{{ doc.aluno.nome }}</td>
                 <td>
-                    <a >Enviar Documento</a>
+                    <button hx-get="{{ url_for('upload_documento', documento_id=doc.id) }}" 
+                            hx-target="body" 
+                            hx-swap="beforeend"
+                            class="btn btn-sm">
+                        Enviar Documento
+                    </button>
                 </td>
                 <td>{{ doc.status.value }}</td>
             </tr>

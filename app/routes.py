@@ -4,13 +4,15 @@ from app import app, db
 from flask import Response, flash, make_response, render_template, send_file, url_for, request, redirect, abort, session
 from app.models import Documento, Logradouro, Professor, Responsavel, Secretaria, StatusDocumento, User, TipoUsuario, Aluno, Turmas
 
-from app.forms import AlunoForm, ProfessorForm, RespUserForm, ResponsavelForm, SecretariaForm, UserForm, LoginForm, TurmaForm
+from app.forms import AlunoForm, ProfessorForm, RespUserForm, ResponsavelForm, SecretariaForm, UserForm, LoginForm, TurmaForm, DocumentoUploadForm
 
 from sqlalchemy import desc
 
 from openpyxl import Workbook
 from io import BytesIO
 import os
+
+from werkzeug.utils import secure_filename
 
 from flask_login import logout_user, login_user, current_user, login_required
 
@@ -539,10 +541,37 @@ def documentos():
         return render_template('documentos.html')
 
 
-@app.route('/documentos/upload', methods=['GET', 'POST'])
-def upload_documento():
-    return ''
+@app.route('/documentos/upload/<int:documento_id>', methods=['GET', 'POST'])
+def upload_documento(documento_id):
+    from app.forms import DocumentoUploadForm
+    
+    documento = Documento.query.get_or_404(documento_id)
+    form = DocumentoUploadForm()
+    
+    if form.validate_on_submit():
+        arquivo = form.arquivo.data
+        filename = secure_filename(f"{documento.id}_{documento.tipo_documento.name}_{arquivo.filename}")
+        
+        upload_path = os.path.join(app.root_path, 'static', 'upload', 'documentos')
+        os.makedirs(upload_path, exist_ok=True)
+        
+        arquivo.save(os.path.join(upload_path, filename))
+        
+        documento.path = f"/static/upload/documentos/{filename}"
+        documento.observacao = form.observacao.data
+        documento.status = StatusDocumento.ENTREGUE
+        db.session.commit()
+        
+        return 'OK'
+    
+    return render_template('partials/documento_upload.html', form=form, documento=documento)
 
+
+
+@app.route('/dashboard/', methods=['GET', 'POST'])
+def dashboard():
+       if request.method == 'GET':
+        return render_template('dashboard.html')
 
 
 @app.route('/gestao_academica/', methods=['GET', 'POST'])
