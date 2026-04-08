@@ -2,15 +2,17 @@
 from wtforms import ValidationError
 from app import app, db
 from flask import Response, flash, make_response, render_template, send_file, url_for, request, redirect, abort, session
-from app.models import Documento, Logradouro, Professor, Responsavel, Secretaria, User, TipoUsuario, Aluno, Turmas
+from app.models import Documento, Logradouro, Professor, Responsavel, Secretaria, StatusDocumento, User, TipoUsuario, Aluno, Turmas
 
-from app.forms import AlunoForm, ProfessorForm, RespUserForm, ResponsavelForm, SecretariaForm, UserForm, LoginForm, TurmaForm
+from app.forms import AlunoForm, ProfessorForm, RespUserForm, ResponsavelForm, SecretariaForm, UserForm, LoginForm, TurmaForm, DocumentoUploadForm
 
 from sqlalchemy import desc
 
 from openpyxl import Workbook
 from io import BytesIO
 import os
+
+from werkzeug.utils import secure_filename
 
 from flask_login import logout_user, login_user, current_user, login_required
 
@@ -518,16 +520,19 @@ def update_turma(id):
     return render_template('partials/turma_update.html', form=form, turma=turma)
 
 
+# /////////////// TURMAS ///////////////
+
+
 @app.route('/documentos/lista/')
 def lista_documentos():
     page = request.args.get('page', 1, type=int)
     status = request.args.get('status')
 
+    status_enum = StatusDocumento[status] if status else None
 
+    documentos = Documento.query.filter(Documento.status==status_enum).paginate(page=page, per_page=5, error_out=False)
 
-    documentos = Documento.query.filter(Documento.status==status).paginate(page=page, per_page=5, error_out=False)
-
-    return render_template('partials/documento_lista.html', documentos=documentos)
+    return render_template('partials/documento_lista.html', documentos=documentos, status=status)
 
 
 @app.route('/documentos/', methods=['GET', 'POST'])
@@ -535,6 +540,38 @@ def documentos():
     if request.method == 'GET':
         return render_template('documentos.html')
 
+
+@app.route('/documentos/upload/<int:documento_id>', methods=['GET', 'POST'])
+def upload_documento(documento_id):
+    from app.forms import DocumentoUploadForm
+    
+    documento = Documento.query.get_or_404(documento_id)
+    form = DocumentoUploadForm()
+    
+    if form.validate_on_submit():
+        arquivo = form.arquivo.data
+        filename = secure_filename(f"{documento.id}_{documento.tipo_documento.name}_{arquivo.filename}")
+        
+        upload_path = os.path.join(app.root_path, 'static', 'upload', 'documentos')
+        os.makedirs(upload_path, exist_ok=True)
+        
+        arquivo.save(os.path.join(upload_path, filename))
+        
+        documento.path = f"/static/upload/documentos/{filename}"
+        documento.observacao = form.observacao.data
+        documento.status = StatusDocumento.ENTREGUE
+        db.session.commit()
+        
+        return 'OK'
+    
+    return render_template('partials/documento_upload.html', form=form, documento=documento)
+
+
+
+@app.route('/dashboard/', methods=['GET', 'POST'])
+def dashboard():
+       if request.method == 'GET':
+        return render_template('dashboard.html')
 
 
 @app.route('/gestao_academica/', methods=['GET', 'POST'])
