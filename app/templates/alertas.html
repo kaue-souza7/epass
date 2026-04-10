@@ -3,6 +3,68 @@
 
 {% block content %} 
 
-Alertas
+    <h2>Criar Aviso</h2>
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        {{ form.titulo.label }} 
+        {{ form.titulo() }}
+        <br>
+
+        {{ form.tipo.label }} 
+        {{ form.tipo() }}
+        <br>
+
+
+        <label>Turmas:</label>
+
+        {% for value, label in form.turmas.choices %}
+        <div>
+            <input type="checkbox" name="turmas" value="{{ value }}">
+            {{ label }}
+        </div>
+        {% endfor %}
+        <br>
+
+
+        {{ form.mensagem.label }} 
+        {{ form.mensagem() }}
+        <br>
+
+        {{ form.data_envio.label }}
+        {{ form.data_envio() }}
+        <br>
+
+        <label>Professores:</label>
+
+        {% for value, label in form.professores.choices %}
+            <div>
+                <input type="checkbox" name="professores" value="{{ value }}">
+                {{ label }}
+            </div>
+        {% endfor %}
+
+        <br>
+
+
+        {{ form.prioridade.label }}
+        {{ form.prioridade() }}
+
+
+        {{ form.submit() }}
+    </form>
+
+    <hr>
+
+    <h2>Meus Avisos</h2>
+
+    {% for aviso in avisos %}
+    <div>
+        <h3>{{ aviso.titulo }}</h3>
+        <p>{{ aviso.mensagem }}</p>
+        <small>{{ aviso.tipo.value }}</small>
+    </div>
+    {% endfor %}
 
 {% endblock %}
