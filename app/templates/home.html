@@ -1,19 +1,19 @@
 {% extends 'global/base.html' %}
 
-
 {% block override_home %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/overrides/dashboard.css') }}">
-{%endblock%}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/overrides/dashboard.css') }}">
+{% endblock %}
 
-
-{% block content %} 
+{% block content %}
 
 <div class="grid grid-1x">
 
+    <!-- Saudação -->
     <div class="card grid polar-grid">
         <h2>Olá Admin</h2>
     </div>
 
+    <!-- Select Mobile
     <div class="registro-mobile">
         <select id="registroSelect">
             <option value="">Selecione o tipo de registro</option>
@@ -23,84 +23,63 @@
             <option value="secretaria">Registrar Secretaria</option>
             <option value="turma">Registrar Turma</option>
         </select>
+    </div> -->
+
+    <!-- Cards -->
+    <div class="gestao-cards">
+
+        <a class="card-accent gestao-card grid grid-1x"
+           hx-get="{{ url_for('registrar_aluno') }}"
+           hx-target="#container-registro"
+           hx-swap="innerHTML">
+
+            <h2>Registrar Aluno</h2>
+            <span class="material">person_add</span>
+        </a>
+
+        <a class="card-accent gestao-card grid grid-1x"
+           hx-get="{{ url_for('registrar_responsavel') }}"
+           hx-target="#container-registro"
+           hx-swap="innerHTML">
+
+            <h2>Registrar Responsável</h2>
+            <span class="material">person_add</span>
+        </a>
+
+        <a class="card-accent gestao-card grid grid-1x"
+           hx-get="{{ url_for('registrar_professor') }}"
+           hx-target="#container-registro"
+           hx-swap="innerHTML">
+
+            <h2>Registrar Professor</h2>
+            <span class="material">person_add</span>
+        </a>
+
+        <a class="card-accent gestao-card  grid grid-1x"
+           hx-get="{{ url_for('registrar_secretaria') }}"
+           hx-target="#container-registro"
+           hx-swap="innerHTML">
+
+            <h2>Registrar Secretaria</h2>
+            <span class="material">person_add</span>
+        </a>
+
+        <a class="card-accent gestao-card grid grid-1x"
+           hx-get="{{ url_for('criar_turma') }}"
+           hx-target="#container-registro"
+           hx-swap="innerHTML">
+
+           <h2>Registrar Turma</h2>
+           <span class="material">groups</span>
+        </a>
+
     </div>
 
+    <!-- Conteúdo carregado via HTMX -->
+    <div class="card grid button-grid" id="container-registro"></div>
 
-    <div class="grid button-grid">
-
-<!-- 
-        <a class="card grid grid-1x" href=" {{ url_for('registrar_user') }} " >
-            <div class=""><span class="material">person</span></div>
-            <h2>
-                Registrar Usuário
-            </h2>
-            <p>Gerenciar cadastro e informações dos usuarios</p>
-        </a> -->
-
- 
-
-        <a class="card-accent registro-mobile grid grid-1x "  hx-get="{{ url_for('registrar_aluno') }}" hx-target="#container-registro" hx-swap="innerHTML">
-            <div class=""><span class="material">person</span></div>
-            
-            <h2>
-                Registrar Aluno
-            </h2>
-            <p>Gerenciar cadastro e informações dos alunos</p>
-
-        </a>
-
-        <a class="card-accent registro-mobile grid grid-1x " hx-get="{{url_for('registrar_responsavel')}}" hx-target="#container-registro" hx-swap="innerHTML">
-            <div class=""><span class="material">person</span></div>
-
-            <h2>
-                Registrar Responsável
-            </h2>
-            <p>Gerenciar cadastro dos responsaveis</p>
-
-        </a>
-
-
-        <a class="card-accent registro-mobile grid grid-1x"  hx-get="{{url_for('registrar_professor')}}" hx-target="#container-registro" hx-swap="innerHTML">
-            <div class=""><span class="material">person</span></div>
-
-            <h2>
-                Registrar Professor
-            </h2>
-            <p>Gerenciar cadastro dos professores</p>
-
-        </a>
-
-        <a class="card-accent registro-mobile grid grid-1x"  hx-get="{{url_for('registrar_secretaria')}}" hx-target="#container-registro" hx-swap="innerHTML">
-            <div class=""><span class="material">person</span></div>
-
-            <h2>
-                Registrar Secretaria
-            </h2>
-            <p>Gerenciar cadastro e informações da secretaria</p>
-
-        </a>
-
-
-
-        
-
-        <a class="card-accent registro-mobile grid grid-1x " hx-get="{{url_for('criar_turma')}}" hx-target="#container-registro" hx-swap="innerHTML">
-            <div class=""><span class="material">password</span></div>
-
-            <h2>
-                Registrar Turma
-            </h2>
-            <p>Gerenciar cadastro e informações das turmas</p>
-
-        </a>
-    </div>
-
-    
-
-    <div class="card grid button-grid" id="container-registro">
-
-    </div>
 </div>
 
-    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
 {% endblock %}
