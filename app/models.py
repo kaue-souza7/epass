@@ -1,6 +1,6 @@
 import uuid
 from app import db, login_manager
-from datetime import datetime
+from datetime import datetime, timezone
 from flask_login import UserMixin
 
 import enum
@@ -292,3 +292,55 @@ class Materia(db.Model):
 
     id_professor = db.Column(db.Integer, db.ForeignKey('professor.id'), nullable=True)
     id_turma = db.Column(db.Integer, db.ForeignKey('turmas.id'), nullable=True)
+
+
+
+
+class TipoAvisoEnum(enum.Enum):
+    GERAL = "geral"
+    COMPORTAMENTO = "comportamento"
+    SAUDE = "saude"
+    ADMINISTRATIVO = "administrativo"
+
+
+class NivelPrioridadeAviso(enum.Enum):
+    BAIXA = 'baixa'
+    MEDIA = 'media'
+    ALTA = 'alta'
+
+
+
+
+
+class Aviso(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+
+    titulo = db.Column(db.String(150))
+    mensagem = db.Column(db.Text)
+
+    tipo = db.Column(db.Enum(TipoAvisoEnum), nullable=False)
+
+    remetente_id = db.Column(db.Integer)
+    remetente_tipo = db.Column(db.String(20))
+
+    prioridade = db.Column(db.Enum(NivelPrioridadeAviso), nullable=False)
+
+    data_criacao = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+    data_envio = db.Column(db.DateTime)
+
+    enviado = db.Column(db.Boolean, default=False)
+
+
+
+
+class AvisoDestinatario(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+
+    aviso_id = db.Column(db.Integer, db.ForeignKey('aviso.id'))
+
+    destinatario_id = db.Column(db.Integer)
+    destinatario_tipo = db.Column(db.String(20))  # 'professor' ou 'responsavel'
+
+    lido = db.Column(db.Boolean, default=False)
+
+    aviso = db.relationship('Aviso', backref='destinatarios')
