@@ -1,7 +1,7 @@
 @import url(../global2.css);
 
 section {
-     height: 100vh;
+    height: 100vh;
     overflow-y: auto;
     scrollbar-gutter: stable;
     
@@ -9,6 +9,7 @@ section {
 .button-form{
     width: 3rem;
     height: 3rem;
+    background: var(--accent-grad-btn);
 
 }
 section img{
@@ -29,7 +30,7 @@ section .button-grid{
     /* grid-auto-columns: 1fr; */
 }
 section .button-grid a {
-    max-width: none;
+
     height: auto;
     min-height: 9rem;
 }
@@ -51,7 +52,7 @@ a:focus + #container-registro{
     display: block;
 }
 .card-form{
-    background:  #90ffa3be ;
+    background:  var(--subcard) ;
 }
 
 input:focus {
@@ -66,6 +67,7 @@ input:focus {
   font-size: 16px;
   outline: none;
   width: 100%;
+  margin-bottom: 10px;
 }
 
 input {

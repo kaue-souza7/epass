@@ -1,0 +1,87 @@
+/* ── INPUTS ─────────────────────────────────────── */
+input {
+  background-color: transparent;
+  padding: 10px 13px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--divider);
+  color: var(--text);
+  outline: 0;
+  font-family: inherit;
+  font-size: 13px;
+  transition: border-color .15s;
+}
+input:hover       { background-color: var(--bg); }
+input:focus       { border: 2px solid var(--accent); background-color: transparent; }
+input::placeholder { color: var(--inactive); }
+
+/* Variante .inp (fundo subcard, cantos menores) */
+.inp {
+  padding: 10px 13px;
+  background: var(--subcard);
+  border: 1.5px solid var(--divider);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: var(--text);
+  font-family: inherit;
+  transition: border-color .15s;
+  outline: none;
+}
+.inp:focus       { border-color: var(--accent);  }
+.inp::placeholder { color: var(--inactive); }
+
+.inp-group { display: flex; flex-direction: column; gap: 5px; }
+.inp-label {
+  font-size: 11px;
+  color: var(--subtext);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+}
+
+/* Floating label */
+.input-group { position: relative;  }
+.input-group input {
+  width: 100%;
+  padding: 14px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 16px;
+  outline: none;
+}
+.input-group label {
+  position: absolute;
+  top: 0; left: 12px;
+  transform: translateY(-50%);
+  background: var(--card);
+  padding: 0 6px;
+  font-size: 13px;
+  color: var(--subtext);
+}
+
+/* Search box */
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 13px;
+  background: var(--subcard);
+  border: 1.5px solid var(--divider);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: var(--subtext);
+  cursor: text;
+  transition: border-color .15s;
+}
+.search-box:focus-within   { border-color: var(--accent);}
+.search-box svg            { width: 14px; height: 14px; flex-shrink: 0; }
+.search-box input {
+  background: none;
+  border: none;
+  outline: none;
+  font-size: 13px;
+  color: var(--text);
+  font-family: inherit;
+  width: 100%;
+  padding: 0;
+  border-radius: 0;
+}
+.search-box input::placeholder { color: var(--inactive); }

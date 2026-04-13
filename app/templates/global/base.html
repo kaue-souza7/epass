@@ -8,10 +8,12 @@
     
     {% block override_home %}
     {% endblock %}
+    {% block override_bar %}
+    {% endblock %}
 </head>
 <body>
 
-
+    
         <div class="navbar-container">
             {% block navbar %}
                 {% include "global/nav.html" %}
@@ -30,5 +32,6 @@
     <script src="{{ url_for('static', filename='js/config.js') }}"></script>
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/b-admin.js') }}"></script>
 </body>
 </html>

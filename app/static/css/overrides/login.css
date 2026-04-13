@@ -26,4 +26,10 @@
   width: 100%; max-width:180px;
   display:flex; align-items:center; justify-content:center;
 }
+.login-left        { padding: 48px 44px; display: flex; flex-direction: column; justify-content: center; gap: 20px; }
+.login-title       { font-size: 26px; font-weight: 800; color: var(--text); letter-spacing: -.8px; }
+.login-sub         { font-size: 13px; color: var(--subtext); }
+.login-fields      { display: flex; flex-direction: column; gap: 12px; }
+.login-forgot      { font-size: 12px; color: var(--accent); cursor: pointer; font-weight: 600; align-self: flex-start; font-weight: 500;}
+.login-right       { background: var(--subcard); display: flex; align-items: center; justify-content: center; padding: 32px; }
 
