@@ -1,45 +1,77 @@
+{% block override_home %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/overrides/b-admin.css') }}">
+{%endblock%}
+
+
+{% block content %} 
 
 <body>
-    <aside>
-        <div class="grid grid-1x">
-            <img src="../static/media/diplomado.png" style="width: 120px; height: auto;">
-            <div class="grid grid-1x-10px">
+    <aside class="sidebar">
+        <!-- Logo -->
+        <div class="sidebar-logo">
+            <img 
+                src="../static/media/logo.png" 
+                alt="Logo" 
+                style="width:200px; height:auto;"
+            >
+        </div>
 
-                <a href="{{url_for('dashboard')}}" target="frame"
-                    class="button secondary-button button-left-aligned">
-                    <span class="material">dashboard</span>Dashboard
-                </a>
+        <!-- Navegação -->
+        <nav class="sidebar-nav">
 
-                <a href="{{url_for('home')}}" target="frame"
-                    class="button secondary-button button-left-aligned">
-                    <span class="material">person_add</span>Cadastros
-                </a>
+            <a href="{{ url_for('dashboard') }}" target="frame" class="nav-item">
+                <span class="material nav-icon">dashboard</span>
+                <span>Dashboard</span>
+            </a>
 
-                <a href="{{url_for('gestao_academica')}}" target="frame" class="button secondary-button button-left-aligned">
-                    <span class="material">school</span>Gestão Academica
-                </a>
+            <a href="{{ url_for('home') }}" target="frame" class="nav-item">
+                <span class="material nav-icon">person_add</span>
+                <span>Cadastros</span>
+            </a>
 
-                <a href="{{url_for('gestao_administrativa')}}" target="frame"
-                    class="button secondary-button button-left-aligned">
-                    <span class="material">assignment</span>Gestão Administrativa
-                </a>
+            <a href="{{ url_for('gestao_academica') }}" target="frame" class="nav-item">
+                <span class="material nav-icon">school</span>
+                <span>Gestão Acadêmica</span>
+            </a>
 
-                <a href="{{url_for('documentos')}}" target="frame"
-                    class="button secondary-button button-left-aligned">
-                    <span class="material">assignment</span>Solicitações
-                </a>
+            <a href="{{ url_for('gestao_administrativa') }}" target="frame" class="nav-item">
+                <span class="material nav-icon">assignment</span>
+                <span>Gestão Administrativa</span>
+            </a>
 
-                <a href="{{url_for('alertas')}}" target="frame" class="button secondary-button button-left-aligned">
-                    <span class="material">chat_bubble</span>Alertas
-                </a>
+            <a href="{{ url_for('documentos') }}" target="frame" class="nav-item">
+                <span class="material nav-icon">upload</span>
+                <span>Solicitações</span>
+            </a>
 
-                <a href="{{url_for('calendario')}}" target="frame" class="button secondary-button button-left-aligned">
-                    <span class="material">note_stack</span>Calendário Escolar
-                </a>
+            <a href="{{ url_for('alertas') }}" target="frame" class="nav-item">
+                <span class="material nav-icon">notifications_active</span>
+                <span>Alertas</span>
+                <span class="nav-badge">3</span>
+            </a>
+
+            <a href="{{ url_for('calendario') }}" target="frame" class="nav-item">
+                <span class="material nav-icon">event_note</span>
+                <span>Calendário Escolar</span>
+            </a>
+
+        </nav>
+
+        <!-- Rodapé -->
+        <div class="sidebar-footer">
+            <a href="../general/configuracoes.html" target="frame" class="nav-item">
+                <span class="material nav-icon">settings</span>
+                <span>Configurações</span>
+            </a>
+
+            <div class="user-card" style="margin-top:10px;">
+                <div class="user-avatar">AD</div>
+                <div>
+                    <div class="user-name">Admin</div>
+                    <div class="user-role">Administrador</div>
+                </div>
             </div>
         </div>
-        <a href="../general/configuracoes.html" target="frame" class="button">
-            <span class="material">settings</span>Configurações
-        </a>
     </aside>
 </body>
+{% endblock %}

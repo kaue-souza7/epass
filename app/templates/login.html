@@ -1,65 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/overrides/login.css') }}">
 </head>
-    <body>
-        <form action="" method="post">
+
+<body class="login-page">
+
+    <div class="login-card">
+        
+        <!-- LADO ESQUERDO -->
+        <div class="login-left">
             
-            {{ form.csrf_token }}
-            <div class="grid grid-1x-10px login-section">
-                <div class="grid polar-grid">
-                    <div class="grid grid-1x-10px">
-                        <h1 class="text">Bem-vindo</h1>
-                        <h4 class="text">Faça login com sua conta</h4>
-                    </div>
-                    <div>
-                        <select onchange="changeTheme()" id="theme">
-                            <option value="auto">Automático</option>
-                            <option value="light">Claro</option>
-                            <option value="dark">Escuro</option>
-                        </select>
-                    </div>
-                </div>
+            <img class="sidebar-logo" src="{{ url_for('static', filename='media/logo.png') }}" alt="">
             
+            
+            <h1 class="login-title">Bem-vindo</h1>
+            <p class="login-sub">Faça login com sua conta</p>
 
-                <div class="card">
-                    <div class="grid grid-1x">
+            <div class="custom-select" id="themeSelect">
+                <div class="selected">Automático</div>
 
-                        {{ form.email.label() }}
-                        {{ form.email( placeholder="Digite seu e-mail" ) }}
-                        <ul class="errors">
-                            {% for error in form.email.errors %}
-                                <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
-                    
-
-                        {{ form.senha.label() }}
-                        {{ form.senha( placeholder="Digite sua senha" ) }}
-                        <ul class="errors">
-
-                            {% for error in form.senha.errors %}
-                                <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
-                        <div class="button-grid">
-                            <a href="">Esqueceu sua senha?</a>
-                        </div>
-
-                        {{ form.btnSubmit(class="material") }}
-                    </div>
+                <div class="options">
+                    <div data-value="auto">Automático</div>
+                    <div data-value="light">Claro</div>
+                    <div data-value="dark">Escuro</div>
                 </div>
             </div>
-        </form> 
-        <div class="image-card">
-                <img src="{{url_for('static', filename='/media/Teaching-pana.png') }}"> 
 
+            <input type="hidden" id="theme" value="auto">
 
-        </div> 
-        <script src="{{url_for('static', filename='js/config.js') }}"></script>
-    </body>
+            <form action="" method="post" class="login-fields">
+                {{ form.csrf_token }}
+
+                <div class="input-group">
+                    {{ form.email.label() }}
+                    {{ form.email(placeholder="Digite seu e-mail") }}
+                </div>
+
+                <ul class="errors">
+                    {% for error in form.email.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+
+                <div class="input-group">
+                    {{ form.senha.label() }}
+                    {{ form.senha(placeholder="Digite sua senha") }}
+                </div>
+
+                <ul class="errors">
+                    {% for error in form.senha.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+
+                <a href="" class="login-forgot">Esqueceu sua senha?</a>
+
+                {{ form.btnSubmit(class="material btn-accent") }}
+            </form>
+
+        </div>
+
+        <!-- LADO DIREITO -->
+        <div class="login-right">
+            
+            <img class="right-image" src="{{ url_for('static', filename='media/image.png') }}">
+            
+        </div>
+
+    </div>
+
+    <script src="{{ url_for('static', filename='js/config.js') }}"></script>
+</body>
 </html>
