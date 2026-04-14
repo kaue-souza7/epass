@@ -323,7 +323,13 @@ class Aviso(db.Model):
     remetente_id = db.Column(db.Integer)
     remetente_tipo = db.Column(db.String(20))
 
-    prioridade = db.Column(db.Enum(NivelPrioridadeAviso), nullable=False)
+    prioridade = db.Column(
+        db.Enum(
+            NivelPrioridadeAviso,
+            values_callable=lambda enum: [e.value for e in enum]
+        ),
+        nullable=False
+    )
 
     data_criacao = db.Column(db.DateTime, default=datetime.now(timezone.utc))
     data_envio = db.Column(db.DateTime)
@@ -344,3 +350,7 @@ class AvisoDestinatario(db.Model):
     lido = db.Column(db.Boolean, default=False)
 
     aviso = db.relationship('Aviso', backref='destinatarios')
+
+
+
+

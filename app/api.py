@@ -3,7 +3,7 @@ import uuid
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import create_access_token, create_refresh_token
 from werkzeug.security import check_password_hash
-from app.models import Aluno, Carteira, PagamentoPendente, Responsavel, Transacao, User  # ajuste conforme seu model
+from app.models import Aluno, AvisoDestinatario, Carteira, PagamentoPendente, Responsavel, Transacao, User  # ajuste conforme seu model
 from app import db
 from app import bcrypt
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -333,7 +333,8 @@ def historico_transacoes(aluno_id):
 
 
 
-@api.route('/carteiras/update/<int:id>', methods=['PUT'])
+@api.route('/carteiras/update/<int:id>', methods=['GET'])
+@jwt_required()
 def update_carteira(id):
     carteira = Carteira.query.get(id)
 
@@ -351,3 +352,35 @@ def update_carteira(id):
     db.session.commit()
 
     return jsonify({'mensagem': 'Carteira atualizada'})
+
+
+
+@api.route('/lista/avisos/<int:id>', methods=['GET'])
+@jwt_required()
+def lista_avisos(id):
+    current_user_id = get_jwt_identity()
+
+    avisos = AvisoDestinatario.query.filter_by(
+        destinatario_id=current_user_id
+    ).all()
+
+    if not avisos:
+        return jsonify({'error': 'Nenhum aviso encontrado!'}), 404
+
+    return jsonify([
+        {
+            'lido': aviso.lido,
+            'aviso': {
+                'id': aviso.aviso.id,
+                'titulo': aviso.aviso.titulo,
+                'mensagem': aviso.aviso.mensagem,
+                'tipo': aviso.aviso.tipo.name if aviso.aviso.tipo else None,
+                'prioridade': aviso.aviso.prioridade.value if aviso.aviso.prioridade else None,
+                'data_envio': aviso.aviso.data_envio.isoformat() if aviso.aviso.data_envio else None,
+                'enviado': aviso.aviso.enviado
+            }
+        }
+        for aviso in avisos
+    ]), 200
+
+

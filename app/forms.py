@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import BooleanField, IntegerField, SelectMultipleField, StringField, SubmitField, PasswordField, SelectField, DateField, TextAreaField, FileField
+from wtforms import BooleanField, DateTimeLocalField, IntegerField, SelectMultipleField, StringField, SubmitField, PasswordField, SelectField, DateField, TextAreaField, FileField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError, Length, Optional
 from wtforms_sqlalchemy.fields import QuerySelectMultipleField
 import wtforms
@@ -7,7 +7,9 @@ import os
 from werkzeug.utils import secure_filename
 
 from app import db, bcrypt, app
-from app.models import Aluno, Documento, Logradouro, Professor, Responsavel, Secretaria, StatusDocumento, TipoDocumento, TipoSanguineo, Turmas, User, TipoUsuario
+from app.models import Aluno, Aviso, AvisoDestinatario, Documento, Logradouro, \
+                        Professor, Responsavel, Secretaria, StatusDocumento, TipoAvisoEnum, \
+                        TipoDocumento, TipoSanguineo, Turmas, User, TipoUsuario
 
 
 class QuerySelectMultipleFieldwithCheckboxes(QuerySelectMultipleField):
@@ -73,7 +75,6 @@ class LoginForm(FlaskForm):
 
 
         else: raise ValidationError('Usuário ou senha incorretos.')
-
 
 
 
@@ -149,7 +150,8 @@ class AlunoForm(FlaskForm):
         db.session.add(aluno)
         db.session.commit()
         return aluno
-    
+
+
 
 
 class ProfessorForm(FlaskForm):
@@ -233,7 +235,6 @@ class ProfessorForm(FlaskForm):
         return professor
 
     
-
 
 
 class SecretariaForm(FlaskForm):
@@ -325,6 +326,7 @@ class ResponsavelForm(FlaskForm):
     
 
 
+
 class RespUserForm(FlaskForm):
     telefone = StringField("Telefone", validators=[DataRequired(), Length(max=20)])
     nascimento = DateField("Data de Nascimento", format="%Y-%m-%d", validators=[DataRequired()])
@@ -408,7 +410,6 @@ class RespUserForm(FlaskForm):
 
 
 
-
 class TurmaForm(FlaskForm):
 
     nome = StringField("Nome", validators=[DataRequired(), Length(max=100)])
@@ -435,11 +436,6 @@ class TurmaForm(FlaskForm):
         db.session.commit()
         return turma
     
-
-
-
-
-
 
 
 
@@ -498,6 +494,8 @@ class DocumentoForm(FlaskForm):
         return documento
 
 
+
+
 class DocumentoUploadForm(FlaskForm):
     arquivo = FileField(
         "Arquivo",
@@ -505,3 +503,89 @@ class DocumentoUploadForm(FlaskForm):
     )
     observacao = TextAreaField("Observação", validators=[Optional()])
     submit = SubmitField("Enviar")
+
+class AvisoForm(FlaskForm):
+    
+    titulo = StringField('Título', validators=[DataRequired(), Length(max=150)])
+    mensagem = TextAreaField('Mensagem', validators=[DataRequired()])
+
+    tipo = SelectField(
+        'Tipo de Aviso',
+        choices=[(tipo.name, tipo.value) for tipo in TipoAvisoEnum],
+        validators=[DataRequired()]
+    )
+
+    turmas = SelectMultipleField('Turmas', coerce=int, validators=[Optional()])
+    professores = SelectMultipleField('Professores', coerce=int, validators=[Optional()])
+
+    data_envio = DateTimeLocalField(
+        'Data de Envio',
+        format='%Y-%m-%dT%H:%M',
+        validators=[Optional()]
+    )
+
+    prioridade = SelectField(
+        'Prioridade',
+        choices=[
+            ('baixa', 'Baixa'),
+            ('media', 'Média'),
+            ('alta', 'Alta')
+        ],
+        validators=[DataRequired()]
+    )
+
+    submit = SubmitField('Enviar')
+
+    # 🔥 MÉTODO SAVE
+    def save(self, current_user):
+        from datetime import datetime, timezone
+
+        # Define data de envio
+        data_envio = self.data_envio.data or datetime.now(timezone.utc)
+
+        aviso = Aviso(
+            titulo=self.titulo.data,
+            mensagem=self.mensagem.data,
+            tipo=TipoAvisoEnum[self.tipo.data],
+            remetente_id=current_user.id,
+            remetente_tipo=current_user.tipo_usuario.value,
+            data_envio=data_envio,
+            enviado=False,
+            prioridade=self.prioridade.data
+        )
+
+        db.session.add(aviso)
+        db.session.flush()  # pega ID
+
+        destinatarios_ids = set()
+
+        # 👇 Turmas → responsáveis
+        if self.turmas.data:
+            turmas = Turmas.query.filter(Turmas.id.in_(self.turmas.data)).all()
+
+            for turma in turmas:
+                for aluno in turma.alunos:
+                    for resp in aluno.responsaveis:
+                        destinatarios_ids.add(('responsavel', resp.id))
+
+        # 👇 Professores selecionados
+        if self.professores.data:
+            professores = Professor.query.filter(Professor.id.in_(self.professores.data)).all()
+
+            for prof in professores:
+                destinatarios_ids.add(('professor', prof.id))
+
+        # 👇 Criar vínculos
+        destinatarios = [
+            AvisoDestinatario(
+                aviso_id=aviso.id,
+                destinatario_tipo=tipo,
+                destinatario_id=id_
+            )
+            for tipo, id_ in destinatarios_ids
+        ]
+
+        db.session.add_all(destinatarios)
+        db.session.commit()
+
+        return aviso

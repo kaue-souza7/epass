@@ -2,9 +2,9 @@
 from wtforms import ValidationError
 from app import app, db
 from flask import Response, flash, make_response, render_template, send_file, url_for, request, redirect, abort, session
-from app.models import Documento, Logradouro, Professor, Responsavel, Secretaria, StatusDocumento, User, TipoUsuario, Aluno, Turmas
+from app.models import Aviso, AvisoDestinatario, Documento, Logradouro, Professor, Responsavel, Secretaria, StatusDocumento, User, TipoUsuario, Aluno, Turmas
 
-from app.forms import AlunoForm, ProfessorForm, RespUserForm, ResponsavelForm, SecretariaForm, UserForm, LoginForm, TurmaForm, DocumentoUploadForm
+from app.forms import AlunoForm, AvisoForm, ProfessorForm, RespUserForm, ResponsavelForm, SecretariaForm, UserForm, LoginForm, TurmaForm, DocumentoUploadForm
 
 from sqlalchemy import desc
 
@@ -588,11 +588,41 @@ def gestao_administrativa():
 
 
 
-@app.route('/alertas/', methods=['GET', 'POST'])
+@app.route('/alertas', methods=['GET', 'POST'])
+# @login_required
 def alertas():
-    if request.method == 'GET':
-        return render_template('alertas.html')
+    form = AvisoForm()
 
+    # 🔹 Preencher selects dinamicamente
+    form.turmas.choices = [(t.id, t.nome) for t in Turmas.query.all()]
+    form.professores.choices = [(p.id, p.user.nome) for p in Professor.query.all()]
+
+    # 🔹 POST (criação do aviso)
+    if form.validate_on_submit():
+        aviso = form.save(current_user)
+
+        flash('Aviso criado com sucesso!', 'success')
+        return redirect(url_for('alertas'))
+
+    # 🔹 GET (listar avisos do usuário logado)
+    from datetime import datetime, timezone
+
+    avisos = db.session.query(Aviso)\
+        .join(AvisoDestinatario)\
+        .filter(
+            AvisoDestinatario.destinatario_id == current_user.id,
+            AvisoDestinatario.destinatario_tipo == current_user.tipo_usuario.value,
+
+            Aviso.data_envio <= datetime.now(timezone.utc)
+        )\
+        .order_by(Aviso.data_envio.desc())\
+        .all()
+
+    return render_template(
+        'alertas.html',
+        form=form,
+        avisos=avisos
+    )
 
 
 @app.route('/calendario/', methods=['GET', 'POST'])
