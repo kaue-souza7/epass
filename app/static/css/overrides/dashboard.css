@@ -26,6 +26,7 @@ section {
   padding: 2px 16px;
   vertical-align: middle;
 }
+
 .pagination{
     display: flex;
     justify-content: center;

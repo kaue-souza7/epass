@@ -1,4 +1,10 @@
 /* ── BOTÕES ─────────────────────────────────────── */
+/* botão limpo */
+.cln-btn{
+  background-color: rgba(240, 248, 255, 0);
+  color: var(--text);
+}
+.cln-btn:hover { opacity: .88; color: var(--card)}
 
 /* Base — resets para todos os botões */
 button, .button {

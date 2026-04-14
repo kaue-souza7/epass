@@ -15,6 +15,10 @@ th, td {
 }
 th:first-child, td:first-child { border-left: 1px solid var(--subcard-hover); }
 th                              { color: var(--link); border-top: 1px solid var(--subcard-hover); }
+
+
+thead tr:first-child th:first-child {border-radius: var(--radius-sm) 0 0 0;}
+thead tr:first-child th:last-child {border-radius: 0 var(--radius-sm) 0 0;}
 tbody tr:last-child td:first-child  { border-radius: 0 0 0 var(--radius-sm); }
 tbody tr:last-child td:last-child   { border-radius: 0 0 var(--radius-sm) 0; }
                             
