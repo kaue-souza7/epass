@@ -1,0 +1,54 @@
+/* ── CARDS ──────────────────────────────────────── */
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: background .3s;
+}
+
+.card-accent {
+  background: var(--accent-grad);
+  border-radius: var(--radius);
+  color: white;
+  overflow: hidden;
+}
+.card-accent h1, .card-accent h2,
+.card-accent h3, .card-accent h4,
+.card-accent p { color: white; }
+
+.card-form {
+  background: var(--card);
+  padding: 25px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow1) 0 0 0 1px,
+              var(--shadow2) 0 1px 1px -.5px,
+              var(--shadow2) 0 3px 3px -1.5px,
+              var(--shadow2) 0 6px 6px -3px,
+              var(--shadow1) 0 12px 12px -6px,
+              var(--shadow1) 0 24px 24px -12px;
+}
+
+.image-card {
+  background: var(--card);
+  padding: 25px;
+  border-radius: 25px;
+  box-shadow: var(--shadow);
+}
+
+.subcard {
+  background: var(--bg);
+  padding: 12px;
+  border-radius: var(--radius-sm);
+}
+.subcard:hover { background: var(--subcard-hover); }
+
+.card-head {
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--divider);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.card-title { font-size: 14px; font-weight: 700; color: var(--text); }
+.card-link  { font-size: 12px;  color: var(--link); cursor: pointer; font-weight: 600; }

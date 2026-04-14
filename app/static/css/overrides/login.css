@@ -1,49 +1,28 @@
-@import url(../global.css);
+@import url(../global2.css);
 
-body {
-    padding: 3vw;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+/* ── LOGIN ──────────────────────────────────────── */
+.login-page { min-height: 100vh; background: var(--bg); display: flex; align-items: center; justify-content: center; }
+.login-card {
+  display: grid; grid-template-columns: 1fr 1fr;
+  background: var(--card); border-radius: 20px;
+  box-shadow: 0 8px 40px rgba(0,0,0,.1);
+  overflow: hidden; width: 800px; max-width: 95vw;
 }
+.login-left        { padding: 48px 44px; display: flex; flex-direction: column; justify-content: center; gap: 20px; }
+.login-title       { font-size: 26px; font-weight: 800; color: var(--text); letter-spacing: -.8px; }
+.login-sub         { font-size: 13px; color: var(--subtext); }
+.login-fields      { display: flex; flex-direction: column; gap: 12px; }
+.login-forgot      { font-size: 12px; color: var(--accent); cursor: pointer; font-weight: 600; align-self: flex-start; }
+.login-right       { background: var(--accent-grad-btn); display: flex; align-items: center; justify-content: center; padding: 32px; }
 
-.login-section {
-    margin-right: 2.5vw;
-    height: 100%;
-    width: 400px;
-    max-width: 90vw;
-    
+.right-image {
+  width:100%; max-width:320px;
+  border-radius:16px;
+  aspect-ratio:1;
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden;
 }
-
-.image-card {
-    margin-left: 2.5vw;
-    height: 100vmin;
-    max-height: 400px;
-    max-width: 90vw;
-    display: flex;
-    justify-content: center;
-    background-color: var(--image-card-background);
-}
-
-
-@media only screen and (max-width: 850px) {
-    body {
-        flex-wrap: wrap;
-        align-content: flex-start;
-    }
-
-    .login-section {
-        margin-right: 0;
-    }
-
-    .card {
-        border-radius: 25px 25px 0px 0px;
-        
-    }
-
-    .image-card {
-        margin-left: 0;
-        border-radius: 0px 0px 25px 25px;
-        background-color: var(--card-background);
-    }
+.sidebar-logo {
+  width: 100%; max-width:180px;
+  display:flex; align-items:center; justify-content:center;
 }

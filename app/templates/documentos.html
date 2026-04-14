@@ -1,19 +1,32 @@
 {% extends 'global/base.html' %}
+
+{% block override_home %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/overrides/docs.css') }}">
+{% endblock %}
+
+
 {% block content %} 
     <div class="card grid polar-grid">
         <h2>Documentos</h2>
     </div>
+        <div class="card-docs btn-accent">
+            <div class="material">docs</div>
 
-        <button class="btn btn-primary" hx-get="{{ url_for('lista_documentos', status='PENDENTE') }}" hx-target="#lista-pendentes" hx-swap="innerHTML">
-            Documentos Pendentes
-        </button>
 
-        <div id="lista-pendentes"></div>
+            <button class="cln-btn"  hx-get="{{ url_for('lista_documentos', status='PENDENTE') }}" hx-target="#lista-pendentes" hx-swap="innerHTML">
+                Documentos Pendentes
+            </button>
+            <div class="material">keyboard_arrow_down</div>
+        </div>
 
-        <button class="btn btn-primary" hx-get="{{ url_for('lista_documentos', status='ENTREGUE') }}" hx-target="#lista-entregues" hx-swap="innerHTML">
-            Documentos Entregues
-        </button>
+        <div id="lista-pendentes" class="tbl"></div>
+        
+        <div class="card-docs btn-accent">
+            <button class="cln-btn" hx-get="{{ url_for('lista_documentos', status='ENTREGUE') }}" hx-target="#lista-entregues" hx-swap="innerHTML">
+                Documentos Entregues
+            </button>
+        </div>
 
-    <div id="lista-entregues"></div>
+    <div id="lista-entregues" class="tbl"></div>
 
 {% endblock %}

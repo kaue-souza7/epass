@@ -21,11 +21,15 @@
                     <button hx-get="{{ url_for('upload_documento', documento_id=doc.id) }}" 
                             hx-target="body" 
                             hx-swap="beforeend"
-                            class="btn btn-sm">
-                        Enviar Documento
+                            class="material">
+                        upload
                     </button>
                 </td>
-                <td>{{ doc.status.value }}</td>
+                <td>
+                    <span class="pill {{ 'pill-orange' if doc.status.value == 'pendente' else 'pill-green' if doc.status.value == 'entregue' else '' }}">
+                        {{ doc.status.value }}
+                    </span>
+                </td>
             </tr>
             {% else %}
             <tr>

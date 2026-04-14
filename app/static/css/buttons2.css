@@ -1,0 +1,144 @@
+/* ── BOTÕES ─────────────────────────────────────── */
+/* botão limpo */
+.cln-btn{
+  background-color: rgba(240, 248, 255, 0);
+  color: var(--text);
+}
+.cln-btn:hover { opacity: .88; color: var(--card)}
+
+/* Base — resets para todos os botões */
+button, .button {
+  border-radius: 100px;
+  padding: 10px;
+  outline: 0;
+  background-color: var(--button);
+  border: none;
+  color: var(--button-text);
+  width: 100%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  font-family: inherit;
+  transition: all .15s;
+}
+button:hover, .button:hover { opacity: .88; color: var(--text)}
+button:focus > span, .button:focus > span {
+  animation: fill .25s;
+  font-variation-settings: 'FILL' 1;
+}
+
+/* Variantes */
+.btn-accent {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: var(--accent-grad-btn);
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  transition: opacity .15s;
+  width: auto;
+  height: auto;
+}
+.btn-accent:hover { opacity: .88; }
+.btn-accent svg   { width: 14px; height: 14px; }
+
+.btn-outline {
+  padding: 8px 16px;
+  background: transparent;
+  border: 1.5px solid var(--divider);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all .15s;
+  width: auto;
+  height: auto;
+}
+.btn-outline:hover { border-color: var(--text); background: transparent; }
+
+.btn-icon {
+  width: 36px; height: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--subcard);
+  border: none;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--subtext);
+  transition: all .15s;
+}
+.btn-icon:hover   { background: var(--divider); color: var(--text); }
+.btn-icon svg     { width: 16px; height: 16px; }
+
+.theme-btn {
+  width: 36px; height: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--subcard);
+  border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--subtext);
+  transition: all .15s;
+}
+.theme-btn:hover  { background: var(--divider); }
+.theme-btn svg    { width: 16px; height: 16px; }
+
+.button-accent {
+  background: var(--card-accent);
+  width: 220px;
+  align-items: center;
+  display: flex;
+}
+.button-left-aligned { justify-content: left; }
+
+.secondary-button { background: var(--card); color: var(--text); }
+.secondary-button:hover { background: var(--bg); }
+.secondary-button:focus { background: var(--subcard-hover); }
+
+/* select */ 
+
+.custom-select {
+    position: relative;
+    width: 100%;
+}
+
+.selected {
+    padding: 12px;
+    border: 1px solid var(--divider);
+    border-radius: 12px;
+    cursor: pointer;
+    background: var(--card);
+    color: var(--text);
+    font-size: 14px;
+}
+
+.options {
+    position: absolute;
+    font-size: 14px;
+    top: 110%;
+    left: 0;
+    right: 0;
+    background: var(--card);
+    border: 1px solid var(--divider);
+    border-radius: 12px;
+    overflow: hidden;
+    display: none;
+    z-index: 99;
+}
+
+.options div {
+    padding: 12px;
+    cursor: pointer;
+}
+
+.options div:hover {
+    background: var(--divider);
+}
