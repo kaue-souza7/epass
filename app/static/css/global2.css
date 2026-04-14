@@ -171,6 +171,9 @@ margin-left: var(--sidebar-w);
   min-height: 100vh;
   background: var(--bg);
 }
+.hidden{
+  display: none;
+}
 
 /* ── LAYOUT ─────────────────────────────────────── */
 .app {

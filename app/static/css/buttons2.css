@@ -17,7 +17,7 @@ button, .button {
   font-family: inherit;
   transition: all .15s;
 }
-button:hover, .button:hover { opacity: .88; }
+button:hover, .button:hover { opacity: .88; color: var(--text)}
 button:focus > span, .button:focus > span {
   animation: fill .25s;
   font-variation-settings: 'FILL' 1;

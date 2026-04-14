@@ -143,7 +143,7 @@
     hx-swap="innerHTML">
 </div>
 
-<div class="input-group">
+<div class="input-group hidden" id="lista">
     <select 
         name="turma_id"
         hx-get="/alunos/lista/"
@@ -158,10 +158,9 @@
     </select>
 </div>
 
-<div 
-    id="lista-alunos"
-    hx-get="/alunos/lista/"
-    hx-trigger="load, alunoAtualizado from:body">
+<div id="lista-box" class="card hidden">
+    <div id="lista-alunos"></div>
 </div>
 
 
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
