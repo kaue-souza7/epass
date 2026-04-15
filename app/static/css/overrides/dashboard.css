@@ -27,19 +27,8 @@ section {
   vertical-align: middle;
 }
 
-.pagination{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-}
 .pagination a, .pagination span {
-    display: flex;
-    align-items: center;
     background-color: var(--card);
-    padding: 2px 4px;
-    height: 50px;
-    
 }
 
 .gestao-card .material{

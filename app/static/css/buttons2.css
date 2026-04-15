@@ -4,7 +4,7 @@
   background-color: rgba(240, 248, 255, 0);
   color: var(--text);
 }
-.cln-btn:hover { opacity: .88; color: var(--card)}
+.cln-btn:hover { opacity: .88; color: var(--text)}
 
 /* Base — resets para todos os botões */
 button, .button {
@@ -23,7 +23,7 @@ button, .button {
   font-family: inherit;
   transition: all .15s;
 }
-button:hover, .button:hover { opacity: .88; color: var(--text)}
+button:hover, .button:hover { opacity: .88; color: var(--text);}
 button:focus > span, .button:focus > span {
   animation: fill .25s;
   font-variation-settings: 'FILL' 1;
@@ -44,7 +44,7 @@ button:focus > span, .button:focus > span {
   font-weight: 600;
   font-family: inherit;
   transition: opacity .15s;
-  width: auto;
+  width: 100%;
   height: auto;
 }
 .btn-accent:hover { opacity: .88; }

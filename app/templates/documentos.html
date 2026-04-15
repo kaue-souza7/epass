@@ -6,27 +6,42 @@
 
 
 {% block content %} 
-    <div class="card grid polar-grid">
-        <h2>Documentos</h2>
+<main class="main">
+    <div class="topbar">
+      <div>
+        <div class="topbar-title" id="topbarTitle">Solicitações</div>
+        <div class="topbar-sub" id="topbarSub">Requerimentos e documentos</div>
+      </div>
     </div>
-        <div class="card-docs btn-accent">
-            <div class="material">docs</div>
+
+    <div class="content docs-content">
+
+            <div class="card-docs btn-accent">
+                <div class="material">docs</div>
 
 
-            <button class="cln-btn"  hx-get="{{ url_for('lista_documentos', status='PENDENTE') }}" hx-target="#lista-pendentes" hx-swap="innerHTML">
-                Documentos Pendentes
-            </button>
-            <div class="material">keyboard_arrow_down</div>
-        </div>
+                <button class="cln-btn" onclick="toggleLista('lista-entregues', this)"  hx-get="{{ url_for('lista_documentos', status='PENDENTE') }}" hx-target="#lista-pendentes" hx-swap="innerHTML">
+                    Documentos Pendentes
+                </button>
+                <div class="material">keyboard_arrow_down</div>
+            </div>
 
-        <div id="lista-pendentes" class="tbl"></div>
-        
-        <div class="card-docs btn-accent">
-            <button class="cln-btn" hx-get="{{ url_for('lista_documentos', status='ENTREGUE') }}" hx-target="#lista-entregues" hx-swap="innerHTML">
-                Documentos Entregues
-            </button>
-        </div>
+            <div id="lista-pendentes" class="tbl hidden"></div>
+            
+            <div class="card-docs btn-accent">
+                <div class="material">file_export</div>
 
-    <div id="lista-entregues" class="tbl"></div>
+                <button class="cln-btn" onclick="toggleLista('lista-entregues', this)" hx-get="{{ url_for('lista_documentos', status='ENTREGUE') }}" hx-target="#lista-entregues" hx-swap="innerHTML">
+                    Documentos Entregues
+                </button>
+
+                <div class="material">keyboard_arrow_down</div>
+            </div>
+
+        <div id="lista-entregues" class="tbl hidden"></div>
+    </div>
+</main>
+
+<script src="{{ url_for('static', filename='js/docs.js') }}"></script>
 
 {% endblock %}
