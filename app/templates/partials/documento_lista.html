@@ -21,7 +21,7 @@
                     <button hx-get="{{ url_for('upload_documento', documento_id=doc.id) }}" 
                             hx-target="body" 
                             hx-swap="beforeend"
-                            class="material">
+                            class="material cln-btn">
                         upload
                     </button>
                 </td>
@@ -44,8 +44,8 @@
         <a hx-get="{{ url_for('lista_documentos', page=documentos.prev_num, status=status) }}"
             hx-target="#documento-lista-container"
             hx-swap="innerHTML"
-            class="btn btn-sm">
-            Anterior
+            class="btn btn-sm material">
+            arrow_back_ios_new
         </a>
         {% endif %}
 
@@ -55,8 +55,8 @@
         <a hx-get="{{ url_for('lista_documentos', page=documentos.next_num, status=status) }}"
             hx-target="#documento-lista-container"
             hx-swap="innerHTML"
-            class="btn btn-sm">
-            Próxima
+            class="btn btn-sm material">
+            arrow_forward_ios
         </a>
         {% endif %}
     </div>

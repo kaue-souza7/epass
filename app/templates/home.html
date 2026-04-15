@@ -5,13 +5,17 @@
 {% endblock %}
 
 {% block content %}
+<main>
 
-<div class="grid grid-1x">
 
-    <!-- Saudação -->
-    <div class="card grid polar-grid">
-        <h2>Olá Admin</h2>
+
+    <div class="topbar">
+      <div>
+        <div class="topbar-title" id="topbarTitle">Cadastros</div>
+        <div class="topbar-sub" id="topbarSub">Gestão de cadastros de alunos</div>
+      </div>
     </div>
+
 
     <!-- Select Mobile
     <div class="registro-mobile">
@@ -26,6 +30,7 @@
     </div> -->
 
     <!-- Cards -->
+<div class="content">
     <div class="gestao-cards">
 
         <a class="card-accent gestao-card grid grid-1x"
@@ -78,7 +83,8 @@
     <!-- Conteúdo carregado via HTMX -->
     <div class="card grid button-grid" id="container-registro"></div>
 
-</div>
+    </div>
+</main>
 
 <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 

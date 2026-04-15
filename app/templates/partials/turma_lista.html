@@ -1,4 +1,4 @@
-<table >
+<table class="tbl">
     <thead>
         <tr>
             <th>ID</th>
@@ -19,7 +19,8 @@
                     <a 
                         hx-get="{{ url_for('update_turma', id=turma.id) }}"
                         hx-target="#container-form"
-                        hx-swap="innerHTML">
+                        hx-swap="innerHTML" 
+                        class="material">
                         edit
                     </a>
                 </td>
@@ -35,9 +36,10 @@
         <a hx-get="{{ url_for('lista_turma', page=turmas.prev_num) }}"
             hx-target="#lista-turmas"
             hx-swap="innerHTML"
+            class="material"
 
         >
-            Anterior
+            arrow_back_ios_new
         </a>
     {% endif %}
 
@@ -47,10 +49,11 @@
         <a hx-get="{{ url_for('lista_turma', page=turmas.next_num) }}"
             hx-target="#lista-turmas"
             hx-swap="innerHTML"
+            class="material"
             
         >
             
-            Próxima
+            arrow_forward_ios
         </a>
     {% endif %}
 

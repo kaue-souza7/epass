@@ -33,12 +33,22 @@ input::placeholder { color: var(--inactive); }
 
 /* Floating label */
 .input-group { position: relative; margin: 10px 0; }
-.input-group input {
+.input-group input, .input-group select, .input-group textarea{
   width: 100%;
   padding: 14px 12px;
   border-radius: var(--radius-sm);
   font-size: 16px;
   outline: none;
+  border: 1.5px solid var(--divider);
+}
+.input-field{
+  width:100%;
+  padding:14px 12px;
+  border-radius:var(--radius-sm);
+  font-size:16px;
+  outline:none;
+  border:1.5px solid var(--divider);
+  background:var(--card);
 }
 .input-group label {
   position: absolute;

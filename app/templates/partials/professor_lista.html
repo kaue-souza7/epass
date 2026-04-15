@@ -1,11 +1,11 @@
-<table >
+<table class="tbl">
     <thead>
         <tr>
             <th>ID</th>
             <th>Nome</th>
             <th>E-email</th>
             <th>Telefone</th>
-            <th></th>
+            <th>Editar</th>
         </tr>
     </thead>
     <tbody>
@@ -19,7 +19,8 @@
                     <a 
                         hx-get="{{ url_for('update_professor', id=prof.id) }}"
                         hx-target="#container-form"
-                        hx-swap="innerHTML">
+                        hx-swap="innerHTML"
+                        class="material">
                         edit
                     </a>
                 </td>
@@ -37,7 +38,7 @@
             hx-swap="innerHTML"
 
         >
-            Anterior
+            arrow_back_ios_new
         </a>
     {% endif %}
 
@@ -50,7 +51,7 @@
             
         >
             
-            Próxima
+            arrow_forward_ios
         </a>
     {% endif %}
 
