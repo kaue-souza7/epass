@@ -1,4 +1,4 @@
-<table >
+<table class="tbl">
     <thead>
         <tr>
             <!-- <th>Nome</th>
@@ -8,21 +8,29 @@
             <th>Nome</th>
             <th>E-email</th>
             <th>Telefone</th>
-            <th></th>
+            <th>Editar</th>
         </tr>
     </thead>
     <tbody>
         {% for resp in responsaveis %}
             <tr>
                 <td>{{ resp.id }}</td>
-                <td>{{ resp.user.nome}} {{ resp.user.sobrenome }}</td>
+                <td>
+                    <div style="display:flex;align-items:center;gap:9px;">
+                            <div class="av">
+                                {{ resp.user.nome[0] }}{{ resp.user.sobrenome[0] if resp.user.sobrenome }}
+                            </div>
+                            {{ resp.user.nome}} {{ resp.user.sobrenome }}
+                        </div>
+                </td>
                 <td>{{ resp.user.email }}</td>
                 <td>{{ resp.telefone }}</td>
                 <td > 
                     <a 
                         hx-get="{{ url_for('update_responsavel', id=resp.id) }}"
                         hx-target="#container-form"
-                        hx-swap="innerHTML">
+                        hx-swap="innerHTML"
+                        class="material">
                         edit
                     </a>
                 </td>
@@ -38,9 +46,10 @@
         <a hx-get="{{ url_for('lista_responsavel', page=responsaveis.prev_num) }}"
             hx-target="#lista-responsaveis"
             hx-swap="innerHTML"
+            class="material"
 
         >
-            Anterior
+           arrow_back_ios_new
         </a>
     {% endif %}
 
@@ -50,10 +59,11 @@
         <a hx-get="{{ url_for('lista_responsavel', page=responsaveis.next_num) }}"
             hx-target="#lista-responsaveis"
             hx-swap="innerHTML"
+            class="material"
             
         >
             
-            Próxima
+            arrow_forward_ios
         </a>
     {% endif %}
 

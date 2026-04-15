@@ -1,70 +1,157 @@
 {% extends 'global/base.html' %}
 
+{% block override_home %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/overrides/alertas.css') }}">
+{% endblock %}
 
-{% block content %} 
+{% block content %}
 
-    <h2>Criar Aviso</h2>
-
-    <form method="POST">
-        {{ form.hidden_tag() }}
-
-        {{ form.titulo.label }} 
-        {{ form.titulo() }}
-        <br>
-
-        {{ form.tipo.label }} 
-        {{ form.tipo() }}
-        <br>
+<main class="main">
 
 
-        <label>Turmas:</label>
-
-        {% for value, label in form.turmas.choices %}
+    <div class="topbar">
         <div>
-            <input type="checkbox" name="turmas" value="{{ value }}">
-            {{ label }}
+            <div class="topbar-title">Alertas</div>
+            <div class="topbar-sub">Notificações e configurações</div>
         </div>
-        {% endfor %}
-        <br>
-
-
-        {{ form.mensagem.label }} 
-        {{ form.mensagem() }}
-        <br>
-
-        {{ form.data_envio.label }}
-        {{ form.data_envio() }}
-        <br>
-
-        <label>Professores:</label>
-
-        {% for value, label in form.professores.choices %}
-            <div>
-                <input type="checkbox" name="professores" value="{{ value }}">
-                {{ label }}
-            </div>
-        {% endfor %}
-
-        <br>
-
-
-        {{ form.prioridade.label }}
-        {{ form.prioridade() }}
-
-
-        {{ form.submit() }}
-    </form>
-
-    <hr>
-
-    <h2>Meus Avisos</h2>
-
-    {% for aviso in avisos %}
-    <div>
-        <h3>{{ aviso.titulo }}</h3>
-        <p>{{ aviso.mensagem }}</p>
-        <small>{{ aviso.tipo.value }}</small>
     </div>
-    {% endfor %}
+
+
+    <div class="content">
+
+        <div class="grid grid2">
+
+            <div class="card">
+                <div class="card-head"><h2>Criar Aviso</h2></div>
+                
+                
+
+                <form method="POST" class="form">
+                    {{ form.hidden_tag() }}
+
+                    <div class="grid grid-1x-10px">
+
+                        <div class="grid2">
+                            <div class="input-group">
+                                {{ form.titulo.label }}
+                                {{ form.titulo() }}
+                            </div>
+    
+                            <div class="input-group">
+                                {{ form.tipo.label }}
+                                {{ form.tipo() }}
+                            </div>
+                        </div>
+
+                        <div>
+
+                        <div>
+
+                            <label>Turmas</label>
+
+                            <div class="polar-grid user-row input-field"
+                                onclick="document.getElementById('lista-turmas').classList.toggle('hidden')"
+                                style="cursor:pointer; background:var(--card);">
+
+                                <span>Selecionar turmas</span>
+                                <span class="material">keyboard_arrow_down</span>
+                            </div>
+
+                        </div>
+
+                        <!-- opções -->
+                        <div id="lista-turmas" class="grid grid-1x-5px hidden" style="margin-top:8px;">
+                            {% for value, label in form.turmas.choices %}
+                            <label class="polar-grid subcard user-row" style="margin-bottom:5px; padding:10px 13px;">
+                                <span>{{ label }}</span>
+                                <input type="checkbox" name="turmas" value="{{ value }}">
+                            </label>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+
+                        <div class="input-group">
+                            {{ form.mensagem.label }}
+                            {{ form.mensagem() }}
+                        </div>
+
+                        <div class="input-group">
+                            {{ form.data_envio.label }}
+                            {{ form.data_envio() }}
+                        </div>
+                        <div >
+                            
+                            <label>Professores</label>
+
+                            <!-- campo visual -->
+                            <div class="polar-grid user-row input-field"
+                                onclick="this.nextElementSibling.classList.toggle('hidden')"
+                                style="cursor:pointer; background:var(--card);">
+
+                                <span>Selecionar professores</span>
+                                <span class="material">keyboard_arrow_down</span>
+                            </div>
+
+                            <!-- opções -->
+                            <div class="grid grid-1x-5px hidden" style="margin-top:8px;">
+                                {% for value, label in form.professores.choices %}
+                                <label class="polar-grid subcard user-row" style="margin-bottom:5px; padding:10px 13px;">
+                                    <span>{{ label }}</span>
+                                    <input type="checkbox" name="professores" value="{{ value }}">
+                                </label>
+                                {% endfor %}
+                            </div>
+
+                        </div>
+                        
+
+                        <div class="input-group">
+                            {{ form.prioridade.label }}
+                            {{ form.prioridade() }}
+                        </div>
+
+                        <div>
+                            {{ form.submit(class="btn-accent") }}
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+
+            <!-- Lista de Avisos -->
+            <div class="card">
+                <h2 class="card-head">Meus Avisos</h2>
+
+                <div class="grid grid-1x-10px">
+
+                    {% for aviso in avisos %}
+                    <div class="card subcard">
+
+                        <div class="grid grid-1x-5px">
+                            <h3>{{ aviso.titulo }}</h3>
+
+                            <p>{{ aviso.mensagem }}</p>
+
+                            <small class="pill pill-accent">
+                                {{ aviso.tipo.value }}
+                            </small>
+                        </div>
+
+                    </div>
+                    {% else %}
+                    <p>Nenhum aviso cadastrado.</p>
+                    {% endfor %}
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+<script src="{{ url_for('static', filename='js/alert.js') }}"></script>
+
 
 {% endblock %}

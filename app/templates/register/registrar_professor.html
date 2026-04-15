@@ -5,16 +5,18 @@
 
 {% if formUser %}
 
-    <div class="card-form table-section grid grid-1x">
+    <div class="card-form tbl grid grid-1x">
         <div class="grid polar-grid">
             <h2>Cadastrar Professor</h2> 
-        </div>    
         <button 
             hx-get="/form_user/" 
             hx-target="#form" 
-            hx-swap="innerHTML toggle" >
-            Cadastrar Professor
-        </button>
+            hx-swap="innerHTML toggle"
+            class="material btn-accent" >
+            person_add
+        </button>       
+     </div>    
+        
     </div>
 
     <form id="form"

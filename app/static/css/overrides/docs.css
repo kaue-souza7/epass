@@ -1,5 +1,9 @@
 @import url(../global2.css);
 
+.card-docs{
+    margin-bottom: 10px;
+}
+
 .card-docs  .material{
    font-size: 32px;
 }
@@ -13,4 +17,24 @@
 }
 button{
     background: none;
+}
+
+.cln-btn:hover{
+    color: var(--card);
+}
+
+#documento-lista-container button{
+    background: var(--accent-grad-btn);
+    color: var(--card)
+}
+
+.pill{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+}
+.docs-content {
+  gap: 16px;
 }
