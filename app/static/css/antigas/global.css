@@ -17,11 +17,18 @@
 :root {
     color-scheme: light dark;
 
-    --background: light-dark(#f2f2f7, #1c232b);
-    --card-background: light-dark(white, #2e2e2e);
-    --card-accent-text: light-dark(white, white);
+    /* background */
+
+    --background: light-dark(#F3F3F5, #252525);
+    --card-background: light-dark(white, #323232);
     --card-accent: radial-gradient(ellipse 211.02% 154.45% at 0.00% 100.00%, #FF5B8F 0%, #FF9A4E 100%);
-    --image-card-background: light-dark(white, #FF5B8F);
+    --subcard: light-dark( #E9E9E9, rgba(17,17,17,0.07))
+    
+    /* textos */
+    --card-accent-text: light-dark(white, white);
+    --subtext: light-dark(#6E6E73, #76767F);
+
+
 
     --common-hover: light-dark(#435b72, #55a06a);
     --common-press: light-dark(#1a3c63, #21833d);
@@ -35,6 +42,8 @@
 
     --button: light-dark(#28343a, #92e2a9);
     --button-text: light-dark(white, black);
+
+    --button-accent: linear-gradient(135deg, #FF5B8F 0%, #FF9A4E 100%);
 
     --inactive-background: light-dark(rgb(186, 0, 40), rgb(232, 111, 137));
     --inactive-text: light-dark(rgb(255, 228, 228), rgb(75, 20, 20));

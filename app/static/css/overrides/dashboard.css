@@ -1,49 +1,61 @@
-@import url(../global.css);
+@import url(../global2.css);
 
 section {
-     height: 100vh;
+    height: 100vh;
     overflow-y: auto;
     scrollbar-gutter: stable;
     
 }
+
+.tbl .acao{
+  font-size: 13px;
+  font-weight: 700;
+  border: 2px solid var(--accent);
+  border-radius: var(--radius-sm);
+  padding: 2px 16px;
+  vertical-align: middle;
+}
+
+.tbl .editar{
+  display: flex;
+  align-items: center;
+  height: auto;
+  font-size: 24px;
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  padding: 2px 16px;
+  vertical-align: middle;
+}
+
+.pagination{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+.pagination a, .pagination span {
+    display: flex;
+    align-items: center;
+    background-color: var(--card);
+    padding: 2px 4px;
+    height: 50px;
+    
+}
+
+.gestao-card .material{
+    font-size: 40px;
+    color: rgba(255, 255, 255, 0.493);
+}
+
+
+
 .button-form{
     width: 3rem;
     height: 3rem;
+    background: var(--accent-grad-btn);
 
 }
-section img{
-    width: 10rem;
-    height: 10rem;
-    z-index: 2;
-}
-section .button-grid a h2 {
-    font-size: 0.95rem;
-}
 
-section .button-grid a p {
-    font-size: 0.8rem;
-}
-section .button-grid{
-    grid-auto-flow: column;
-    align-items: stretch;
-    /* grid-auto-columns: 1fr; */
-}
-section .button-grid a {
-    max-width: none;
-    height: auto;
-    min-height: 9rem;
-}
-
-section .grid{
-    width: 100%;
-    display: grid;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: none;
-}
-section .grid-1x, .grid-1x-10px {
-    justify-content: space-between;
-}
 #container-registro{
     display: none;
 }
@@ -51,7 +63,7 @@ a:focus + #container-registro{
     display: block;
 }
 .card-form{
-    background:  #90ffa3be ;
+    background:  var(--subcard) ;
 }
 
 input:focus {
@@ -61,52 +73,32 @@ input:focus {
 
 .input-group select {
   padding: 14px 12px;
-  border: 2px solid var(--input-unfocused); 
+  border: 1px solid var(--input-unfocused); 
   border-radius: 8px;
   font-size: 16px;
   outline: none;
   width: 100%;
+  margin-bottom: 10px;
 }
 
-input {
-    background-color: transparent;
-    padding: 10px;
-    border-radius: 8px;
-    border: 2px solid var(--input-unfocused);
-    color: var(--input-focused);
-    outline: 0;
-}
+/* mobile
 
-input:hover {
-    background-color: transparent;
-}
-
-input:focus {
-    background-color: transparent;
-    border: 3px solid var(--input-unfocused);
-}
-
-input::placeholder {
-    color: var(--input-unfocused);
-}
-.card-accent{
-    width: 25vh;
-}
-/* mobile */
-
-/* select escondido no desktop */
+/* select escondido no desktop
 .registro-mobile{
     display: none;
     margin-bottom: 1rem;
-}
+} */
 
 /* cards */
-.registro-card{
+/* .registro-card{
     display: block;
-}
+} */
 
 /* CELULAR */
 @media (max-width: 768px){
+    h2{
+        font-size: 12px;
+    }
 
     .registro-mobile{
         display: block;

@@ -1,20 +1,28 @@
-let themeSelector;
+const select = document.getElementById("themeSelect");
+const selected = select.querySelector(".selected");
+const options = select.querySelector(".options");
+const hidden = document.getElementById("theme");
 
-window.addEventListener('DOMContentLoaded', () => {
-    themeSelector = document.getElementById("theme");
-    updateBody(localStorage.getItem("theme"));
+selected.onclick = () => {
+    options.style.display =
+        options.style.display === "block" ? "none" : "block";
+};
+
+options.querySelectorAll("div").forEach(item => {
+    item.onclick = () => {
+        selected.textContent = item.textContent;
+        hidden.value = item.dataset.value;
+        options.style.display = "none";
+
+        changeTheme(); // sua função
+    };
 });
 
-function changeTheme() {
-    updateBody(themeSelector.value);
-}
-
-function updateBody(theme) {
-    top.document.body.classList.remove('auto', 'dark', 'light');
-    top.document.body.classList.add(`${theme}`);
-    localStorage.setItem("theme", theme);
-    themeSelector.value = theme;
-}
+document.addEventListener("click", e => {
+    if (!select.contains(e.target)) {
+        options.style.display = "none";
+    }
+});
 
 function signOut() {
     alert("Você saiu da conta.");

@@ -1,0 +1,67 @@
+/* ── TABELAS ────────────────────────────────────── */
+
+/* Tabela genérica */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+th, td {
+  padding: 5px;
+  text-align: left;
+  border-bottom: 1px solid var(--subcard-hover);
+  border-right: 1px solid var(--subcard-hover);
+
+}
+th:first-child, td:first-child { border-left: 1px solid var(--subcard-hover); }
+th                              { color: var(--link); border-top: 1px solid var(--subcard-hover); }
+
+
+thead tr:first-child th:first-child {border-radius: var(--radius-sm) 0 0 0;}
+thead tr:first-child th:last-child {border-radius: 0 var(--radius-sm) 0 0;}
+tbody tr:last-child td:first-child  { border-radius: 0 0 0 var(--radius-sm); }
+tbody tr:last-child td:last-child   { border-radius: 0 0 var(--radius-sm) 0; }
+                            
+/* Variante .tbl (sem borda externa) */
+.tbl {
+  width: 100%;
+  border-collapse: collapse;
+
+}
+.tbl th {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  color: var(--card);
+  font-weight: 600;
+  text-align: left;
+  padding: 8px 16px;
+  background: var(--accent);
+  border-bottom: 1px solid var(--divider);
+  border-top: none;
+  border-left: none;
+  border-right: none;
+ 
+}
+.tbl td {
+  font-size: 13px;
+  color: var(--text);
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--divider);
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  vertical-align: middle;
+}
+
+.tbl tr:last-child td { border-bottom: none; }
+.tbl tr:hover td      { background: var(--subcard); }
+
+/* Calendário */
+.calendar > table > thead > tr > th,
+.calendar > table > tbody > tr > td {
+  padding: 10px 5px;
+  text-align: center;
+  border: 0;
+}
+

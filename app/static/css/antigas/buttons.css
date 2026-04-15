@@ -12,6 +12,13 @@ button, .button {
     justify-content: center;
     height: 42px;
 }
+.button-accent{
+    background: var(--card-accent);
+    width: 220px;
+    align-items: center;
+    display: flex;
+    
+}
 
 .button-left-aligned {
     justify-content: left;

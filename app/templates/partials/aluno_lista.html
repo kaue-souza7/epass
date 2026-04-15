@@ -1,72 +1,131 @@
-<table >
-    <thead>
-        <tr>
-            <th>Nome</th>
-            <th>Sobrenome</th>
-            <th>CPF</th>
-            <th>Turma</th>
-            <th>Data de Nascimento</th>
-            <th>Status</th>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for aluno in alunos %}
-            <tr>
-                <td>{{ aluno.nome }}</td>
-                <td>{{ aluno.sobrenome }}</td>
-                <td>{{ aluno.cpf }}</td>
-                <td>{{ aluno.turma.nome if aluno.turma else '-' }}</td>
-                <td>{{ aluno.nascimento.strftime('%d/%m/%Y') if aluno.nascimento else '-' }}</td>
-                <td>{{ 'Ativo' if aluno.status else 'Inativo' }}</td>
-                <td>
-                    <a 
-                        hx-post="{{ url_for('toggle_status', id=aluno.id) }}"
-                        hx-target="#container-registro"
-                        hx-swap="innerHTML">
-                        {{ 'Inativar' if aluno.status else 'Ativar' }}
+{% block override_home %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/overrides/dashboard.css') }}">
+{% endblock %}
+
+<div class="card">
+
+    <div class="card-head">
+        <span class="card-title">Alunos cadastrados</span>
+    </div>
+
+    <!-- LISTA -->
+    <div id="lista-alunos">
+
+        <table class="tbl">
+            <thead>
+                <tr>
+                    <th>Aluno</th>
+                    <th>Matrícula</th>
+                    <th>Turma</th>
+                    <th>Nascimento</th>
+                    <th>Status</th>
+                    <th>Ação</th>
+                    <th>Editar</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for aluno in alunos %}
+                <tr>
+                    <td>
+                        <div style="display:flex;align-items:center;gap:9px;">
+                            <div class="av">
+                                {{ aluno.nome[0] }}{{ aluno.sobrenome[0] if aluno.sobrenome }}
+                            </div>
+                            {{ aluno.nome }} {{ aluno.sobrenome }}
+                        </div>
+                    </td>
+
+                    <!-- MATRÍCULA -->
+                    <td style="color:var(--subtext)">
+                        {{ aluno.id }}
+                    </td>
+
+                    <!-- TURMA -->
+                    <td>
+                        <span class="pill">
+                            {{ aluno.turma.nome if aluno.turma else '-' }}
+                        </span>
+                    </td>
+
+                    <!-- NASCIMENTO -->
+                    <td>
+                        {{ aluno.nascimento.strftime('%d/%m/%Y') if aluno.nascimento else '-' }}
+                    </td>
+
+                    <!-- STATUS -->
+                    <td>
+                        <span class="pill {{ 'pill-green' if aluno.status else 'pill-red' }}">
+                            {{ 'Ativo' if aluno.status else 'Inativo' }}
+                        </span>
+                    </td>
+
+                    <!-- AÇÕES -->
+                    <td>
+
+                        <a 
+                            class="acao card-link"
+                            hx-post="{{ url_for('toggle_status', id=aluno.id) }}"
+                            hx-target="#lista-alunos"
+                            hx-swap="innerHTML"
+                        >
+                            {{ 'Inativar' if aluno.status else 'Ativar' }}
+                        </a>
+                    </td>
+
+                    <td>
+                        <a 
+                            class="material card-link editar"
+                            hx-get="{{ url_for('update_aluno', id=aluno.id) }}"
+                            hx-target="#container-form"
+                            hx-swap="innerHTML"
+                        >
+                            edit
+                        </a>
+
+                    </td>
+
+                        
+
+                    
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <!-- PAGINAÇÃO -->
+        <div class="pagination">
+
+            {% if alunos.has_prev %}
+                <a
+                    class="card-link material"
+                    hx-get="{{ url_for('lista_alunos', page=alunos.prev_num) }}"
+                    hx-target="#lista-alunos"
+                    hx-swap="innerHTML"
+                    hx-include="#filtro-turma"
+                >
+                   arrow_back_ios_new
                 </a>
-                </td>
-                <td > 
-                    <a 
-                        hx-get="{{ url_for('update_aluno', id=aluno.id) }}"
-                        hx-target="#container-form"
-                        hx-swap="innerHTML">
-                        edit
+            {% endif %}
+
+            <span style="color:var(--subtext)">
+                Página {{ alunos.page }} de {{ alunos.pages }}
+            </span>
+
+            {% if alunos.has_next %}
+                <a 
+                    class="card-link material"
+                    hx-get="{{ url_for('lista_alunos', page=alunos.next_num) }}"
+                    hx-target="#lista-alunos"
+                    hx-swap="innerHTML"
+                    hx-include="#filtro-turma"
+                >
+                    arrow_forward_ios
                 </a>
-                </td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+            {% endif %}
 
-<div class="pagination" style="margin-top: 15px;">
+        </div>
 
-    {% if alunos.has_prev %}
-
-        <a hx-get="{{ url_for('lista_alunos', page=alunos.prev_num) }}"
-            hx-target="#lista-alunos"
-            hx-swap="innerHTML"
-            hx-include="#filtro-turma"
-
-        >
-            Anterior
-        </a>
-    {% endif %}
-
-    Página {{ alunos.page }} de {{ alunos.pages }}
-
-    {% if alunos.has_next %}
-        <a hx-get="{{ url_for('lista_alunos', page=alunos.next_num) }}"
-            hx-target="#lista-alunos"
-            hx-swap="innerHTML"
-            hx-include="#filtro-turma"
-            
-        >
-            
-            Próxima
-        </a>
-    {% endif %}
-
+    </div>
 </div>
