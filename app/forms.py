@@ -516,6 +516,7 @@ class AvisoForm(FlaskForm):
     )
 
     turmas = SelectMultipleField('Turmas', coerce=int, validators=[Optional()])
+    alunos = SelectMultipleField('Alunos', coerce=int, validators=[Optional()])
     professores = SelectMultipleField('Professores', coerce=int, validators=[Optional()])
 
     data_envio = DateTimeLocalField(
@@ -562,16 +563,24 @@ class AvisoForm(FlaskForm):
         # 👇 Turmas → responsáveis
         if self.turmas.data:
             turmas = Turmas.query.filter(Turmas.id.in_(self.turmas.data)).all()
-
             for turma in turmas:
                 for aluno in turma.alunos:
                     for resp in aluno.responsaveis:
                         destinatarios_ids.add(('responsavel', resp.id))
 
+        # 👇 Alunos → responsáveis
+        if self.alunos.data:
+            alunos = Aluno.query.filter(Aluno.id.in_(self.alunos.data)).all()
+
+            for aluno in alunos:
+                for resp in aluno.responsaveis:
+                    destinatarios_ids.add(('responsavel', resp.id))
+
+
+
         # 👇 Professores selecionados
         if self.professores.data:
             professores = Professor.query.filter(Professor.id.in_(self.professores.data)).all()
-
             for prof in professores:
                 destinatarios_ids.add(('professor', prof.id))
 

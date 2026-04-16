@@ -2,8 +2,6 @@
 .grid {
   width: 100%;
   display: grid;
-  justify-items: center;
-  align-items: center;
   padding: 0.8rem;
 }
 .grid > * { width: 100%; }

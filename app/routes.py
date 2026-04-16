@@ -595,11 +595,15 @@ def alertas():
 
     # 🔹 Preencher selects dinamicamente
     form.turmas.choices = [(t.id, t.nome) for t in Turmas.query.all()]
+    form.alunos.choices = [(a.id, a.nome) for a in Aluno.query.all()]
     form.professores.choices = [(p.id, p.user.nome) for p in Professor.query.all()]
+
+
 
     # 🔹 POST (criação do aviso)
     if form.validate_on_submit():
         aviso = form.save(current_user)
+        print(aviso)
 
         flash('Aviso criado com sucesso!', 'success')
         return redirect(url_for('alertas'))
@@ -607,16 +611,18 @@ def alertas():
     # 🔹 GET (listar avisos do usuário logado)
     from datetime import datetime, timezone
 
-    avisos = db.session.query(Aviso)\
-        .join(AvisoDestinatario)\
-        .filter(
-            AvisoDestinatario.destinatario_id == current_user.id,
-            AvisoDestinatario.destinatario_tipo == current_user.tipo_usuario.value,
+    avisos = Aviso.query.order_by(Aviso.data_envio.desc()).all()
 
-            Aviso.data_envio <= datetime.now(timezone.utc)
-        )\
-        .order_by(Aviso.data_envio.desc())\
-        .all()
+    # avisos = db.session.query(Aviso)\
+    #     .join(AvisoDestinatario)\
+    #     .filter(
+    #         AvisoDestinatario.destinatario_id == current_user.id,
+    #         AvisoDestinatario.destinatario_tipo == current_user.tipo_usuario.value,
+
+    #         Aviso.data_envio <= datetime.now(timezone.utc)
+    #     )\
+    #     .order_by(Aviso.data_envio.desc())\
+    #     .all()
 
     return render_template(
         'alertas.html',

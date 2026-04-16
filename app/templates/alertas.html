@@ -45,31 +45,43 @@
 
                         <div>
 
-                        <div>
-
+                        <div class="input-group">
                             <label>Turmas</label>
 
                             <div class="polar-grid user-row input-field"
-                                onclick="document.getElementById('lista-turmas').classList.toggle('hidden')"
                                 style="cursor:pointer; background:var(--card);">
-
-                                <span>Selecionar turmas</span>
-                                <span class="material">keyboard_arrow_down</span>
+                                <!-- opções -->
+                                <select name="turmas" class="polar-grid subcard user-row input-group" style="margin-bottom:5px; padding:10px 13px;" multiple size="1">
+                                    <option value="">Selecionar Turmas</option>
+                                    {% for value, label in form.turmas.choices %}
+                                        <option name="turmas" value="{{ value }}">{{ label}}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
-
                         </div>
 
-                        <!-- opções -->
-                        <div id="lista-turmas" class="grid grid-1x-5px hidden" style="margin-top:8px;">
-                            {% for value, label in form.turmas.choices %}
-                            <label class="polar-grid subcard user-row" style="margin-bottom:5px; padding:10px 13px;">
-                                <span>{{ label }}</span>
-                                <input type="checkbox" name="turmas" value="{{ value }}">
-                            </label>
-                            {% endfor %}
+
+                        <div class="input-group">
+                            <label>Alunos</label>
+
+                            <div class="polar-grid user-row input-field"
+                                style="cursor:pointer; background:var(--card);">
+                                <!-- opções -->
+                                <select name="alunos" class="polar-grid subcard user-row input-group" style="margin-bottom:5px; padding:10px 13px;" multiple size="1">
+                                    <option value="">Selecionar Alunos</option>
+                                    {% for value, label in form.alunos.choices %}
+                                        <option name="alunos" value="{{ value }}">{{ label}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
                         </div>
+
+                        
+
+
 
                     </div>
+
 
                         <div class="input-group">
                             {{ form.mensagem.label }}
@@ -126,21 +138,23 @@
                 <div class="grid grid-1x-10px">
 
                     {% for aviso in avisos %}
-                    <div class="card subcard">
+                        <div class="card subcard">
 
-                        <div class="grid grid-1x-5px">
-                            <h3>{{ aviso.titulo }}</h3>
+                            <div class="grid grid-1x-5px">
+                                <h3>{{ aviso.titulo }}</h3>
 
-                            <p>{{ aviso.mensagem }}</p>
+                                <p>{{ aviso.mensagem }}</p>
 
-                            <small class="pill pill-accent">
-                                {{ aviso.tipo.value }}
-                            </small>
+                                <small class="pill {{ 'pill-orange' if aviso.prioridade.value == 'media' 
+                                else 'pill-green' if aviso.prioridade.value == 'baixa' 
+                                else 'pill-red' if aviso.prioridade.value == 'alta'}}">
+                                    {{ aviso.prioridade.value }}
+                                </small>
+                            </div>
+
                         </div>
-
-                    </div>
                     {% else %}
-                    <p>Nenhum aviso cadastrado.</p>
+                        <p>Nenhum aviso cadastrado.</p>
                     {% endfor %}
 
                 </div>

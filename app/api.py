@@ -355,9 +355,9 @@ def update_carteira(id):
 
 
 
-@api.route('/lista/avisos/<int:id>', methods=['GET'])
+@api.route('/lista/avisos', methods=['GET'])
 @jwt_required()
-def lista_avisos(id):
+def lista_avisos():
     current_user_id = get_jwt_identity()
 
     avisos = AvisoDestinatario.query.filter_by(
