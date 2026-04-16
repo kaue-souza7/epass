@@ -1,6 +1,6 @@
 <div id="documento-lista-container">
     <table>
-        <thead>
+        <thead class="hidden">
             <tr>
                 <th>ID</th>
                 <th>Tipo Documento</th>
@@ -10,7 +10,7 @@
                 <th>Status</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="">
             {% for doc in documentos.items %}
             <tr>
                 <td>{{ doc.id }}</td>

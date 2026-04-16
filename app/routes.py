@@ -538,7 +538,28 @@ def lista_documentos():
 @app.route('/documentos/', methods=['GET', 'POST'])
 def documentos():
     if request.method == 'GET':
-        return render_template('documentos.html')
+
+        total_todos = Documento.query.count()
+
+        total_pendentes = Documento.query.filter_by(
+            status=StatusDocumento.PENDENTE
+        ).count()
+
+        total_prontos = Documento.query.filter_by(
+            status=StatusDocumento.PRONTO
+        ).count()
+
+        total_entregues = Documento.query.filter_by(
+            status=StatusDocumento.ENTREGUE
+        ).count()
+
+        return render_template(
+            'documentos.html',
+            total_todos=total_todos,
+            total_pendentes=total_pendentes,
+            total_prontos=total_prontos,
+            total_entregues=total_entregues
+        )
 
 
 @app.route('/documentos/upload/<int:documento_id>', methods=['GET', 'POST'])

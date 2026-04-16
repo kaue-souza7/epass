@@ -48,6 +48,7 @@
   /* Marca */
   --accent:           #FF5B8F;
   --accent2:          #FF9A4E;
+  --accent3:          #7C3AED;
   --accent-grad:      radial-gradient(ellipse 211% 154% at 0% 100%, #FF5B8F 0%, #FF9A4E 100%);
   --accent-grad-btn:  linear-gradient(135deg, #FF5B8F 0%, #FF9A4E 100%);
 
