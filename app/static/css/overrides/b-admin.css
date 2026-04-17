@@ -111,3 +111,82 @@ display:flex; align-items:center; justify-content:center;
 }
 .user-name { font-size: 12px; font-weight: 600; color: var(--text); }
 .user-role { font-size: 10px; color: var(--subtext); margin-top: 1px; }
+
+.toggle-btn{
+  position: absolute;
+  top: 20px;
+  right: -14px; /* metade para fora */
+  width: 32px;
+  height: 32px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border:none;
+  border-radius:50%;
+  background: var(--accent-grad-btn);
+  color: var(--card);
+  box-shadow: var(--shadow);
+  cursor:pointer;
+  z-index:100;
+}
+.toggle-btn:hover{
+  background: var(--accent-grad-btn);
+  color: var(--card);
+
+}
+/* SIDEBAR RECOLHIDA */
+body.sidebar-collapsed{
+  --sidebar-w: 78px;
+}
+
+/* texto dos menus some, ícones ficam */
+body.sidebar-collapsed .nav-item .nav-text{
+  display:none;
+}
+
+body.sidebar-collapsed .nav-item{
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  margin: 0 auto;
+  border-radius: 50%;
+  justify-content: center;
+}
+
+body.sidebar-collapsed .nav-item:hover,
+body.sidebar-collapsed .nav-item.active{
+  background: none;
+  color: var(--accent);
+  transform: scale(1.10);
+}
+
+/* remove espaço lateral do ícone material */
+body.sidebar-collapsed .nav-item .material{
+  margin-right:0;
+}
+
+/* user card: mostra só avatar */
+body.sidebar-collapsed .user-info{
+  display:none;
+}
+
+body.sidebar-collapsed .user-card{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:0;
+  background: none;
+}
+
+
+.logo-mini{ display:none; }
+
+body.sidebar-collapsed .logo-full{ display:none; }
+body.sidebar-collapsed .logo-mini{
+  display:block;
+  width:42px;
+  height:auto;
+  margin:auto;
+}

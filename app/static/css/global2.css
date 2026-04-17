@@ -101,6 +101,7 @@
 
   /* Layout */
   --sidebar-w: 250px;
+  --sidebar-mini: 78px;
   --radius:    12px;
   --radius-sm: 8px;
 }
@@ -174,6 +175,13 @@ section {
 }
 .hidden{
   display: none;
+}
+
+body.sidebar-collapsed{
+  --sidebar-w: 78px;
+}
+body.sidebar-collapsed .nav-text{
+  display:none;
 }
 /* ----------------paginação----------------------------*/
 .pagination{
