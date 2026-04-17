@@ -157,15 +157,25 @@ def lista_alunos():
     return render_template('partials/aluno_lista.html', alunos=alunos)
 
 
-@app.route('/toggle_status/<int:id>', methods=['GET', 'POST'])
+@app.route('/toggle_status/<int:id>', methods=['POST'])
 def toggle_status(id):
     aluno = Aluno.query.get_or_404(id)
-    
-    aluno.status = not aluno.status  # inverte True/False
-    
+
+    aluno.status = not aluno.status
     db.session.commit()
-    
-    return redirect(url_for('registrar_aluno')) 
+
+    turma_id = request.args.get('turma_id')
+    page = request.args.get('page', 1, type=int)
+
+    if turma_id:
+        alunos = Aluno.query.filter_by(turma_id=turma_id)\
+            .order_by(Aluno.id.desc())\
+            .paginate(page=page, per_page=8, error_out=False)
+    else:
+        alunos = Aluno.query.order_by(Aluno.id.desc())\
+            .paginate(page=page, per_page=8, error_out=False)
+
+    return render_template('partials/aluno_lista.html', alunos=alunos)
 
 
 @app.route('/alunos/update/<int:id>', methods=['GET', 'POST'])
