@@ -43,15 +43,15 @@
                             </div>
                         </div>
 
-                        <div>
+                    <div class="grid2">
 
-                        <div class="input-group">
+                        <div class="input-group ">
                             <label>Turmas</label>
 
                             <div class="polar-grid user-row input-field"
-                                style="cursor:pointer; background:var(--card);">
+                                style="cursor:pointer;">
                                 <!-- opções -->
-                                <select name="turmas" class="polar-grid subcard user-row input-group" style="margin-bottom:5px; padding:10px 13px;" multiple size="1">
+                                <select name="turmas" class="polar-grid subcard"  multiple size="1">
                                     <option value="">Selecionar Turmas</option>
                                     {% for value, label in form.turmas.choices %}
                                         <option name="turmas" value="{{ value }}">{{ label}}</option>
@@ -65,9 +65,9 @@
                             <label>Alunos</label>
 
                             <div class="polar-grid user-row input-field"
-                                style="cursor:pointer; background:var(--card);">
+                                style="cursor:pointer;">
                                 <!-- opções -->
-                                <select name="alunos" class="polar-grid subcard user-row input-group" style="margin-bottom:5px; padding:10px 13px;" multiple size="1">
+                                <select name="alunos" class="polar-grid subcard" multiple size="1">
                                     <option value="">Selecionar Alunos</option>
                                     {% for value, label in form.alunos.choices %}
                                         <option name="alunos" value="{{ value }}">{{ label}}</option>
@@ -75,11 +75,6 @@
                                 </select>
                             </div>
                         </div>
-
-                        
-
-
-
                     </div>
 
 
@@ -140,17 +135,34 @@
                     {% for aviso in avisos %}
                         <div class="card subcard">
 
-                            <div class="grid grid-1x-5px">
-                                <h3>{{ aviso.titulo }}</h3>
-
-                                <p>{{ aviso.mensagem }}</p>
-
-                                <small class="pill {{ 'pill-orange' if aviso.prioridade.value == 'media' 
-                                else 'pill-green' if aviso.prioridade.value == 'baixa' 
-                                else 'pill-red' if aviso.prioridade.value == 'alta'}}">
-                                    {{ aviso.prioridade.value }}
-                                </small>
+                            <div class="alerta-grid grid3">
+                                
+                                <span class="material">
+                                    {% if aviso.tipo.value == 'geral' %}
+                                        book
+                                    {% elif aviso.tipo.value == 'comportamento' %}
+                                        warning
+                                    {% elif aviso.tipo.value == 'saude' %}
+                                        heart_plus
+                                    {% elif aviso.tipo.value == 'administrativo' %}
+                                        admin_panel_settings
+                                    {% endif %}
+                                </span>
+                                
+                                <div>
+                                    <h3>{{ aviso.titulo }}</h3>
+    
+                                    <p>{{ aviso.mensagem }}</p>
+                                </div>
+                                <div>
+                                    <small class="pill {{ 'pill-orange' if aviso.prioridade.value == 'media' 
+                                    else 'pill-green' if aviso.prioridade.value == 'baixa' 
+                                    else 'pill-red' if aviso.prioridade.value == 'alta'}}">
+                                        {{ aviso.prioridade.value }}
+                                    </small>
+                                </div>
                             </div>
+
 
                         </div>
                     {% else %}

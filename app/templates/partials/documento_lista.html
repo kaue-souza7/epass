@@ -1,7 +1,8 @@
 <div id="documento-lista-container">
-    <table>
-        <thead>
+    <table class="tbl">
+        <thead class="hidden">
             <tr>
+                <th></th>
                 <th>ID</th>
                 <th>Tipo Documento</th>
                 <th>Data do Pedido</th>
@@ -10,9 +11,10 @@
                 <th>Status</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="">
             {% for doc in documentos.items %}
             <tr>
+                <td class="tbl-material material .gradient-text">docs</td>
                 <td>{{ doc.id }}</td>
                 <td>{{ doc.tipo_documento.value }}</td>
                 <td>{{ doc.data_pedido.strftime('%d/%m/%Y %H:%M') }}</td>
