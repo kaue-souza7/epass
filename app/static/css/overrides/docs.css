@@ -7,6 +7,7 @@
 .card-docs  .material{
    font-size: 32px;
 }
+
 .card-docs button{
    font-size: medium;
 }
@@ -37,4 +38,83 @@ button{
 }
 .docs-content {
   gap: 16px;
+}
+
+.button-bar.grid.polar-grid{
+  padding: 10px 0;
+  width: 100px;
+}
+
+button.btn-outline:focus{
+  border: transparent;
+  background: var(--accent3);
+  color: var(--card);
+}
+.count-badge{
+  margin-left: 5px;
+}
+.count-badge{
+  min-width:18px;
+  height:18px;
+  padding:0 6px;
+  border-radius:999px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:10px;
+  font-weight:700;
+  background: var(--accent);
+  color:white;
+}
+
+.tbl{
+  width: 100%;
+  border-collapse: separate;
+}
+
+.tbl tbody{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tbl tbody tr{
+  display: flex;
+  align-items: center;
+  background: var(--subcard);
+  border-radius: 16px;
+  padding: 14px 24px;
+  gap: 16px;
+  color: var(--text);
+}
+
+.tbl tbody td{
+  display: flex;
+  align-items: center;
+  border: none;
+  background: transparent;
+  padding: 0;
+  flex: 1;
+}
+
+.tbl tbody tr:hover td {
+  background: var(--divider);
+}
+
+.tbl tr:hover      { background: var(--divider);}
+
+td.tbl-material.material{
+  font-size: 32px;
+  background: var(--accent-grad-btn);
+  -webkit-background-clip: text;
+
+  color: transparent;                /* fallback */
+  -webkit-text-fill-color: transparent;
+
+  transition: filter .2s ease, transform .2s ease;
+}
+.tbl tbody tr:hover td.tbl-material.material{
+  background: var(--accent-grad-btn);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }

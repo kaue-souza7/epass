@@ -48,6 +48,8 @@
   /* Marca */
   --accent:           #FF5B8F;
   --accent2:          #FF9A4E;
+  --accent3:          #c0154b;
+  /* --accent3:          #7C3AED; */
   --accent-grad:      radial-gradient(ellipse 211% 154% at 0% 100%, #FF5B8F 0%, #FF9A4E 100%);
   --accent-grad-btn:  linear-gradient(135deg, #FF5B8F 0%, #FF9A4E 100%);
 
@@ -100,6 +102,7 @@
 
   /* Layout */
   --sidebar-w: 250px;
+  --sidebar-mini: 78px;
   --radius:    12px;
   --radius-sm: 8px;
 }
@@ -173,6 +176,13 @@ section {
 }
 .hidden{
   display: none;
+}
+
+body.sidebar-collapsed{
+  --sidebar-w: 78px;
+}
+body.sidebar-collapsed .nav-text{
+  display:none;
 }
 /* ----------------paginação----------------------------*/
 .pagination{

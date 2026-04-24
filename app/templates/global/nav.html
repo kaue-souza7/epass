@@ -7,66 +7,68 @@
 
 <body>
     <aside class="sidebar">
+         <button class="toggle-btn" onclick="toggleSidebar()">
+            <span class="material">dock_to_right</span>
+        </button>
+
         <!-- Logo -->
         <div class="sidebar-logo">
-            <img 
-                src="../static/media/logo.png" 
-                alt="Logo" 
-                style="width:200px; height:auto;"
-            >
+            <img src="../static/media/logo.png" class="logo-full" alt="logo-full" style="width:200px; height:auto;">
+            <img src="../static/media/logomini.png" class="logo-mini" alt="Logo Mini" style="width:70px; height:auto;">
         </div>
 
         <!-- Navegação -->
         <nav class="sidebar-nav">
 
-            <a href="{{ url_for('dashboard') }}" target="frame" class="nav-item">
+            <a href="{{ url_for('dashboard') }}"  class="nav-item">
                 <span class="material nav-icon">dashboard</span>
-                <span>Dashboard</span>
+                <span class="nav-text">Dashboard</span>
             </a>
 
-            <a href="{{ url_for('home') }}" target="frame" class="nav-item">
+            <a href="{{ url_for('home') }}"  class="nav-item">
                 <span class="material nav-icon">person_add</span>
-                <span>Cadastros</span>
+                <span class="nav-text">Cadastros</span>
             </a>
 
-            <a href="{{ url_for('gestao_academica') }}" target="frame" class="nav-item">
+            <a href="{{ url_for('gestao_academica') }}"  class="nav-item">
                 <span class="material nav-icon">school</span>
-                <span>Gestão Acadêmica</span>
+                <span class="nav-text">Gestão Acadêmica</span>
             </a>
 
-            <a href="{{ url_for('gestao_administrativa') }}" target="frame" class="nav-item">
+            <a href="{{ url_for('gestao_administrativa') }}" class="nav-item">
                 <span class="material nav-icon">assignment</span>
-                <span>Gestão Administrativa</span>
+                <span class="nav-text">Gestão Administrativa</span>
             </a>
 
-            <a href="{{ url_for('documentos') }}" target="frame" class="nav-item">
+            <a href="{{ url_for('documentos') }}" class="nav-item">
                 <span class="material nav-icon">upload</span>
-                <span>Solicitações</span>
+                <span class="nav-text">Solicitações</span>
             </a>
 
-            <a href="{{ url_for('alertas') }}" target="frame" class="nav-item">
+            <a href="{{ url_for('alertas') }}" class="nav-item">
                 <span class="material nav-icon">notifications_active</span>
-                <span>Alertas</span>
+                <span class="nav-text">Alertas</span>
                 <!-- <span class="nav-badge"></span> -->
             </a>
 
-            <a href="{{ url_for('calendario') }}" target="frame" class="nav-item">
+            <a href="{{ url_for('calendario') }}" class="nav-item">
                 <span class="material nav-icon">event_note</span>
-                <span>Calendário Escolar</span>
+                <span class="nav-text">Calendário Escolar</span>
             </a>
 
         </nav>
 
-        <!-- Rodapé -->
+       <!-- Rodapé -->
         <div class="sidebar-footer">
-            <a href="../general/configuracoes.html" target="frame" class="nav-item">
+            <a href="../general/configuracoes.html" class="nav-item">
                 <span class="material nav-icon">settings</span>
-                <span>Configurações</span>
+                <span class="nav-text">Configurações</span>
             </a>
 
-            <div class="user-card" style="margin-top:10px;">
+            <div class="user-card">
                 <div class="user-avatar">AD</div>
-                <div>
+
+                <div class="user-info">
                     <div class="user-name">Admin</div>
                     <div class="user-role">Administrador</div>
                 </div>
@@ -74,4 +76,21 @@
         </div>
     </aside>
 </body>
+<script>
+function toggleSidebar(){
+  document.body.classList.toggle("sidebar-collapsed");
+}
+function toggleSidebar(){
+  document.body.classList.toggle("sidebar-collapsed");
+  localStorage.setItem(
+    "sidebar",
+    document.body.classList.contains("sidebar-collapsed") ? "mini" : "full"
+  );
+}
+
+if(localStorage.getItem("sidebar")==="mini"){
+  document.body.classList.add("sidebar-collapsed");
+}
+</script>
+
 {% endblock %}

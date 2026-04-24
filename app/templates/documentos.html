@@ -16,28 +16,26 @@
 
     <div class="content docs-content">
 
-            <div class="card-docs btn-accent">
-                <div class="material">docs</div>
+        <div class="button-bar grid polar-grid">
+            <button class="btn-outline" onclick="toggleLista('lista-entregues', this)"  hx-get="{{ url_for('lista_documentos', status='PENDENTE') }}" hx-target="#lista-pendentes" hx-swap="innerHTML">
+                    Todos <span class="count-badge">{{ total_todos }}</span>
+            </button> <!-- TROCAR PARA TODOS DPS -->
+            <button class="btn-outline" onclick="toggleLista('lista-entregues', this)"  hx-get="{{ url_for('lista_documentos', status='PENDENTE') }}" hx-target="#lista-pendentes" hx-swap="innerHTML">
+                    Pendentes <span class="count-badge">{{ total_pendentes }}</span>
+            </button>
+            <button class="btn-outline" onclick="toggleLista('lista-entregues', this)"  hx-get="{{ url_for('lista_documentos', status='PRONTO') }}" hx-target="#lista-pendentes" hx-swap="innerHTML">
+                    Pronto <span class="count-badge">{{ total_prontos }}</span>
+            </button>
+            <button class="btn-outline" onclick="toggleLista('lista-entregues', this)"  hx-get="{{ url_for('lista_documentos', status='ENTREGUE') }}" hx-target="#lista-pendentes" hx-swap="innerHTML">
+                    Entregue <span class="count-badge">{{ total_entregues }}</span>
+            </button>
 
+        </div>
 
-                <button class="cln-btn" onclick="toggleLista('lista-entregues', this)"  hx-get="{{ url_for('lista_documentos', status='PENDENTE') }}" hx-target="#lista-pendentes" hx-swap="innerHTML">
-                    Documentos Pendentes
-                </button>
-                <div class="material">keyboard_arrow_down</div>
-            </div>
-
+            
             <div id="lista-pendentes" class="tbl hidden"></div>
             
-            <div class="card-docs btn-accent">
-                <div class="material">file_export</div>
-
-                <button class="cln-btn" onclick="toggleLista('lista-entregues', this)" hx-get="{{ url_for('lista_documentos', status='ENTREGUE') }}" hx-target="#lista-entregues" hx-swap="innerHTML">
-                    Documentos Entregues
-                </button>
-
-                <div class="material">keyboard_arrow_down</div>
-            </div>
-
+            
         <div id="lista-entregues" class="tbl hidden"></div>
     </div>
 </main>

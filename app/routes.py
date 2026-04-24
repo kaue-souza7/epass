@@ -157,15 +157,25 @@ def lista_alunos():
     return render_template('partials/aluno_lista.html', alunos=alunos)
 
 
-@app.route('/toggle_status/<int:id>', methods=['GET', 'POST'])
+@app.route('/toggle_status/<int:id>', methods=['POST'])
 def toggle_status(id):
     aluno = Aluno.query.get_or_404(id)
-    
-    aluno.status = not aluno.status  # inverte True/False
-    
+
+    aluno.status = not aluno.status
     db.session.commit()
-    
-    return redirect(url_for('registrar_aluno')) 
+
+    turma_id = request.args.get('turma_id')
+    page = request.args.get('page', 1, type=int)
+
+    if turma_id:
+        alunos = Aluno.query.filter_by(turma_id=turma_id)\
+            .order_by(Aluno.id.desc())\
+            .paginate(page=page, per_page=8, error_out=False)
+    else:
+        alunos = Aluno.query.order_by(Aluno.id.desc())\
+            .paginate(page=page, per_page=8, error_out=False)
+
+    return render_template('partials/aluno_lista.html', alunos=alunos)
 
 
 @app.route('/alunos/update/<int:id>', methods=['GET', 'POST'])
@@ -538,7 +548,28 @@ def lista_documentos():
 @app.route('/documentos/', methods=['GET', 'POST'])
 def documentos():
     if request.method == 'GET':
-        return render_template('documentos.html')
+
+        total_todos = Documento.query.count()
+
+        total_pendentes = Documento.query.filter_by(
+            status=StatusDocumento.PENDENTE
+        ).count()
+
+        total_prontos = Documento.query.filter_by(
+            status=StatusDocumento.PRONTO
+        ).count()
+
+        total_entregues = Documento.query.filter_by(
+            status=StatusDocumento.ENTREGUE
+        ).count()
+
+        return render_template(
+            'documentos.html',
+            total_todos=total_todos,
+            total_pendentes=total_pendentes,
+            total_prontos=total_prontos,
+            total_entregues=total_entregues
+        )
 
 
 @app.route('/documentos/upload/<int:documento_id>', methods=['GET', 'POST'])
@@ -595,11 +626,15 @@ def alertas():
 
     # 🔹 Preencher selects dinamicamente
     form.turmas.choices = [(t.id, t.nome) for t in Turmas.query.all()]
+    form.alunos.choices = [(a.id, a.nome) for a in Aluno.query.all()]
     form.professores.choices = [(p.id, p.user.nome) for p in Professor.query.all()]
+
+
 
     # 🔹 POST (criação do aviso)
     if form.validate_on_submit():
         aviso = form.save(current_user)
+        print(aviso)
 
         flash('Aviso criado com sucesso!', 'success')
         return redirect(url_for('alertas'))
@@ -607,16 +642,18 @@ def alertas():
     # 🔹 GET (listar avisos do usuário logado)
     from datetime import datetime, timezone
 
-    avisos = db.session.query(Aviso)\
-        .join(AvisoDestinatario)\
-        .filter(
-            AvisoDestinatario.destinatario_id == current_user.id,
-            AvisoDestinatario.destinatario_tipo == current_user.tipo_usuario.value,
+    avisos = Aviso.query.order_by(Aviso.data_envio.desc()).all()
 
-            Aviso.data_envio <= datetime.now(timezone.utc)
-        )\
-        .order_by(Aviso.data_envio.desc())\
-        .all()
+    # avisos = db.session.query(Aviso)\
+    #     .join(AvisoDestinatario)\
+    #     .filter(
+    #         AvisoDestinatario.destinatario_id == current_user.id,
+    #         AvisoDestinatario.destinatario_tipo == current_user.tipo_usuario.value,
+
+    #         Aviso.data_envio <= datetime.now(timezone.utc)
+    #     )\
+    #     .order_by(Aviso.data_envio.desc())\
+    #     .all()
 
     return render_template(
         'alertas.html',
