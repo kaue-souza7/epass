@@ -3,7 +3,7 @@ import uuid
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import create_access_token, create_refresh_token
 from werkzeug.security import check_password_hash
-from app.models import Aluno, AvisoDestinatario, Carteira, PagamentoPendente, Responsavel, Transacao, User  # ajuste conforme seu model
+from app.models import Aluno, AvisoDestinatario, Carteira, Materia, PagamentoPendente, Professor, Responsavel, Transacao, User, Turmas  # ajuste conforme seu model
 from app import db
 from app import bcrypt
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -384,3 +384,81 @@ def lista_avisos():
     ]), 200
 
 
+
+@api.route('/materias/create', methods=['POST'])
+@jwt_required()
+def criar_materia():
+    data = request.get_json()
+
+    nome = data.get('nome')
+    descricao = data.get('descricao')
+    id_professor = data.get('id_professor')
+    id_turma = data.get('id_turma')
+
+    if not nome:
+        return jsonify({'erro': 'Nome é obrigatório'}), 400
+
+    professor = None
+    turma = None
+
+    if id_professor is not None:
+        professor = Professor.query.get(id_professor)
+        if not professor:
+            return jsonify({'erro': 'Professor não encontrado'}), 404
+
+    if id_turma is not None:
+        turma = Turmas.query.get(id_turma)
+        if not turma:
+            return jsonify({'erro': 'Turma não encontrada'}), 404
+
+    materia = Materia(
+        nome=nome,
+        descricao=descricao,
+        id_professor=id_professor,
+        id_turma=id_turma
+    )
+
+    db.session.add(materia)
+    db.session.commit()
+
+    return jsonify({
+        'id': materia.id,
+        'nome': materia.nome,
+        'descricao': materia.descricao,
+        'id_professor': materia.id_professor,
+        'id_turma': materia.id_turma
+    }), 201
+
+
+@api.route('/materias/find/<int:materia_id>', methods=['GET'])
+@jwt_required()
+def buscar_materia(materia_id):
+    materia = Materia.query.get(materia_id)
+
+    if not materia:
+        return jsonify({'erro': 'Matéria não encontrada'}), 404
+
+    return jsonify({
+        'id': materia.id,
+        'nome': materia.nome,
+        'descricao': materia.descricao,
+        'id_professor': materia.id_professor,
+        'id_turma': materia.id_turma
+    }), 200
+
+
+@api.route('/materias/listar', methods=['GET'])
+@jwt_required()
+def listar_materias():
+    materias = Materia.query.all()
+
+    return jsonify([
+        {
+            'id': materia.id,
+            'nome': materia.nome,
+            'descricao': materia.descricao,
+            'id_professor': materia.id_professor,
+            'id_turma': materia.id_turma
+        }
+        for materia in materias
+    ]), 200

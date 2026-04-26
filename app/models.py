@@ -1,5 +1,5 @@
 import uuid
-from app import db, login_manager
+from app import db
 from datetime import datetime, timezone
 from flask_login import UserMixin
 
@@ -16,7 +16,7 @@ class TipoDocumento(enum.Enum):
     ATESTADO_MATRICULA = "Atestado de Matricula"
     BOLETIM = "Boletim"
     DCLR_TRANSF = "Declaração de Transferência"
-    HIST_ESCOLAR = "Histórico Escoalar"
+    HIST_ESCOLAR = "Histórico Escolar"
     GRADE_ESCOLAR = "Grade Escolar"
 
 
@@ -86,6 +86,8 @@ class User(db.Model, UserMixin):
 
 
 class Aluno(db.Model):
+    __tablename__ = 'aluno'
+
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String, nullable=True)
     sobrenome = db.Column(db.String, nullable=True)
@@ -99,19 +101,42 @@ class Aluno(db.Model):
     tipo_sanguineo = db.Column(db.Enum(TipoSanguineo), nullable=True)
 
     responsaveis = db.relationship(
-        "Responsavel",
+        'Responsavel',
         secondary=responsavel_aluno,
-        back_populates="alunos"
+        back_populates='alunos'
     )
-    turma_id = db.Column(db.Integer, db.ForeignKey('turmas.id', name='fk_aluno_turma'), nullable=True)
 
-    logradouro_id = db.Column(db.Integer, db.ForeignKey('logradouros.id', name='fk_aluno_logradouro'), nullable=True)
+    turma_id = db.Column(
+        db.Integer,
+        db.ForeignKey('turmas.id', name='fk_aluno_turma'),
+        nullable=True
+    )
+
+    logradouro_id = db.Column(
+        db.Integer,
+        db.ForeignKey('logradouros.id', name='fk_aluno_logradouro'),
+        nullable=True
+    )
     logradouro = db.relationship('Logradouro')
 
     carteira = db.relationship(
         'Carteira',
         uselist=False,
         back_populates='aluno'
+    )
+
+    frequencias = db.relationship(
+        'Frequencia',
+        back_populates='aluno',
+        lazy=True,
+        cascade='all, delete-orphan'
+    )
+
+    notas = db.relationship(
+        'Nota',
+        back_populates='aluno',
+        lazy=True,
+        cascade='all, delete-orphan'
     )
 
     __table_args__ = (
@@ -195,7 +220,8 @@ class PagamentoPendente(db.Model):
     copia_cola = db.Column(db.String(200))
     criado_em = db.Column(db.DateTime, default=db.func.current_timestamp())
 
-
+    responsavel = db.relationship('Responsavel', backref='pagamentos_pendentes')
+    aluno = db.relationship('Aluno', backref='pagamentos_pendentes')
 
 
 class Professor(db.Model):
@@ -203,7 +229,7 @@ class Professor(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     cpf = db.Column(db.String(14), unique=True, nullable=False)
     telefone = db.Column(db.String(20), nullable=False)
-    email = db.Column(db.String(150), nullable=False)
+    email = db.Column(db.String(150), nullable=False, unique=True)
     formacao = db.Column(db.String(150), nullable=False)
     turno = db.Column(db.String(20), nullable=False)  # manhã, tarde, noite
     nascimento = db.Column(db.Date, nullable=False)
@@ -227,7 +253,7 @@ class Secretaria(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     telefone = db.Column(db.String(20), nullable=False)
-    email = db.Column(db.String(120), nullable=False)
+    email = db.Column(db.String(120), nullable=False, unique=True)
     endereco = db.Column(db.String(200), nullable=False)
     website = db.Column(db.String(120), nullable=True)
 
@@ -274,12 +300,13 @@ class Turmas(db.Model):
     nome = db.Column(db.String(100), nullable=False)
     descricao = db.Column(db.Text)
     ano = db.Column(db.Integer, nullable=False)
-    dataInicio = db.Column(db.Date, nullable=False)
-    dataFinal = db.Column(db.Date)
+    data_inicio = db.Column(db.Date, nullable=False)
+    data_final = db.Column(db.Date)
     periodo = db.Column(db.String(50))
 
     alunos = db.relationship('Aluno', backref='turma', lazy=True)
     materias = db.relationship('Materia', backref='turma', lazy=True)
+    agenda = db.relationship('Agenda', backref='turma', uselist=False, cascade='all, delete-orphan')
 
 
 
@@ -290,10 +317,22 @@ class Materia(db.Model):
     nome = db.Column(db.String(100), nullable=True)
     descricao = db.Column(db.Text)
 
-    id_professor = db.Column(db.Integer, db.ForeignKey('professor.id'), nullable=True)
-    id_turma = db.Column(db.Integer, db.ForeignKey('turmas.id'), nullable=True)
+    professor_id = db.Column(db.Integer, db.ForeignKey('professor.id', name='fk_materia_professor'), nullable=True)
+    turma_id = db.Column(db.Integer, db.ForeignKey('turmas.id'), nullable=True)
 
+    aulas = db.relationship(
+        'Aula',
+        back_populates='materia',
+        lazy=True,
+        cascade='all, delete-orphan'
+    )
 
+    atividades = db.relationship(
+        'Atividade',
+        back_populates='materia',
+        lazy=True,
+        cascade='all, delete-orphan'
+    )
 
 
 class TipoAvisoEnum(enum.Enum):
@@ -311,13 +350,11 @@ class NivelPrioridadeAviso(enum.Enum):
 
 
 
-
 class Aviso(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     titulo = db.Column(db.String(150))
     mensagem = db.Column(db.Text)
-
     tipo = db.Column(db.Enum(TipoAvisoEnum), nullable=False)
 
     remetente_id = db.Column(db.Integer)
@@ -350,6 +387,110 @@ class AvisoDestinatario(db.Model):
     lido = db.Column(db.Boolean, default=False)
 
     aviso = db.relationship('Aviso', backref='destinatarios')
+
+
+
+
+
+
+class Aula(db.Model):
+    __tablename__ = 'aulas'
+
+    id = db.Column(db.Integer, primary_key=True)
+    titulo = db.Column(db.String(100), nullable=False)
+    conteudo = db.Column(db.Text)
+    data = db.Column(db.DateTime, nullable=True)
+
+    materia_id = db.Column(db.Integer, db.ForeignKey('materias.id'), nullable=False)
+
+    materia = db.relationship('Materia', back_populates='aulas')
+    frequencias = db.relationship(
+        'Frequencia',
+        back_populates='aula',
+        lazy=True,
+        cascade='all, delete-orphan'
+    )
+
+
+    
+class Frequencia(db.Model):
+    __tablename__ = 'frequencias'
+
+    id = db.Column(db.Integer, primary_key=True)
+    presente = db.Column(db.Boolean, nullable=False, default=False)
+    observacao = db.Column(db.Text)
+
+    aula_id = db.Column(db.Integer, db.ForeignKey('aulas.id'), nullable=False)
+    aluno_id = db.Column(db.Integer, db.ForeignKey('aluno.id'), nullable=False)
+
+    aula = db.relationship('Aula', back_populates='frequencias')
+    aluno = db.relationship('Aluno', back_populates='frequencias')
+
+    __table_args__ = (
+        db.UniqueConstraint('aula_id', 'aluno_id', name='uq_frequencia_aula_aluno'),
+    )
+
+
+class Atividade(db.Model):
+    __tablename__ = 'atividades'
+
+    id = db.Column(db.Integer, primary_key=True)
+    titulo = db.Column(db.String(100), nullable=False)
+    descricao = db.Column(db.Text)
+    data_entrega = db.Column(db.DateTime, nullable=True)
+    peso = db.Column(db.Numeric(10, 2), nullable=False, default=0.00)
+
+    materia_id = db.Column(db.Integer, db.ForeignKey('materias.id'), nullable=False)
+
+    materia = db.relationship('Materia', back_populates='atividades')
+    notas = db.relationship(
+        'Nota',
+        back_populates='atividade',
+        lazy=True,
+        cascade='all, delete-orphan'
+    )
+
+
+
+
+class Nota(db.Model):
+    __tablename__ = 'notas'
+
+    id = db.Column(db.Integer, primary_key=True)
+    valor = db.Column(db.Numeric(10, 2), nullable=False)
+    observacao = db.Column(db.Text)
+
+    atividade_id = db.Column(db.Integer, db.ForeignKey('atividades.id'), nullable=False)
+    aluno_id = db.Column(db.Integer, db.ForeignKey('aluno.id'), nullable=False)
+
+    atividade = db.relationship('Atividade', back_populates='notas')
+    aluno = db.relationship('Aluno', back_populates='notas')
+
+    __table_args__ = (
+        db.UniqueConstraint('atividade_id', 'aluno_id', name='uq_nota_atividade_aluno'),
+    )
+
+class Agenda(db.Model):
+    __tablename__ = 'agendas'
+
+    id = db.Column(db.Integer, primary_key=True)
+    titulo = db.Column(db.String(100), nullable=False)
+    descricao = db.Column(db.Text)
+
+    turma_id = db.Column(db.Integer, db.ForeignKey('turmas.id'), nullable=False, unique=True)
+    eventos = db.relationship('Evento', backref='agenda', lazy=True, cascade='all, delete-orphan')
+
+
+
+class Evento(db.Model):
+    __tablename__ = 'eventos'
+
+    id = db.Column(db.Integer, primary_key=True)
+    titulo = db.Column(db.String(100), nullable=False)
+    descricao = db.Column(db.Text)
+    data = db.Column(db.DateTime, nullable=True)
+
+    agenda_id = db.Column(db.Integer, db.ForeignKey('agendas.id'), nullable=False)
 
 
 
