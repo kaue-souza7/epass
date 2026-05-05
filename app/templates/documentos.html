@@ -17,7 +17,7 @@
     <div class="content docs-content">
 
         <div class="button-bar grid polar-grid">
-            <button class="btn-outline" onclick="toggleLista('lista-entregues', this)"  hx-get="{{ url_for('lista_documentos', status='PENDENTE') }}" hx-target="#lista-pendentes" hx-swap="innerHTML">
+            <button class="btn-outline" onclick="toggleLista('lista-entregues', this)"  hx-get="{{ url_for('lista_documentos') }}" hx-target="#lista-pendentes" hx-swap="innerHTML">
                     Todos <span class="count-badge">{{ total_todos }}</span>
             </button> <!-- TROCAR PARA TODOS DPS -->
             <button class="btn-outline" onclick="toggleLista('lista-entregues', this)"  hx-get="{{ url_for('lista_documentos', status='PENDENTE') }}" hx-target="#lista-pendentes" hx-swap="innerHTML">

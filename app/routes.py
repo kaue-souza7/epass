@@ -540,7 +540,10 @@ def lista_documentos():
 
     status_enum = StatusDocumento[status] if status else None
 
-    documentos = Documento.query.filter(Documento.status==status_enum).paginate(page=page, per_page=5, error_out=False)
+    if status_enum:
+        documentos = Documento.query.filter(Documento.status==status_enum).paginate(page=page, per_page=5, error_out=False)
+    else:
+        documentos = Documento.query.paginate(page=page, per_page=5, error_out=False)
 
     return render_template('partials/documento_lista.html', documentos=documentos, status=status)
 
@@ -601,8 +604,11 @@ def upload_documento(documento_id):
 
 @app.route('/dashboard/', methods=['GET', 'POST'])
 def dashboard():
-       if request.method == 'GET':
-        return render_template('dashboard.html')
+    if request.method == 'GET':
+        matriculas_ativas = Aluno.query.filter(Aluno.status == True).count()
+        professores_ativos = Professor.query.filter(Professor.status == True).count()
+        print(professores_ativos)
+        return render_template('dashboard.html', matriculas_ativas=matriculas_ativas, professores_ativos=professores_ativos)
 
 
 @app.route('/gestao_academica/', methods=['GET', 'POST'])
